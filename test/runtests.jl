@@ -339,23 +339,13 @@ for usecache in [false, true]
 	tobday(BrazilBanking(), d2)
 
 	@time bdays(BrazilBanking(), d0, d2)
-	# no cache 7.579 milliseconds (106 k allocations: 3609 KB)
-	# cached 721 nanoseconds  (4 allocations: 64 bytes)
-
+	
 	@time for i in 1:100 bdays(BrazilBanking(), d0, d2) end
-	# no cache
-	# 680.280 milliseconds (10607 k allocations: 352 MB, 2.84% gc time), commit 147fa0b
-	# cached
-	# 55.766 microseconds (400 allocations: 6400 bytes)
-
+	
 	dInicio = Date(1900, 01, 01) ; dFim = Date(2100, 12, 20)
 
 	@time x = BusinessDays._createbdayscache(BrazilBanking(), dInicio, dFim)
-	# no cache
-	# 15.370 milliseconds (322 k allocations: 9982 KB, 7.23% gc time)
-	# cached
-	# 11.830 milliseconds (146 k allocations: 2644 KB)
-
+	
 	if usecache
 		print("\n a million... \n")
 		@time for i in 1:1000000 bdays(BrazilBanking(), d0, d2) end
@@ -363,3 +353,20 @@ for usecache in [false, true]
 
 end
 
+#= Results using Julia build cd8be58
+########################
+Using cache: false
+########################
+   6.750 milliseconds (87902 allocations: 3325 KB)
+ 610.418 milliseconds (8790 k allocations: 325 MB, 3.09% gc time)
+  14.560 milliseconds (280 k allocations: 9318 KB, 7.14% gc time)
+########################
+Using cache: true
+########################
+     680 nanoseconds  (4 allocations: 64 bytes)
+  51.452 microseconds (400 allocations: 6400 bytes)
+  11.870 milliseconds (146 k allocations: 2644 KB)
+
+ a million... 
+ 449.858 milliseconds (4000 k allocations: 62500 KB, 1.28% gc time)
+ =#

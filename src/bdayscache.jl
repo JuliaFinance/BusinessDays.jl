@@ -3,7 +3,7 @@
 #
 
 # Key = HolidayCalendar instance
-# Value = tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
+# Value = instance of HolidayCalendarCache
 global _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache }()
 
 function _getcachestate(hc :: HolidayCalendar)
