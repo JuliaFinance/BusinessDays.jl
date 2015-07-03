@@ -223,6 +223,54 @@ end
 @test easter_date(Year(2077)) == Date(2077, 04, 11)
 @test easter_date(Year(2078)) == Date(2078, 04, 03)
 
+###################################
+# isholiday.jl auxiliary functions
+###################################
+# weekday values:
+# const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7
+# see query.jl on Dates module
+# See also dayofweek(dt) function.
+# this should go to Base.Dates
+# function findweekday(weekday_target :: Int64, yy :: Int64, mm:: Int64, occurence :: Int64, ascending :: Bool )
+@test findweekday(Dates.Monday, 2015, 07, 1, true) == Date(2015, 07, 06)
+@test findweekday(Dates.Monday, 2015, 07, 2, true) == Date(2015, 07, 13)
+@test findweekday(Dates.Monday, 2015, 07, 3, true) == Date(2015, 07, 20)
+@test findweekday(Dates.Monday, 2015, 07, 4, true) == Date(2015, 07, 27)
+@test findweekday(Dates.Monday, 2015, 07, 5, true) == Date(2015, 08, 03)
+
+@test findweekday(Dates.Monday, 2015, 07, 1, false) == Date(2015, 07, 27)
+@test findweekday(Dates.Monday, 2015, 07, 2, false) == Date(2015, 07, 20)
+@test findweekday(Dates.Monday, 2015, 07, 3, false) == Date(2015, 07, 13)
+@test findweekday(Dates.Monday, 2015, 07, 4, false) == Date(2015, 07, 06)
+@test findweekday(Dates.Monday, 2015, 07, 5, false) == Date(2015, 06, 29)
+
+@test findweekday(Dates.Friday, 2015, 07, 1, true) == Date(2015, 07, 03)
+@test findweekday(Dates.Friday, 2015, 07, 2, true) == Date(2015, 07, 10)
+@test findweekday(Dates.Friday, 2015, 07, 3, true) == Date(2015, 07, 17)
+@test findweekday(Dates.Friday, 2015, 07, 4, true) == Date(2015, 07, 24)
+@test findweekday(Dates.Friday, 2015, 07, 5, true) == Date(2015, 07, 31)
+@test findweekday(Dates.Friday, 2015, 07, 6, true) == Date(2015, 08, 07)
+
+@test findweekday(Dates.Friday, 2015, 07, 1, false) == Date(2015, 07, 31)
+@test findweekday(Dates.Friday, 2015, 07, 2, false) == Date(2015, 07, 24)
+@test findweekday(Dates.Friday, 2015, 07, 3, false) == Date(2015, 07, 17)
+@test findweekday(Dates.Friday, 2015, 07, 4, false) == Date(2015, 07, 10)
+@test findweekday(Dates.Friday, 2015, 07, 5, false) == Date(2015, 07, 03)
+@test findweekday(Dates.Friday, 2015, 07, 6, false) == Date(2015, 06, 26)
+
+@test findweekday(Dates.Wednesday, 2015, 07, 1, true) == Date(2015, 07, 01)
+@test findweekday(Dates.Wednesday, 2015, 07, 2, true) == Date(2015, 07, 08)
+@test findweekday(Dates.Wednesday, 2015, 07, 3, true) == Date(2015, 07, 15)
+@test findweekday(Dates.Wednesday, 2015, 07, 4, true) == Date(2015, 07, 22)
+@test findweekday(Dates.Wednesday, 2015, 07, 5, true) == Date(2015, 07, 29)
+@test findweekday(Dates.Wednesday, 2015, 07, 6, true) == Date(2015, 08, 05)
+
+@test findweekday(Dates.Wednesday, 2015, 07, 1, false) == Date(2015, 07, 29)
+@test findweekday(Dates.Wednesday, 2015, 07, 2, false) == Date(2015, 07, 22)
+@test findweekday(Dates.Wednesday, 2015, 07, 3, false) == Date(2015, 07, 15)
+@test findweekday(Dates.Wednesday, 2015, 07, 4, false) == Date(2015, 07, 08)
+@test findweekday(Dates.Wednesday, 2015, 07, 5, false) == Date(2015, 07, 01)
+@test findweekday(Dates.Wednesday, 2015, 07, 6, false) == Date(2015, 06, 24)
 
 ################
 # bdayscache.jl
@@ -249,6 +297,7 @@ for usecache in [false, true]
 	dt_monday = Date(2015, 06, 29)
 
 	hc_brazil = BrazilBanking()
+	hc_usa = UnitedStates()
 
 	@test isweekend(dt_friday) == false
 	@test isweekend(dt_saturday) == true
@@ -265,6 +314,7 @@ for usecache in [false, true]
 	@test isholiday(hc_brazil, dt_sunday) == false
 	@test isholiday(hc_brazil, dt_monday) == false
 
+	# BrazilBanking
 	@test isbday(hc_brazil, Date(2014, 12, 31)) == true # wednesday
 	@test isbday(hc_brazil, Date(2015, 01, 01)) == false # new year
 	@test isbday(hc_brazil, Date(2015, 01, 02)) == true # friday
@@ -311,6 +361,48 @@ for usecache in [false, true]
 	@test isbday(hc_brazil, Date(2013, 05, 29)) == true # wednesday
 	@test isbday(hc_brazil, Date(2013, 05, 30)) == false # Corpus Christi
 	@test isbday(hc_brazil, Date(2013, 05, 31)) == true # friday
+
+	# UnitedStates
+	# Federal Holidays listed on https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/#url=2015
+	@test isbday(hc_usa, Date(2014, 12, 31)) == true
+	@test isbday(hc_usa, Date(2015, 01, 01)) == false # New Year's Day - Thursday
+	@test isbday(hc_usa, Date(2015, 01, 02)) == true
+
+	@test isbday(hc_usa, Date(2015, 01, 18)) == false
+	@test isbday(hc_usa, Date(2015, 01, 19)) == false # Birthday of Martin Luther King, Jr. - Monday
+	@test isbday(hc_usa, Date(2015, 01, 20)) == true
+
+	@test isbday(hc_usa, Date(2015, 02, 15)) == false
+	@test isbday(hc_usa, Date(2015, 02, 16)) == false # Washington’s Birthday - Monday
+	@test isbday(hc_usa, Date(2015, 02, 17)) == true
+
+	@test isbday(hc_usa, Date(2015, 05, 24)) == false
+	@test isbday(hc_usa, Date(2015, 05, 25)) == false # Memorial Day - Monday
+	@test isbday(hc_usa, Date(2015, 05, 26)) == true
+
+	@test isbday(hc_usa, Date(2015, 07, 02)) == true
+	@test isbday(hc_usa, Date(2015, 07, 03)) == false # Independence Day - Friday
+	@test isbday(hc_usa, Date(2015, 07, 04)) == false
+
+	@test isbday(hc_usa, Date(2015, 09, 06)) == false
+	@test isbday(hc_usa, Date(2015, 09, 07)) == false # Labor Day - Monday
+	@test isbday(hc_usa, Date(2015, 09, 08)) == true
+
+	@test isbday(hc_usa, Date(2015, 10, 11)) == false
+	@test isbday(hc_usa, Date(2015, 10, 12)) == false # Columbus Day - Monday
+	@test isbday(hc_usa, Date(2015, 10, 13)) == true
+
+	@test isbday(hc_usa, Date(2015, 11, 10)) == true
+	@test isbday(hc_usa, Date(2015, 11, 11)) == false # Veterans Day - Wednesday
+	@test isbday(hc_usa, Date(2015, 11, 12)) == true
+
+	@test isbday(hc_usa, Date(2015, 11, 25)) == true
+	@test isbday(hc_usa, Date(2015, 11, 26)) == false # Thanksgiving Day - Thursday
+	@test isbday(hc_usa, Date(2015, 11, 27)) == true
+
+	@test isbday(hc_usa, Date(2015, 12, 24)) == true
+	@test isbday(hc_usa, Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday(hc_usa, Date(2015, 12, 26)) == false
 
 	@test tobday(hc_brazil, Date(2013, 02, 08)) == Date(2013, 02, 08) # regular friday
 	@test tobday(hc_brazil, Date(2013, 02, 09)) == Date(2013, 02, 13) # after carnaval

@@ -8,7 +8,7 @@ export
 	HolidayCalendar,
 
 	#immutable concrete types <: HolidayCalendar
-	BrazilBanking, #UnitedStates,
+	BrazilBanking, UnitedStates,
 
 	# Lists all concrete types of HolidayCalendars
 	holidaycalendarlist
@@ -26,7 +26,7 @@ export
 # isholiday.jl
 export
 	# Implements holiday functions for various HolidayCalendar subtypes
-	isholiday
+	isholiday, findweekday
 
 # bdayscache.jl : Cache routines for Business Days precalculated days
 export

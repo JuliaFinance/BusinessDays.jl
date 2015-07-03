@@ -1,7 +1,7 @@
 abstract HolidayCalendar
 
 immutable BrazilBanking <: HolidayCalendar end
-#immutable UnitedStates <: HolidayCalendar end
+immutable UnitedStates <: HolidayCalendar end
 
 type HolidayCalendarCache
 	hc :: HolidayCalendar

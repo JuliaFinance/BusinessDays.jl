@@ -49,7 +49,7 @@ Unit: seconds
 
 While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it took about **half an hour** to complete.
 
-**BusinessDays.jl** uses a *tailor-made* cache to store Business Days results, reducing the time spent to the order of a few *microseconds* for a single computation. Also, the time spent to process the whole portfolio is reduced to *under a second*.
+**BusinessDays.jl** uses a *tailor-made* cache to store Business Days results, reducing the time spent to the order of a few *microseconds* for a single computation. Also, the time spent to process the whole portfolio is reduced to **under a second**.
 
 It's also important to point out that the initialization of the memory cache, which is done only once for each Julia runtime session, takes less than *half a second*, including JIT compilation time. Also, the *memory footprint* required for each cached calendar should take around 0.7 MB.
 
@@ -62,7 +62,7 @@ using Base.Test
 d0 = Date(1900, 01, 01) ; d1 = Date(2100, 12, 20)
 
 cal = BrazilBanking()
-@time BusinessDays.initcache() # this will include JIT compilation of initcache function
+@time BusinessDays.initcache(cal)
 bdays(cal, d0, d1) # force JIT compilation
 @time bdays(cal, d0, d1)
 @time for i in 1:1000000 bdays(cal, d0, d1) end
@@ -70,9 +70,9 @@ bdays(cal, d0, d1) # force JIT compilation
 
 ###Results
 ```
- 346.774 milliseconds (779 k allocations: 31706 KB, 0.86% gc time)
-   4.694 microseconds (10 allocations: 240 bytes)
- 646.490 milliseconds (6000 k allocations: 93750 KB, 1.16% gc time)
+ 213.920 milliseconds (558 k allocations: 21699 KB, 9.37% gc time)
+   4.881 microseconds (10 allocations: 240 bytes)
+ 610.743 milliseconds (6000 k allocations: 93750 KB, 0.84% gc time)
  ```
 
 ##Usage
@@ -82,7 +82,8 @@ See *runtests.jl* for examples.
 *pending*
 
 ##Avaliable Business Days Calendars
-* *BrazilBanking* : includes all brazilian federal holidays, including Carnival.
+* **BrazilBanking** : includes all brazilian federal holidays, including Carnival.
+* **UnitedStates** : includes United States federal holidays.
 
 ##Requirements
 This package was writen in pure Julia code.
@@ -135,8 +136,9 @@ You can find more about Julia on http://julialang.org .
 ##Roadmap for v1.0
 - [ ] Include helper functions for vector inputs.
 - [ ] Use Julia's package development tools (Pkg).
-- [ ] Holiday Calendar for United States.
+- [x] Holiday Calendar for United States.
 - [ ] Holiday Calendar for UK.
 - [ ] Package documentation using Julia's framework.
 - [ ] Package documentation on Readme file.
 - [ ] Add this package to Julia's official package list.
+- [ ] Support for Composite Holiday Calendars.
