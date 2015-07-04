@@ -47,7 +47,7 @@ Unit: seconds
 
 ```
 
-While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it took about **half an hour** to complete.
+While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete.
 
 **BusinessDays.jl** uses a *tailor-made* cache to store Business Days results, reducing the time spent to the order of a few *microseconds* for a single computation. Also, the time spent to process the whole portfolio is reduced to **under a second**.
 
@@ -142,3 +142,5 @@ You can find more about Julia on http://julialang.org .
 - [ ] Package documentation on Readme file.
 - [ ] Add this package to Julia's official package list.
 - [ ] Support for Composite Holiday Calendars.
+
+[![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)
