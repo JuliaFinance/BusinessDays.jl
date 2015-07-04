@@ -2,8 +2,15 @@
 A highly optimized *Business Days* calculator written in Julia language.
 Also known as *Working Days* calculator.
 
+**Installation**: 
+```
+julia> Pkg.update()
+julia> Pkg.add("BusinessDays")
+```
+*Current version is v0.0.1*
+
 ##Motivation
-This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, especially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exists between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
+This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exists between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
 While there are many implementations of *Business Days* calculators out there, the usual implementation is based on this kind of algorithm:
 
 ```
@@ -19,7 +26,7 @@ while d0 <= d1
 end while
 ```
 
-This works fine for general usage. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50.000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1.000.000 times.
+This works fine for general use. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50.000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1.000.000 times.
 
 For instance, let's try out this code using *R* and *QuantLib* (*RQuantLib* package):
 ```
@@ -133,14 +140,14 @@ I would like to point out that, currently, there's nothing special about **Busin
 
 You can find more about Julia on http://julialang.org .
 
-##Roadmap for v1.0
+##Roadmap for v0.1.0
 - [ ] Include helper functions for vector inputs.
-- [ ] Use Julia's package development tools (Pkg).
+- [X] Use Julia's package development tools (Pkg).
 - [x] Holiday Calendar for United States.
 - [ ] Holiday Calendar for UK.
 - [ ] Package documentation using Julia's framework.
 - [ ] Package documentation on Readme file.
-- [ ] Add this package to Julia's official package list.
+- [X] Add this package to Julia's official package list.
 - [ ] Support for Composite Holiday Calendars.
 
 [![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)

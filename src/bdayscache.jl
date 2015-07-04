@@ -44,7 +44,7 @@ function bdays(hcc :: HolidayCalendarCache, dt0 :: TimeType, dt1 :: TimeType)
 end
 
 
-# Be sure to use this functino on a syncronized code (not parallel).
+# Be sure to use this function on a syncronized code (not parallel).
 function initcache(hc :: HolidayCalendar, d0 :: Date, d1 :: Date)
 	isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
 	_CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
