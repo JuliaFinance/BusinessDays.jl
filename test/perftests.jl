@@ -2,7 +2,7 @@ using Base.Dates
 using BusinessDays
 using Base.Test
 
-d0 = Date(1900, 01, 01) ; d1 = Date(2100, 12, 20)
+d0 = Date(1950, 01, 01) ; d1 = Date(2100, 12, 20)
 
 cal = BrazilBanking()
 @time BusinessDays.initcache(cal)

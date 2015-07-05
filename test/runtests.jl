@@ -20,16 +20,18 @@ using Base.Test
 # types.jl
 ###########
 bhc = BrazilBanking()
-#uhc = UnitedStates()
+ushc = UnitedStates()
+ukhc = UKEnglandBanking()
 
 # two different instances of the same HolidayCalendar subtype should be equal
 @test bhc == BrazilBanking()
-#@test uhc == UnitedStates()
-#@test bhc != uhc
+@test ushc == UnitedStates()
+@test bhc != ushc
 
 # Check typing system
 @test typeof(bhc) <: HolidayCalendar
-#@test typeof(uhc) <: HolidayCalendar
+@test typeof(ushc) <: HolidayCalendar
+@test typeof(ukhc) <: HolidayCalendar
 
 # Same tests for result of holidaycalendarlist()
 lst = holidaycalendarlist()
@@ -300,6 +302,7 @@ for usecache in [false, true]
 
 	hc_brazil = BrazilBanking()
 	hc_usa = UnitedStates()
+	hc_uk = UKEnglandBanking()
 
 	@test isweekend(dt_friday) == false
 	@test isweekend(dt_saturday) == true
@@ -406,6 +409,9 @@ for usecache in [false, true]
 	@test isbday(hc_usa, Date(2015, 12, 25)) == false # Christmas - Friday
 	@test isbday(hc_usa, Date(2015, 12, 26)) == false
 
+	## UKEnglandBanking
+	@test isbday(hc_uk, Date(2015, 01, 01)) == false # New Year's Day
+
 	@test tobday(hc_brazil, Date(2013, 02, 08)) == Date(2013, 02, 08) # regular friday
 	@test tobday(hc_brazil, Date(2013, 02, 09)) == Date(2013, 02, 13) # after carnaval
 	@test tobday(hc_brazil, Date(2013, 02, 09); forward = true) == Date(2013, 02, 13) # after carnaval
@@ -440,7 +446,7 @@ for usecache in [false, true]
 	
 	@time for i in 1:100 bdays(BrazilBanking(), d0, d2) end
 	
-	dInicio = Date(1900, 01, 01) ; dFim = Date(2100, 12, 20)
+	dInicio = Date(1950, 01, 01) ; dFim = Date(2100, 12, 20)
 
 	@time x = BusinessDays._createbdayscache(BrazilBanking(), dInicio, dFim)
 	

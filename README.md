@@ -68,7 +68,7 @@ using Base.Dates
 using BusinessDays
 using Base.Test
 
-d0 = Date(1900, 01, 01) ; d1 = Date(2100, 12, 20)
+d0 = Date(1950, 01, 01) ; d1 = Date(2100, 12, 20)
 
 cal = BrazilBanking()
 @time BusinessDays.initcache(cal)
@@ -79,9 +79,9 @@ bdays(cal, d0, d1) # force JIT compilation
 
 **Results**
 ```
- 213.920 milliseconds (558 k allocations: 21699 KB, 9.37% gc time)
-   4.881 microseconds (10 allocations: 240 bytes)
- 610.743 milliseconds (6000 k allocations: 93750 KB, 0.84% gc time)
+ 210.319 milliseconds (489 k allocations: 19372 KB, 9.45% gc time)
+   3.859 microseconds (10 allocations: 240 bytes)
+ 633.931 milliseconds (6000 k allocations: 93750 KB, 0.94% gc time)
  ```
 
 ##Usage
@@ -89,50 +89,57 @@ See *runtests.jl* for examples.
 
 ##Package Documentation
 
-*HolidayCalendar*
+**HolidayCalendar**
 Abstract type for Holiday Calendars.
 
-*holidaycalendarlist()*
+**holidaycalendarlist()**
 Accessor function for HolidayCalendar subtypes.
 
-*easter_rata(y::Year)*
+**easter_rata(y::Year)**
 Returns easter Date as a Rata Die number (Int64).
 
-*easter_date(y::Year)*
+**easter_date(y::Year)**
 Returns result of easter_rata as Base.Date instance.
 
-*isholiday( hc :: HolidayCalendar, dt :: TimeType)*
+**isholiday( hc :: HolidayCalendar, dt :: TimeType)**
 Checks if date is a holiday. Returns Bool.
 
-*findweekday(weekday_target :: Int64, yy :: Int64, mm:: Int64, occurence :: Int64, ascending :: Bool )*
+**findweekday(weekday_target :: Int64, yy :: Int64, mm:: Int64, occurence :: Int64, ascending :: Bool )**
 Given a year `yy` and month `mm`, finds a Date where a choosen weekday occurs.
 weekday_target values are declared in Dates module.
 `const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
 If `occurence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of the given month, and so on.
 
-*isweekend(x::TimeType)*
+**isweekend(x::TimeType)**
 Checks for weekend.
 
-*isbday( hc :: HolidayCalendar, dt :: TimeType)*
+**isbday( hc :: HolidayCalendar, dt :: TimeType)**
 Checks for a Business Day. Usually it checks two conditions: if it's not a holiday, and not a weekend day.
 
-*tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)*
+**tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)**
 Ajusts given date to next Business Day if `forward = true`.
 Ajusts to the last BusinessDay if `forward = false`.
 
-*advancebdays(hc :: HolidayCalendar, dt :: TimeType, bdays_count :: Int)*
+**advancebdays(hc :: HolidayCalendar, dt :: TimeType, bdays_count :: Int)**
 Ajusts given date `bdays_count` Business Days forward (or backwards of `bdays_count` is negative).
 
-*bdays(hc :: HolidayCalendar, dt0 :: TimeType, dt1 :: TimeType)*
+**bdays(hc :: HolidayCalendar, dt0 :: TimeType, dt1 :: TimeType)**
 Counts number of Business Days between dt0 and dt1.
 
-*initcache(hc :: HolidayCalendar)*
+**initcache(hc :: HolidayCalendar)**
 Creates cache for given calendar. Check methods(initcache) for alternatives.
 
-##Avaliable Business Days Calendars (HolidayCalendar subtypes)
-* **BrazilBanking** : includes all brazilian federal holidays, including Carnival.
-* **UnitedStates** : includes United States federal holidays.
+##Avaliable Business Days Calendars
+* **BrazilBanking** : brazilian federal holidays, including Carnival.
+* **UnitedStates** : United States federal holidays.
+* **UKEnglandBanking** : banking holidays for England and Wales.
+
+## Adding new Holiday Calendars
+You can add your custom Holiday Calendar by doing the following:
+1. Define an immutable subtype of HolidayCalendar. `immutable MyCal <: HolidayCalendar end`
+2. Implement a new method for isholiday for your calendar. `function isholiday( :: MyCal , dt :: TimeType)`
+And that's it.
 
 ##Requirements
 This package was writen in pure Julia code.
@@ -184,10 +191,10 @@ You can find more about Julia on http://julialang.org .
 
 ##Roadmap for v0.1.0
 - [ ] Include helper functions for vector inputs.
-- [X] Use Julia's package development tools (Pkg).
+- [x] Use Julia's package development tools (Pkg).
 - [x] Holiday Calendar for United States.
-- [ ] Holiday Calendar for UK.
+- [x] Holiday Calendar for UK.
 - [ ] Package documentation using Julia's framework.
-- [X] Package documentation on Readme file.
-- [X] Add this package to Julia's official package list.
+- [x] Package documentation on Readme file.
+- [x] Add this package to Julia's official package list.
 - [ ] Support for Composite Holiday Calendars.

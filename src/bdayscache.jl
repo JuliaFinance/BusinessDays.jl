@@ -4,7 +4,7 @@
 
 # Key = HolidayCalendar instance
 # Value = instance of HolidayCalendarCache
-global _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache }()
+global _CACHE_DICT = Dict{ HolidayCalendar, HolidayCalendarCache }()
 
 function _getcachestate(hc :: HolidayCalendar)
 	return haskey(_CACHE_DICT, hc)
@@ -50,9 +50,9 @@ function initcache(hc :: HolidayCalendar, d0 :: Date, d1 :: Date)
 	_CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
 end
 
-# Defaults to d0 = 1st Jan 1900 , d1 = 20th dec 2100
+# Defaults to d0 = 1st Jan 1950 , d1 = 20th dec 2100
 function initcache(hc :: HolidayCalendar)
-	initcache(hc, Date(1900, 01, 01), Date(2100, 12, 20))
+	initcache(hc, Date(1950, 01, 01), Date(2100, 12, 20))
 end
 
 function initcache()

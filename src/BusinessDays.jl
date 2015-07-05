@@ -8,7 +8,7 @@ export
 	HolidayCalendar,
 
 	#immutable concrete types <: HolidayCalendar
-	BrazilBanking, UnitedStates,
+	BrazilBanking, UnitedStates, UKEnglandBanking,
 
 	# Lists all concrete types of HolidayCalendars
 	holidaycalendarlist
