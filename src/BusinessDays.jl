@@ -15,7 +15,7 @@ export
 
 # easter.jl
 export
-	# returns Rata Die number as Int64, Algo R http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html
+	# Returns easter Date as a Rata Die number (Int64), Algo R http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html
 	# function easter_rata(y::Year)
 	easter_rata, 
 

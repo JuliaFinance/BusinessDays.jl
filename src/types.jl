@@ -11,7 +11,7 @@ type HolidayCalendarCache
 	dtmax :: Date
 end
 
-# Accessor function for immutable list
+# Accessor function for HolidayCalendar subtypes
 function holidaycalendarlist()
 	
 	subs = subtypes(HolidayCalendar)

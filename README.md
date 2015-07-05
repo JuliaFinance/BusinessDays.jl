@@ -9,6 +9,8 @@ julia> Pkg.add("BusinessDays")
 ```
 *Current version is v0.0.1*
 
+[![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)
+
 ##Motivation
 This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exists between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
 While there are many implementations of *Business Days* calculators out there, the usual implementation is based on this kind of algorithm:
@@ -60,7 +62,7 @@ While one computation takes up to 2 milliseconds, we're in trouble if we have to
 
 It's also important to point out that the initialization of the memory cache, which is done only once for each Julia runtime session, takes less than *half a second*, including JIT compilation time. Also, the *memory footprint* required for each cached calendar should take around 0.7 MB.
 
-### Example Code
+**Example Code**
 ```
 using Base.Dates
 using BusinessDays
@@ -75,7 +77,7 @@ bdays(cal, d0, d1) # force JIT compilation
 @time for i in 1:1000000 bdays(cal, d0, d1) end
 ```
 
-###Results
+**Results**
 ```
  213.920 milliseconds (558 k allocations: 21699 KB, 9.37% gc time)
    4.881 microseconds (10 allocations: 240 bytes)
@@ -86,9 +88,49 @@ bdays(cal, d0, d1) # force JIT compilation
 See *runtests.jl* for examples.
 
 ##Package Documentation
-*pending*
 
-##Avaliable Business Days Calendars
+*HolidayCalendar*
+Abstract type for Holiday Calendars.
+
+*holidaycalendarlist()*
+Accessor function for HolidayCalendar subtypes.
+
+*easter_rata(y::Year)*
+Returns easter Date as a Rata Die number (Int64).
+
+*easter_date(y::Year)*
+Returns result of easter_rata as Base.Date instance.
+
+*isholiday( hc :: HolidayCalendar, dt :: TimeType)*
+Checks if date is a holiday. Returns Bool.
+
+*findweekday(weekday_target :: Int64, yy :: Int64, mm:: Int64, occurence :: Int64, ascending :: Bool )*
+Given a year `yy` and month `mm`, finds a Date where a choosen weekday occurs.
+weekday_target values are declared in Dates module.
+`const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
+If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
+If `occurence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of the given month, and so on.
+
+*isweekend(x::TimeType)*
+Checks for weekend.
+
+*isbday( hc :: HolidayCalendar, dt :: TimeType)*
+Checks for a Business Day. Usually it checks two conditions: if it's not a holiday, and not a weekend day.
+
+*tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)*
+Ajusts given date to next Business Day if `forward = true`.
+Ajusts to the last BusinessDay if `forward = false`.
+
+*advancebdays(hc :: HolidayCalendar, dt :: TimeType, bdays_count :: Int)*
+Ajusts given date `bdays_count` Business Days forward (or backwards of `bdays_count` is negative).
+
+*bdays(hc :: HolidayCalendar, dt0 :: TimeType, dt1 :: TimeType)*
+Counts number of Business Days between dt0 and dt1.
+
+*initcache(hc :: HolidayCalendar)*
+Creates cache for given calendar. Check methods(initcache) for alternatives.
+
+##Avaliable Business Days Calendars (HolidayCalendar subtypes)
 * **BrazilBanking** : includes all brazilian federal holidays, including Carnival.
 * **UnitedStates** : includes United States federal holidays.
 
@@ -146,8 +188,6 @@ You can find more about Julia on http://julialang.org .
 - [x] Holiday Calendar for United States.
 - [ ] Holiday Calendar for UK.
 - [ ] Package documentation using Julia's framework.
-- [ ] Package documentation on Readme file.
+- [X] Package documentation on Readme file.
 - [X] Add this package to Julia's official package list.
 - [ ] Support for Composite Holiday Calendars.
-
-[![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)

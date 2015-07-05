@@ -15,15 +15,19 @@ end
 
 # Ajusts date to next BusinessDay if dt !isbday.
 # If isbday(dt), return dt.
-function tobday(hc :: HolidayCalendar, dt :: TimeType)
+function tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)
 	if isbday(hc, dt)
 		return dt
 	else
-		local next :: TimeType = dt + Dates.Day(1)
+		local next :: TimeType
+		local increment :: Int64 = forward ? 1 : -1
+
+		next = dt + Dates.Day(increment)
 		while !isbday(hc, next)
-			next += Dates.Day(1)
+			next += Dates.Day(increment)
 		end
 	end
+	
 	return next
 end
 
