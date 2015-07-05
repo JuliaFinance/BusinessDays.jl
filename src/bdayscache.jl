@@ -43,7 +43,6 @@ function bdays(hcc :: HolidayCalendarCache, dt0 :: TimeType, dt1 :: TimeType)
 	return Day( hcc.bdayscounter_array[ _linenumber(hcc, final_dt) ] - hcc.bdayscounter_array[ _linenumber(hcc, initial_dt) ]  )
 end
 
-
 # Be sure to use this function on a syncronized code (not parallel).
 function initcache(hc :: HolidayCalendar, d0 :: Date, d1 :: Date)
 	isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)

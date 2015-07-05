@@ -215,13 +215,13 @@ function isholiday( :: UKEnglandBanking , dt :: TimeType)
 		# Fixed holidays
 		if (
 				# New Year's Day
-				((mm == 1) && (dd == 1))
+				adjustweekendholidayUK(  Date(yy, 01, 01) ) == dt_Date
 				||
 				# May Day, Early May Bank Holiday
 				adjustweekendholidayUK(  findweekday(Dates.Monday, yy, 5, 1, true) ) == dt_Date
 				||
 				# Spring Bank Holiday
-				adjustweekendholidayUK(  findweekday(Dates.Monday, yy, 5, 1, false) ) == dt_Date
+				(adjustweekendholidayUK(  findweekday(Dates.Monday, yy, 5, 1, false) ) == dt_Date && yy != 2012 && yy != 2002 )
 			)
 			return true
 		end
@@ -233,25 +233,32 @@ function isholiday( :: UKEnglandBanking , dt :: TimeType)
 
 		if (
 				# Good Friday
-				( dt_rata == ( e_rata - 2 )       )
+				( dt_rata == ( e_rata - 2 ) )
 				||
 				# Easter Monday
-				( dt_rata == ( e_rata + 1)       )
+				( dt_rata == ( e_rata + 1)  )
+			)
+			return true
+		end
+
+			# Fixed date holidays
+		if ( 
+			# Substitute date for Spring Bank Holiday
+			(dt_Date == Date(2012, 06, 04))
+			||
+			# Diamond Jubilee of Queen Elizabeth II.
+			(dt_Date == Date(2012, 06, 05))
+			||
+			# Golden Jubilee of Queen Elizabeth II.
+			(dt_Date == Date(2002, 06, 03))
+			||
+			# Substitute date for Spring Bank Holiday
+			(dt_Date == Date(2002, 06, 04))
 			)
 			return true
 		end
 	end
 
-	# Fixed date holidays
-	if ( 
-		# Diamond Jubilee of Queen Elizabeth II. ## TODO check easter holiday date on 2012 
-		(dt_Date == Date(2012, 06, 05))
-		||
-		# Golden Jubilee of Queen Elizabeth II. ## TODO check easter holiday date on 2012
-		(dt_Date == Date(2002, 06, 03))
-		)
-		return true
-	end
-
+	
 	return false
 end

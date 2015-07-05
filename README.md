@@ -7,7 +7,7 @@ Also known as *Working Days* calculator.
 julia> Pkg.update()
 julia> Pkg.add("BusinessDays")
 ```
-*Current version is v0.0.1*
+*Current version is v0.0.2*
 
 [![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)
 
@@ -31,7 +31,7 @@ end while
 This works fine for general use. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50.000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1.000.000 times.
 
 For instance, let's try out this code using *R* and *QuantLib* (*RQuantLib* package):
-```
+```R
 library(RQuantLib)
 library(microbenchmark)
 
@@ -63,7 +63,7 @@ While one computation takes up to 2 milliseconds, we're in trouble if we have to
 It's also important to point out that the initialization of the memory cache, which is done only once for each Julia runtime session, takes less than *half a second*, including JIT compilation time. Also, the *memory footprint* required for each cached calendar should take around 0.7 MB.
 
 **Example Code**
-```
+```julia
 using Base.Dates
 using BusinessDays
 using Base.Test
@@ -90,19 +90,19 @@ See *runtests.jl* for examples.
 ##Package Documentation
 
 **HolidayCalendar**
-Abstract type for Holiday Calendars.
+*Abstract* type for Holiday Calendars.
 
 **holidaycalendarlist()**
-Accessor function for HolidayCalendar subtypes.
+Accessor function for `HolidayCalendar` subtypes.
 
 **easter_rata(y::Year)**
-Returns easter Date as a Rata Die number (Int64).
+Returns easter Date as a *Rata Die* number (Int64).
 
 **easter_date(y::Year)**
-Returns result of easter_rata as Base.Date instance.
+Returns result of `easter_rata` as `Base.Date` instance.
 
 **isholiday( hc :: HolidayCalendar, dt :: TimeType)**
-Checks if date is a holiday. Returns Bool.
+Checks if `dt` is a holiday. Returns Bool.
 
 **findweekday(weekday_target :: Int64, yy :: Int64, mm:: Int64, occurence :: Int64, ascending :: Bool )**
 Given a year `yy` and month `mm`, finds a Date where a choosen weekday occurs.
@@ -125,10 +125,10 @@ Ajusts to the last BusinessDay if `forward = false`.
 Ajusts given date `bdays_count` Business Days forward (or backwards of `bdays_count` is negative).
 
 **bdays(hc :: HolidayCalendar, dt0 :: TimeType, dt1 :: TimeType)**
-Counts number of Business Days between dt0 and dt1.
+Counts number of Business Days between `dt0` and `dt1`.
 
 **initcache(hc :: HolidayCalendar)**
-Creates cache for given calendar. Check methods(initcache) for alternatives.
+Creates cache for given calendar. Check `methods(initcache)` for alternatives.
 
 ##Avaliable Business Days Calendars
 * **BrazilBanking** : brazilian federal holidays, including Carnival.
@@ -148,7 +148,7 @@ Although the code does not depend on packages outside Base, it requires Julia v0
 ##But, why Julia?
 Julia is an alternative language to Matlab, R, Scilab, Python, and others, but without the *non-vectorizable code penalty*. In fact, these two pieces of code run with almost the same performance. This is due to the JIT Compiler built in to julia runtime.
 
-```
+```julia
 # sum all elements of 2 vectors, quick code
 function sum2V(x, y)
 	sum(x) + sum(y)
@@ -184,6 +184,7 @@ r2 = sum2V_2(x, y)
 
 I would like to point out that, currently, there's nothing special about **BusinessDays.jl** implementation. One could implement the same code in any computer language, using standard data structures. As a matter of fact, I've done this before in VBA and C, with similar performance results. But, I decided to do it in Julia for the following reasons:
 * By the time I published **BusinessDays.jl**, there was no implementation of Business Days calculator in Julia.
+* Julia Language is all about optimization.
 * Julia language is so fun to code to.
 * I would like to encourage others to get to know about Julia.
 

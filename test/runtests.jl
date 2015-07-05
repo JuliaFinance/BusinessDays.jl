@@ -410,7 +410,80 @@ for usecache in [false, true]
 	@test isbday(hc_usa, Date(2015, 12, 26)) == false
 
 	## UKEnglandBanking
-	@test isbday(hc_uk, Date(2015, 01, 01)) == false # New Year's Day
+	@test isbday(hc_uk, Date(2014, 12, 31)) == true
+	@test isbday(hc_uk, Date(2015, 01, 01)) == false # New Year's Day Thursday
+	@test isbday(hc_uk, Date(2015, 01, 02)) == true
+
+	@test isbday(hc_uk, Date(2015, 08, 30)) == false 
+	@test isbday(hc_uk, Date(2015, 08, 31)) == false # Monday	Summer bank holiday
+	@test isbday(hc_uk, Date(2015, 09, 01)) == true
+
+	@test isbday(hc_uk, Date(2015, 12, 24)) == true
+	@test isbday(hc_uk, Date(2015, 12, 25)) == false # 25 December	Friday	Christmas Day
+	@test isbday(hc_uk, Date(2015, 12, 26)) == false
+	@test isbday(hc_uk, Date(2015, 12, 27)) == false
+	@test isbday(hc_uk, Date(2015, 12, 28)) == false # Monday	Boxing Day (substitute day)
+	@test isbday(hc_uk, Date(2015, 12, 29)) == true
+
+	@test isbday(hc_uk, Date(2016, 03, 24)) == true 
+	@test isbday(hc_uk, Date(2016, 03, 25)) == false # 25 March	Friday	Good Friday
+	@test isbday(hc_uk, Date(2016, 03, 26)) == false
+	@test isbday(hc_uk, Date(2016, 03, 27)) == false
+	@test isbday(hc_uk, Date(2016, 03, 28)) == false # 28 March	Monday	Easter Monday
+	@test isbday(hc_uk, Date(2016, 03, 29)) == true
+
+	@test isbday(hc_uk, Date(2016, 05, 01)) == false
+	@test isbday(hc_uk, Date(2016, 05, 02)) == false # 2 May	Monday	Early May bank holiday
+	@test isbday(hc_uk, Date(2016, 05, 03)) == true
+
+	@test isbday(hc_uk, Date(2016, 05, 29)) == false
+	@test isbday(hc_uk, Date(2016, 05, 30)) == false # 30 May	Monday	Spring bank holiday
+	@test isbday(hc_uk, Date(2016, 05, 31)) == true
+
+	@test isbday(hc_uk, Date(2016, 08, 28)) == false
+	@test isbday(hc_uk, Date(2016, 08, 29)) == false # 29 August	Monday	Summer bank holiday
+	@test isbday(hc_uk, Date(2016, 08, 30)) == true
+
+	@test isbday(hc_uk, Date(2016, 12, 23)) == true
+	@test isbday(hc_uk, Date(2016, 12, 24)) == false
+	@test isbday(hc_uk, Date(2016, 12, 25)) == false
+	@test isbday(hc_uk, Date(2016, 12, 26)) == false # 26 December	Monday	Boxing Day
+	@test isbday(hc_uk, Date(2016, 12, 27)) == false # 27 December	Tuesday	Christmas Day (substitute day)
+	@test isbday(hc_uk, Date(2016, 12, 28)) == true
+
+	# 2012 UK Holidays
+	@test isbday(hc_uk, Date(2011, 12, 30)) == true
+	@test isbday(hc_uk, Date(2011, 12, 31)) == false
+	@test isbday(hc_uk, Date(2012, 01, 01)) == false
+	@test isbday(hc_uk, Date(2012, 01, 02)) == false # 2 January	Monday	New Year’s Day (substitute day)
+	@test isbday(hc_uk, Date(2012, 01, 03)) == true
+
+	@test isbday(hc_uk, Date(2012, 04, 05)) == true
+	@test isbday(hc_uk, Date(2012, 04, 06)) == false # 6 April	Friday	Good Friday
+	@test isbday(hc_uk, Date(2012, 04, 07)) == false
+	@test isbday(hc_uk, Date(2012, 04, 08)) == false
+	@test isbday(hc_uk, Date(2012, 04, 09)) == false # 9 April	Monday	Easter Monday
+	@test isbday(hc_uk, Date(2012, 04, 10)) == true
+
+	@test isbday(hc_uk, Date(2012, 05, 06)) == false
+	@test isbday(hc_uk, Date(2012, 05, 07)) == false # 7 May	Monday	Early May bank holiday
+	@test isbday(hc_uk, Date(2012, 05, 08)) == true
+
+	@test isbday(hc_uk, Date(2012, 06, 01)) == true
+	@test isbday(hc_uk, Date(2012, 06, 02)) == false
+	@test isbday(hc_uk, Date(2012, 06, 03)) == false
+	@test isbday(hc_uk, Date(2012, 06, 04)) == false # 4 June	Monday	Spring bank holiday (substitute day)
+	@test isbday(hc_uk, Date(2012, 06, 05)) == false # 5 June	Tuesday	Queen’s Diamond Jubilee (extra bank holiday)
+	@test isbday(hc_uk, Date(2012, 06, 06)) == true
+
+	@test isbday(hc_uk, Date(2012, 08, 26)) == false
+	@test isbday(hc_uk, Date(2012, 08, 27)) == false # 27 August	Monday	Summer bank holiday
+	@test isbday(hc_uk, Date(2012, 08, 28)) == true
+
+	@test isbday(hc_uk, Date(2012, 12, 24)) == true
+	@test isbday(hc_uk, Date(2012, 12, 25)) == false # 25 December	Tuesday	Christmas Day
+	@test isbday(hc_uk, Date(2012, 12, 26)) == false # 26 December	Wednesday	Boxing Day
+	@test isbday(hc_uk, Date(2012, 12, 27)) == true
 
 	@test tobday(hc_brazil, Date(2013, 02, 08)) == Date(2013, 02, 08) # regular friday
 	@test tobday(hc_brazil, Date(2013, 02, 09)) == Date(2013, 02, 13) # after carnaval
