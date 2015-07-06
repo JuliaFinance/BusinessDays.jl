@@ -89,21 +89,27 @@ See *runtests.jl* for examples.
 ##Package Documentation
 
 **HolidayCalendar**
+
 *Abstract* type for Holiday Calendars.
 
 **holidaycalendarlist()**
+
 Accessor function for `HolidayCalendar` subtypes.
 
 **easter_rata(y :: Year)**
+
 Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number (`Int64`).
 
 **easter_date(y :: Year)**
+
 Returns result of `easter_rata` as a `Base.Date` instance.
 
 **isholiday(hc :: HolidayCalendar, dt :: TimeType)**
+
 Checks if `dt` is a holiday. Returns Bool.
 
 **findweekday(weekday_target :: Int64, yy :: Int64, mm :: Int64, occurence :: Int64, ascending :: Bool)**
+
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 `weekday_target` values are declared in the `Dates` module.
 `const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
@@ -111,26 +117,32 @@ If `ascending` is true, searches from the beggining of the month. If false, sear
 If `occurence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of the given month, and so on.
 
 **isweekend(x :: TimeType)**
+
 Checks if `x` is a weekend.
 
 **isbday(hc :: HolidayCalendar, dt :: TimeType)**
+
 Checks for a Business Day. Usually it checks two conditions: whether it's not a holiday, and not a weekend day.
 
 **tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)**
+
 Ajusts given date to next Business Day if `forward = true`.
-Ajusts to the last BusinessDay if `forward = false`.
+Ajusts to the last Business Day if `forward = false`.
 
 **advancebdays(hc :: HolidayCalendar, dt :: TimeType, bdays_count :: Int)**
+
 Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_count` is negative).
 
 **bdays(hc :: HolidayCalendar, dt0 :: TimeType, dt1 :: TimeType)**
+
 Counts number of Business Days between `dt0` and `dt1`.
 
 **initcache(hc :: HolidayCalendar)**
+
 Creates cache for given calendar. Check `methods(initcache)` for alternatives.
 
-##Avaliable Business Days Calendars
-- **BrazilBanking** : Brazilian federal holidays, including Carnival.
+##Available Business Days Calendars
+- **BrazilBanking** : banking holidays for Brazil (federal holidays plus Carnival).
 - **UnitedStates** : United States federal holidays.
 - **UKEnglandBanking** : banking holidays for England and Wales.
 
@@ -189,7 +201,7 @@ I would like to point out that, currently, there's nothing special about the **B
 * The Julia language is a lot of fun to code in.
 * I would like to encourage others to get to know about Julia.
 
-You can find more about Julia on http://julialang.org.
+You can find more about Julia at http://julialang.org.
 
 ##Roadmap for v0.1.0
 - [ ] Include helper functions for vector inputs.
