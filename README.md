@@ -196,12 +196,13 @@ r2 = sum2V_2(x, y)
 ```
 
 I would like to point out that, currently, there's nothing special about the **BusinessDays.jl** implementation. One could implement the same code in any computer language, using standard data structures. As a matter of fact, I've done this before in VBA and C, with similar performance results. But, I decided to do it in Julia for the following reasons:
-* At the time I published **BusinessDays.jl**, there was no implementation of a Business Days calculator in Julia.
 * The Julia Language is all about optimization.
-* The Julia language is a lot of fun to code in.
+* The Julia Language is a lot of fun to code in.
 * I would like to encourage others to get to know about Julia.
 
 You can find more about Julia at http://julialang.org.
+
+There's also an alternative library to Business Days counting in Julia at http://aviks.github.io/Ito.jl/time.html .
 
 ##Roadmap for v0.1.0
 - [ ] Include helper functions for vector inputs.
