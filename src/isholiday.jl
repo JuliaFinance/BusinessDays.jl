@@ -259,6 +259,5 @@ function isholiday( :: UKEnglandBanking , dt :: TimeType)
 		end
 	end
 
-	
 	return false
 end
