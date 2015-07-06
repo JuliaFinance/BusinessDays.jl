@@ -12,9 +12,8 @@ julia> Pkg.add("BusinessDays")
 [![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)
 
 ##Motivation
-This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exists between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
+This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, especially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
 While there are many implementations of *Business Days* calculators out there, the usual implementation is based on this kind of algorithm:
-
 ```
 dt0 = initial_date
 dt1 = final_date
@@ -28,7 +27,7 @@ while d0 <= d1
 end while
 ```
 
-This works fine for general use. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50.000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1.000.000 times.
+This works fine for general use. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50 000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1 000 000 times.
 
 For instance, let's try out this code using *R* and *QuantLib* (*RQuantLib* package):
 ```R
@@ -37,11 +36,11 @@ library(microbenchmark)
 
 from <- as.Date("2015-06-29")
 to <- as.Date("2100-12-20")
-microbenchmark ( businessDaysBetween("Brazil", from, to) )
+microbenchmark(businessDaysBetween("Brazil", from, to))
 
 from_vect <- rep(from, 1000000)
 to_vect <- rep(to, 1000000)
-microbenchmark( businessDaysBetween("Brazil", from_vect, to_vect), times=1)
+microbenchmark(businessDaysBetween("Brazil", from_vect, to_vect), times=1)
 ```
 
 Running this code, we get the following:
@@ -68,7 +67,7 @@ using Base.Dates
 using BusinessDays
 using Base.Test
 
-d0 = Date(1950, 01, 01) ; d1 = Date(2100, 12, 20)
+d0 = Date(1950, 01, 01); d1 = Date(2100, 12, 20)
 
 cal = BrazilBanking()
 @time BusinessDays.initcache(cal)
@@ -97,33 +96,33 @@ See *runtests.jl* for examples.
 
 Accessor function for `HolidayCalendar` subtypes.
 
-**easter_rata(y::Year)**
+**easter_rata(y :: Year)**
 
-Returns easter Date as a *Rata Die* number (Int64).
+Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number (`Int64`).
 
-**easter_date(y::Year)**
+**easter_date(y :: Year)**
 
-Returns result of `easter_rata` as `Base.Date` instance.
+Returns result of `easter_rata` as a `Base.Date` instance.
 
-**isholiday( hc :: HolidayCalendar, dt :: TimeType)**
+**isholiday(hc :: HolidayCalendar, dt :: TimeType)**
 
 Checks if `dt` is a holiday. Returns Bool.
 
-**findweekday(weekday_target :: Int64, yy :: Int64, mm:: Int64, occurence :: Int64, ascending :: Bool )**
+**findweekday(weekday_target :: Int64, yy :: Int64, mm :: Int64, occurence :: Int64, ascending :: Bool)**
 
-Given a year `yy` and month `mm`, finds a Date where a choosen weekday occurs.
-`weekday_target` values are declared in Dates module.
+Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
+`weekday_target` values are declared in the `Dates` module.
 `const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
 If `occurence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of the given month, and so on.
 
-**isweekend(x::TimeType)**
+**isweekend(x :: TimeType)**
 
-Checks for weekend.
+Checks if `x` is a weekend.
 
-**isbday( hc :: HolidayCalendar, dt :: TimeType)**
+**isbday(hc :: HolidayCalendar, dt :: TimeType)**
 
-Checks for a Business Day. Usually it checks two conditions: if it's not a holiday, and not a weekend day.
+Checks for a Business Day. Usually it checks two conditions: whether it's not a holiday, and not a weekend day.
 
 **tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)**
 
@@ -132,7 +131,7 @@ Ajusts to the last Business Day if `forward = false`.
 
 **advancebdays(hc :: HolidayCalendar, dt :: TimeType, bdays_count :: Int)**
 
-Ajusts given date `bdays_count` Business Days forward (or backwards of `bdays_count` is negative).
+Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_count` is negative).
 
 **bdays(hc :: HolidayCalendar, dt0 :: TimeType, dt1 :: TimeType)**
 
@@ -143,16 +142,15 @@ Counts number of Business Days between `dt0` and `dt1`.
 Creates cache for given calendar. Check `methods(initcache)` for alternatives.
 
 ##Available Business Days Calendars
-* **BrazilBanking** : banking holidays for Brazil (federal holidays plus Carnival).
-* **UnitedStates** : United States federal holidays.
-* **UKEnglandBanking** : banking holidays for England and Wales.
+- **BrazilBanking** : banking holidays for Brazil (federal holidays plus Carnival).
+- **UnitedStates** : United States federal holidays.
+- **UKEnglandBanking** : banking holidays for England and Wales.
 
 ## Adding new Holiday Calendars
 You can add your custom Holiday Calendar by doing the following:
 
 1. Define an immutable subtype of HolidayCalendar. `immutable MyCal <: HolidayCalendar end`
-
-2. Implement a new method for isholiday for your calendar. `function isholiday( :: MyCal , dt :: TimeType)`
+2. Implement a new method for `isholiday` for your calendar. `function isholiday(:: MyCal, dt :: TimeType)`
 
 And that's it.
 
@@ -161,7 +159,7 @@ This package was writen in pure Julia code.
 Although the code does not depend on packages outside Base, it requires Julia v0.4 *cutting-edge* version, due to the Dates module.
 
 ##But, why Julia?
-Julia is an alternative language to Matlab, R, Scilab, Python, and others, but without the *non-vectorizable code penalty*. In fact, these two pieces of code run with almost the same performance. This is due to the JIT Compiler built in to julia runtime.
+Julia is an alternative language to Matlab, R, Scilab, Python, and others, but without the *non-vectorizable code penalty*. In fact, the following two pieces of code run with almost the same performance. This is due to the JIT compiler built into the julia runtime.
 
 ```julia
 # sum all elements of 2 vectors, quick code
@@ -197,13 +195,13 @@ r2 = sum2V_2(x, y)
 @time sum2V_2(x, y)
 ```
 
-I would like to point out that, currently, there's nothing special about **BusinessDays.jl** implementation. One could implement the same code in any computer language, using standard data structures. As a matter of fact, I've done this before in VBA and C, with similar performance results. But, I decided to do it in Julia for the following reasons:
-* By the time I published **BusinessDays.jl**, there was no implementation of Business Days calculator in Julia.
-* Julia Language is all about optimization.
-* Julia language is so fun to code to.
+I would like to point out that, currently, there's nothing special about the **BusinessDays.jl** implementation. One could implement the same code in any computer language, using standard data structures. As a matter of fact, I've done this before in VBA and C, with similar performance results. But, I decided to do it in Julia for the following reasons:
+* At the time I published **BusinessDays.jl**, there was no implementation of a Business Days calculator in Julia.
+* The Julia Language is all about optimization.
+* The Julia language is a lot of fun to code in.
 * I would like to encourage others to get to know about Julia.
 
-You can find more about Julia at http://julialang.org .
+You can find more about Julia at http://julialang.org.
 
 ##Roadmap for v0.1.0
 - [ ] Include helper functions for vector inputs.
