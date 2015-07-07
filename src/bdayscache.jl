@@ -74,7 +74,7 @@ function _createbdayscache(hc :: HolidayCalendar, d0 :: Date, d1 :: Date)
 	# length of the cache arrays
 	const len :: Int64 = d1_rata - d0_rata + 1
 
-	# This function uses UInt16 to store bdayscounter array.
+	# This function uses UInt32 to store bdayscounter array.
 	# We need to check if we'll exceed typemax(UInt32)
 	if len > convert(Int64, typemax(UInt32))
 		error("Maximum size allowed for bdays array is $(typemax(UInt32)). Required lenght of $(len).")
