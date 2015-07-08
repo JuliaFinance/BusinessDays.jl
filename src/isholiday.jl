@@ -79,10 +79,11 @@ end
 # See query.jl on Dates module
 # See also dayofweek(dt) function.
 # This should go to Base.Dates
-function findweekday(weekday_target :: Int64, yy :: Int64, mm:: Int64, occurrence :: Int64, ascending :: Bool )
+function findweekday(weekday_target :: Integer, yy :: Integer, mm:: Integer, occurrence :: Integer, ascending :: Bool )
+	
 	local dt :: Date = Date(yy, mm, 1)
-	local dt_dayofweek :: Int64
-	local offset :: Int64
+	local dt_dayofweek :: Integer
+	local offset :: Integer
 
 	if occurrence <= 0
 		error("occurrence must be >= 1. Provided $(occurrence).")

@@ -118,7 +118,7 @@ If `occurrence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of 
 
 **isweekend(x :: TimeType)**
 
-Checks if `x` is a weekend.
+Checks if `x` is a weekend day.
 
 **isbday(hc :: HolidayCalendar, dt :: TimeType)**
 
