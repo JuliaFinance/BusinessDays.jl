@@ -491,7 +491,7 @@ for usecache in [false, true]
 	@test isbday(hc_uk, Date(1999, 12, 28)) == false # Boxing observed
 	@test isbday(hc_uk, Date(1999, 12, 29)) == true
 	@test isbday(hc_uk, Date(1999, 12, 30)) == true
-	@test isbday(hc_uk, Date(1999, 12, 31)) == true
+	@test isbday(hc_uk, Date(1999, 12, 31)) == false
 
 	@test tobday(hc_brazil, Date(2013, 02, 08)) == Date(2013, 02, 08) # regular friday
 	@test tobday(hc_brazil, Date(2013, 02, 09)) == Date(2013, 02, 13) # after carnaval

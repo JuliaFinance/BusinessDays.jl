@@ -210,7 +210,13 @@ function isholiday( :: UKEnglandBanking , dt :: TimeType)
 				adjustweekendholidayUK(adjustweekendholidayUK( Date(yy, 12, 25) ) + Dates.Day(1)) == dt_Date 
 			)
 			return true
-		end	
+		end
+
+		# Fixed date holidays with mm >= 8
+		if dt_Date == Date(1999, 12, 31)
+			return true
+		end
+
 	else
 		# mm < 8
 		# Fixed holidays
@@ -242,7 +248,7 @@ function isholiday( :: UKEnglandBanking , dt :: TimeType)
 			return true
 		end
 
-			# Fixed date holidays
+			# Fixed date holidays with mm < 8
 		if ( 
 			# Substitute date for Spring Bank Holiday
 			(dt_Date == Date(2012, 06, 04))
