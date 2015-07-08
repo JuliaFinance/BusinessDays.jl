@@ -3,9 +3,9 @@
 # returns Rata Die number as Int64, Algo R http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html
 function easter_rata(y::Year)
 
-	local c :: Int64
-	local e :: Int64
-	local p :: Int64
+	local c::Int64
+	local e::Int64
+	local p::Int64
 
      # Algo R only works after 1582
      if y.value < 1582
@@ -29,7 +29,6 @@ function easter_rata(y::Year)
 
      # Easter: locate the Sunday after the Paschal Moon
      return p + 7 - mod(p, 7)
-     
 end
 
 # Returns Date

@@ -535,6 +535,8 @@ for usecache in [false, true]
 
 end
 
+include("perftests.jl")
+
 #= Results using Julia build cd8be58
 ########################
 Using cache: false

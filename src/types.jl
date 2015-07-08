@@ -5,11 +5,11 @@ immutable UnitedStates <: HolidayCalendar end
 immutable UKEnglandBanking <: HolidayCalendar end
 
 type HolidayCalendarCache
-	hc :: HolidayCalendar
-	isbday_array :: Array{Bool,1}
-	bdayscounter_array :: Array{UInt32,1}
-	dtmin :: Date
-	dtmax :: Date
+	hc::HolidayCalendar
+	isbday_array::Array{Bool,1}
+	bdayscounter_array::Array{UInt32,1}
+	dtmin::Date
+	dtmax::Date
 end
 
 # Accessor function for HolidayCalendar subtypes

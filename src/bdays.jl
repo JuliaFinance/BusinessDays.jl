@@ -4,7 +4,7 @@ function isweekend(x::TimeType)
 end
 
 # Checks for holidays and weekends
-function isbday( hc :: HolidayCalendar, dt :: TimeType)
+function isbday(hc::HolidayCalendar, dt::TimeType)
 	if _getcachestate(hc)
 		hcc :: HolidayCalendarCache = _getholidaycalendarcache(hc)
 		return isbday(hcc, dt)
@@ -15,12 +15,12 @@ end
 
 # Ajusts date to next BusinessDay if dt !isbday.
 # If isbday(dt), return dt.
-function tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)
+function tobday(hc::HolidayCalendar, dt::TimeType; forward::Bool = true)
 	if isbday(hc, dt)
 		return dt
 	else
-		local next :: TimeType
-		local increment :: Int64 = forward ? 1 : -1
+		local next::TimeType
+		local increment::Int64 = forward ? 1 : -1
 
 		next = dt + Dates.Day(increment)
 		while !isbday(hc, next)
@@ -31,9 +31,9 @@ function tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)
 	return next
 end
 
-function advancebdays(hc :: HolidayCalendar, dt :: TimeType, bdays_count :: Int)
+function advancebdays(hc::HolidayCalendar, dt::TimeType, bdays_count::Int)
 	# Computation starts by next Business Day if dt is not a BusinessDay, inspired by Banking Account convention.
-	local result :: TimeType = tobday(hc, dt)
+	local result::TimeType = tobday(hc, dt)
 
 	# does nothing
 	if bdays_count == 0
@@ -41,9 +41,9 @@ function advancebdays(hc :: HolidayCalendar, dt :: TimeType, bdays_count :: Int)
 	end
 
 	# if bdays_count is positive, goes forward. Otherwise, goes backwards.
-	local increment :: Int = bdays_count > 0 ? +1 : -1
+	local increment::Int = bdays_count > 0 ? +1 : -1
 
-	local num_iterations :: Int = abs(bdays_count)
+	local num_iterations::Int = abs(bdays_count)
 	
 	while num_iterations > 0
 		result += Dates.Day(increment)
@@ -61,20 +61,20 @@ end
 
 # Counts the number of BusinessDays between dt0 and dt1
 # Returns instance of Dates.Day
-function bdays(hc :: HolidayCalendar, dt0 :: TimeType, dt1 :: TimeType)
+function bdays(hc::HolidayCalendar, dt0::TimeType, dt1::TimeType)
 	if _getcachestate(hc)
-		hcc :: HolidayCalendarCache = _getholidaycalendarcache(hc)
+		hcc::HolidayCalendarCache = _getholidaycalendarcache(hc)
 		return bdays(hcc, dt0, dt1)
 	else
 		# Supports dt0 and dt1 in any given order, so the result is always a positive integer
-		local initial_dt :: TimeType = min(dt0, dt1)
-		local final_dt :: TimeType = max(dt0, dt1)
+		local initial_dt::TimeType = min(dt0, dt1)
+		local final_dt::TimeType = max(dt0, dt1)
 
 		# Computation is always based on next Business Days if given dates are not Business Days, inspired by Banking Account convention.
 		initial_dt = tobday(hc, initial_dt)
 		final_dt = tobday(hc, final_dt)
 
-		local result :: Int = 0
+		local result::Int = 0
 		while initial_dt < final_dt
 			initial_dt += Dates.Day(1)
 

@@ -1,12 +1,12 @@
 
 # Fallback implementation for isholiday()
-function isholiday(hc :: HolidayCalendar, dt :: TimeType)
+function isholiday(hc::HolidayCalendar, dt::TimeType)
 	error("isholiday for $(hc) not yet implemented.")
 end
 
 # BrazilBanking <: HolidayCalendar
 # Brazilian Banking Holidays
-function isholiday(:: BrazilBanking , dt :: TimeType)
+function isholiday(::BrazilBanking , dt::TimeType)
 
 	const yy = Dates.year(dt)
 	const mm = Dates.month(dt)
@@ -51,8 +51,8 @@ function isholiday(:: BrazilBanking , dt :: TimeType)
 
 		# Easter occurs up to April, so Corpus Christi will be up to July in the worst case, which is before August (mm < 8). See test/easter-min-max.jl .
 		# Holidays based on easter date
-		const dt_rata :: Int64 = Dates.days(dt)
-		const e_rata ::Int64 = easter_rata( Dates.Year(yy))
+		const dt_rata::Int64 = Dates.days(dt)
+		const e_rata::Int64 = easter_rata(Dates.Year(yy))
 
 		if (
 				# Segunda de Carnaval
@@ -79,11 +79,11 @@ end
 # See query.jl on Dates module
 # See also dayofweek(dt) function.
 # This should go to Base.Dates
-function findweekday(weekday_target :: Integer, yy :: Integer, mm:: Integer, occurrence :: Integer, ascending :: Bool)
+function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)
 	
-	local dt :: Date = Date(yy, mm, 1)
-	local dt_dayofweek :: Integer
-	local offset :: Integer
+	local dt::Date = Date(yy, mm, 1)
+	local dt_dayofweek::Integer
+	local offset::Integer
 
 	if occurrence <= 0
 		error("occurrence must be >= 1. Provided $(occurrence).")
@@ -111,7 +111,7 @@ end
 
 # In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
 # If it falls on Sunday, it's observed on the next Monday.
-function adjustweekendholidayUS(dt :: TimeType)
+function adjustweekendholidayUS(dt::TimeType)
 	
 	if dayofweek(dt) == Dates.Saturday
 		return dt - Dates.Day(1)
@@ -124,7 +124,7 @@ function adjustweekendholidayUS(dt :: TimeType)
 	return dt
 end
 
-function isholiday(:: UnitedStates , dt :: TimeType)
+function isholiday(::UnitedStates , dt::TimeType)
 
 	const dt_Date = convert(Dates.Date, dt)
 
@@ -169,12 +169,11 @@ function isholiday(:: UnitedStates , dt :: TimeType)
 	end
 	
 	return false
-
 end
 
 # In the UK, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
 # This function will adjust to the next Monday.
-function adjustweekendholidayUK(dt :: TimeType)
+function adjustweekendholidayUK(dt::TimeType)
 	
 	if dayofweek(dt) == Dates.Saturday
 		return dt + Dates.Day(2)
@@ -188,7 +187,7 @@ function adjustweekendholidayUK(dt :: TimeType)
 end
 
 # England and Wales Banking Holidays
-function isholiday( :: UKEnglandBanking , dt :: TimeType)
+function isholiday(::UKEnglandBanking , dt::TimeType)
 
 	const dt_Date = convert(Dates.Date, dt)
 
@@ -235,8 +234,8 @@ function isholiday( :: UKEnglandBanking , dt :: TimeType)
 
 		# Easter occurs up to April, which is before August (mm < 8). See test/easter-min-max.jl .
 		# Holidays based on easter date
-		const dt_rata :: Int64 = Dates.days(dt)
-		const e_rata ::Int64 = easter_rata( Dates.Year(yy))
+		const dt_rata::Int64 = Dates.days(dt)
+		const e_rata::Int64 = easter_rata( Dates.Year(yy))
 
 		if (
 				# Good Friday

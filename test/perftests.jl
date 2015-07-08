@@ -2,6 +2,8 @@ using Base.Dates
 using BusinessDays
 using Base.Test
 
+print("Running perftests\n")
+
 d0 = Date(1950, 01, 01) ; d1 = Date(2100, 12, 20)
 
 cal = BrazilBanking()

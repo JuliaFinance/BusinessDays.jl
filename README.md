@@ -96,19 +96,19 @@ See *runtests.jl* for examples.
 
 Accessor function for `HolidayCalendar` subtypes.
 
-**easter_rata(y :: Year)**
+**easter_rata(y::Year)**
 
 Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number (`Int64`).
 
-**easter_date(y :: Year)**
+**easter_date(y::Year)**
 
 Returns result of `easter_rata` as a `Base.Date` instance.
 
-**isholiday(hc :: HolidayCalendar, dt :: TimeType)**
+**isholiday(hc::HolidayCalendar, dt::TimeType)**
 
 Checks if `dt` is a holiday. Returns Bool.
 
-**findweekday(weekday_target :: Integer, yy :: Integer, mm:: Integer, occurrence :: Integer, ascending :: Bool)**
+**findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)**
 
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 `weekday_target` values are declared in the `Dates` module.
@@ -116,28 +116,28 @@ Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
 If `occurrence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of the given month, and so on.
 
-**isweekend(x :: TimeType)**
+**isweekend(x::TimeType)**
 
 Checks if `x` is a weekend day.
 
-**isbday(hc :: HolidayCalendar, dt :: TimeType)**
+**isbday(hc::HolidayCalendar, dt::TimeType)**
 
 Checks for a Business Day. Usually it checks two conditions: whether it's not a holiday, and not a weekend day.
 
-**tobday(hc :: HolidayCalendar, dt :: TimeType; forward :: Bool = true)**
+**tobday(hc::HolidayCalendar, dt::TimeType; forward::Bool = true)**
 
 Ajusts given date to next Business Day if `forward = true`.
 Ajusts to the last Business Day if `forward = false`.
 
-**advancebdays(hc :: HolidayCalendar, dt :: TimeType, bdays_count :: Int)**
+**advancebdays(hc::HolidayCalendar, dt::TimeType, bdays_count::Int)**
 
 Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_count` is negative).
 
-**bdays(hc :: HolidayCalendar, dt0 :: TimeType, dt1 :: TimeType)**
+**bdays(hc::HolidayCalendar, dt0::TimeType, dt1::TimeType)**
 
 Counts number of Business Days between `dt0` and `dt1`.
 
-**initcache(hc :: HolidayCalendar)**
+**initcache(hc::HolidayCalendar)**
 
 Creates cache for given calendar. Check `methods(initcache)` for alternatives.
 
