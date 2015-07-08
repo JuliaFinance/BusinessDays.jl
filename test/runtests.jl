@@ -485,6 +485,14 @@ for usecache in [false, true]
 	@test isbday(hc_uk, Date(2012, 12, 26)) == false # 26 December	Wednesday	Boxing Day
 	@test isbday(hc_uk, Date(2012, 12, 27)) == true
 
+	# 1999 UK holidays
+	@test isbday(hc_uk, Date(1999, 12, 26)) == false # Sunday
+	@test isbday(hc_uk, Date(1999, 12, 27)) == false # Christmas observed
+	@test isbday(hc_uk, Date(1999, 12, 28)) == false # Boxing observed
+	@test isbday(hc_uk, Date(1999, 12, 29)) == true
+	@test isbday(hc_uk, Date(1999, 12, 30)) == true
+	@test isbday(hc_uk, Date(1999, 12, 31)) == true
+
 	@test tobday(hc_brazil, Date(2013, 02, 08)) == Date(2013, 02, 08) # regular friday
 	@test tobday(hc_brazil, Date(2013, 02, 09)) == Date(2013, 02, 13) # after carnaval
 	@test tobday(hc_brazil, Date(2013, 02, 09); forward = true) == Date(2013, 02, 13) # after carnaval
@@ -511,9 +519,6 @@ for usecache in [false, true]
 
 	d0 = Date(2015, 06, 29) ; d2 = Date(2100, 12, 20)
 	@test bdays(BrazilBanking(), d0, d2).value == 21471
-
-	tobday(BrazilBanking(), d0)
-	tobday(BrazilBanking(), d2)
 
 	@time bdays(BrazilBanking(), d0, d2)
 	
