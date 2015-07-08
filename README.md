@@ -108,7 +108,7 @@ Returns result of `easter_rata` as a `Base.Date` instance.
 
 Checks if `dt` is a holiday. Returns Bool.
 
-**findweekday(weekday_target :: Int64, yy :: Int64, mm :: Int64, occurrence :: Int64, ascending :: Bool)**
+**findweekday(weekday_target :: Integer, yy :: Integer, mm:: Integer, occurrence :: Integer, ascending :: Bool)**
 
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 `weekday_target` values are declared in the `Dates` module.

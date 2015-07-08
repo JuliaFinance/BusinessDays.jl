@@ -1,12 +1,12 @@
 
 # Fallback implementation for isholiday()
-function isholiday( hc :: HolidayCalendar, dt :: TimeType)
+function isholiday(hc :: HolidayCalendar, dt :: TimeType)
 	error("isholiday for $(hc) not yet implemented.")
 end
 
 # BrazilBanking <: HolidayCalendar
 # Brazilian Banking Holidays
-function isholiday( :: BrazilBanking , dt :: TimeType)
+function isholiday(:: BrazilBanking , dt :: TimeType)
 
 	const yy = Dates.year(dt)
 	const mm = Dates.month(dt)
@@ -79,7 +79,7 @@ end
 # See query.jl on Dates module
 # See also dayofweek(dt) function.
 # This should go to Base.Dates
-function findweekday(weekday_target :: Integer, yy :: Integer, mm:: Integer, occurrence :: Integer, ascending :: Bool )
+function findweekday(weekday_target :: Integer, yy :: Integer, mm:: Integer, occurrence :: Integer, ascending :: Bool)
 	
 	local dt :: Date = Date(yy, mm, 1)
 	local dt_dayofweek :: Integer
@@ -124,7 +124,7 @@ function adjustweekendholidayUS(dt :: TimeType)
 	return dt
 end
 
-function isholiday( :: UnitedStates , dt :: TimeType)
+function isholiday(:: UnitedStates , dt :: TimeType)
 
 	const dt_Date = convert(Dates.Date, dt)
 
