@@ -508,14 +508,23 @@ for usecache in [false, true]
 
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 06)) == Day(0)
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 07)) == Day(1)
-	@test bdays(hc_brazil, Date(2013, 02, 07), Date(2013, 02, 06)).value == 1
+	@test bdays(hc_brazil, Date(2013, 02, 07), Date(2013, 02, 06)).value == -1
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 08)).value == 2
+	@test bdays(hc_brazil, Date(2013, 02, 08), Date(2013, 02, 06)).value == -2
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 09)).value == 3
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 10)).value == 3
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 11)).value == 3
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 12)).value == 3
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 13)).value == 3
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 14)).value == 4
+	@test bdays(hc_brazil, Date(2013, 02, 14), Date(2013, 02, 06)).value == -4
+
+	# dates are treated per value
+	d0 = Date(2013, 02, 06)
+	d1 = Date(2013, 02, 14)
+	@test bdays(hc_brazil, d0, d1).value == 4
+	@test d0 == Date(2013, 02, 06) # d0 is changed inside bdays function, but outer-scope value remains the same
+	@test d1 == Date(2013, 02, 14)
 
 	d0 = Date(2015, 06, 29) ; d2 = Date(2100, 12, 20)
 	@test bdays(BrazilBanking(), d0, d2).value == 21471
@@ -537,20 +546,26 @@ end
 
 include("perftests.jl")
 
-#= Results using Julia build cd8be58
+#= Results using Julia build 0503f2a
+easter minimum month is 3 on date 2100-03-28 
+easter maximum month is 4 on date 2099-04-12
 ########################
 Using cache: false
 ########################
-   6.750 milliseconds (87902 allocations: 3325 KB)
- 610.418 milliseconds (8790 k allocations: 325 MB, 3.09% gc time)
-  14.560 milliseconds (280 k allocations: 9318 KB, 7.14% gc time)
+   4.733 milliseconds (31222 allocations: 2439 KB)
+ 416.021 milliseconds (3122 k allocations: 238 MB, 2.12% gc time)
+   6.913 milliseconds (55146 allocations: 4577 KB)
 ########################
 Using cache: true
 ########################
-     680 nanoseconds  (4 allocations: 64 bytes)
-  51.452 microseconds (400 allocations: 6400 bytes)
-  11.870 milliseconds (146 k allocations: 2644 KB)
+     803 nanoseconds  (4 allocations: 64 bytes)
+  49.718 microseconds (400 allocations: 6400 bytes)
+   5.859 milliseconds (5 allocations: 269 KB)
 
  a million... 
- 449.858 milliseconds (4000 k allocations: 62500 KB, 1.28% gc time)
+ 414.399 milliseconds (4000 k allocations: 62500 KB, 1.65% gc time)
+Running perftests
+   7.663 milliseconds (1572 allocations: 342 KB)
+   2.444 microseconds (9 allocations: 224 bytes)
+ 585.907 milliseconds (5000 k allocations: 78125 KB, 1.59% gc time)
  =#

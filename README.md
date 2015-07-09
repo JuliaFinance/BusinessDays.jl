@@ -78,9 +78,9 @@ bdays(cal, d0, d1) # force JIT compilation
 
 **Results**
 ```
- 210.319 milliseconds (489 k allocations: 19372 KB, 9.45% gc time)
-   3.859 microseconds (10 allocations: 240 bytes)
- 633.931 milliseconds (6000 k allocations: 93750 KB, 0.94% gc time)
+ 194.197 milliseconds (335 k allocations: 17000 KB, 7.00% gc time)
+   2.980 microseconds (9 allocations: 224 bytes)
+ 568.525 milliseconds (5000 k allocations: 78125 KB, 0.89% gc time)
  ```
 
 ##Usage

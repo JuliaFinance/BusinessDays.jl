@@ -66,24 +66,21 @@ function bdays(hc::HolidayCalendar, dt0::TimeType, dt1::TimeType)
 		hcc::HolidayCalendarCache = _getholidaycalendarcache(hc)
 		return bdays(hcc, dt0, dt1)
 	else
-		# Supports dt0 and dt1 in any given order, so the result is always a positive integer
-		local initial_dt::TimeType = min(dt0, dt1)
-		local final_dt::TimeType = max(dt0, dt1)
-
 		# Computation is always based on next Business Days if given dates are not Business Days, inspired by Banking Account convention.
-		initial_dt = tobday(hc, initial_dt)
-		final_dt = tobday(hc, final_dt)
+		dt0 = tobday(hc, dt0)
+		dt1 = tobday(hc, dt1)
+		inc::Int = dt0 <= dt1 ? +1 : -1
 
 		local result::Int = 0
-		while initial_dt < final_dt
-			initial_dt += Dates.Day(1)
+		while dt0 != dt1
+			dt0 += Dates.Day(inc)
 
-			# Looks for next Business Day
-			while !isbday(hc, initial_dt)
-				initial_dt += Dates.Day(1)
+			# Looks for next/last Business Day
+			while !isbday(hc, dt0)
+				dt0 += Dates.Day(inc)
 			end
 
-			result += 1
+			result += inc
 		end
 
 		return Dates.Day(result)

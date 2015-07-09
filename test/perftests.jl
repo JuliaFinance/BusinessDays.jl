@@ -12,7 +12,7 @@ bdays(cal, d0, d1) # force JIT compilation
 @time bdays(cal, d0, d1)
 @time for i in 1:1000000 bdays(cal, d0, d1) end
 
-# Results using Julia build cd8be58
-# 213.920 milliseconds (558 k allocations: 21699 KB, 9.37% gc time)
-#   4.881 microseconds (10 allocations: 240 bytes)
-# 610.743 milliseconds (6000 k allocations: 93750 KB, 0.84% gc time)
+# Results using Julia build 0503f2a
+# 194.197 milliseconds (335 k allocations: 17000 KB, 7.00% gc time)
+#   2.980 microseconds (9 allocations: 224 bytes)
+# 568.525 milliseconds (5000 k allocations: 78125 KB, 0.89% gc time)

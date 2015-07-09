@@ -21,7 +21,7 @@ function checkbounds(hcc::HolidayCalendarCache, dt::TimeType)
 end
 
 function _linenumber(hcc::HolidayCalendarCache, dt::TimeType)
-	return Dates.days(dt) - Dates.days(hcc.dtmin)  + 1
+	return Dates.days(dt) - Dates.days(hcc.dtmin) + 1
 end
 
 function isbday(hcc::HolidayCalendarCache, dt::TimeType)
@@ -30,17 +30,11 @@ function isbday(hcc::HolidayCalendarCache, dt::TimeType)
 end
 
 function bdays(hcc::HolidayCalendarCache, dt0::TimeType, dt1::TimeType)
-	# Supports dt0 and dt1 in any given order, so the result is always a positive integer
-	local initial_dt::TimeType = min(dt0, dt1)
-	local final_dt::TimeType = max(dt0, dt1)
-
 	# Computation is always based on next Business Days if given dates are not Business Days, inspired by Banking Account convention.
-	initial_dt = tobday(hcc.hc, initial_dt)
-	final_dt = tobday(hcc.hc, final_dt)
-
-	checkbounds(hcc, initial_dt) ; checkbounds(hcc, final_dt)
-
-	return Day( hcc.bdayscounter_array[ _linenumber(hcc, final_dt) ] - hcc.bdayscounter_array[ _linenumber(hcc, initial_dt) ]  )
+	dt0 = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
+	dt1 = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
+	
+	return Day( convert(Int64, hcc.bdayscounter_array[ _linenumber(hcc, dt1) ]) - convert(Int64, hcc.bdayscounter_array[ _linenumber(hcc, dt0) ])  )
 end
 
 # Be sure to use this function on a syncronized code (not parallel).
