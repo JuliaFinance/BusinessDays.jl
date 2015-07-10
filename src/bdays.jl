@@ -1,25 +1,25 @@
 # Checks for Saturdays or Sundays
-function isweekend(x::TimeType)
+function isweekend(x::Date)
 	return dayofweek(x) in [6, 7]
 end
 
 # Checks for holidays and weekends
-function isbday(hc::HolidayCalendar, dt::TimeType)
+function isbday(hc::HolidayCalendar, dt::Date)
 	if _getcachestate(hc)
 		hcc :: HolidayCalendarCache = _getholidaycalendarcache(hc)
 		return isbday(hcc, dt)
 	else
-		return !(  isweekend(dt) || isholiday(hc, dt)  )
+		return !(isweekend(dt) || isholiday(hc, dt))
 	end
 end
 
 # Ajusts date to next BusinessDay if dt !isbday.
 # If isbday(dt), return dt.
-function tobday(hc::HolidayCalendar, dt::TimeType; forward::Bool = true)
+function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
 	if isbday(hc, dt)
 		return dt
 	else
-		local next::TimeType
+		local next::Date
 		local increment::Int64 = forward ? 1 : -1
 
 		next = dt + Dates.Day(increment)
@@ -31,9 +31,9 @@ function tobday(hc::HolidayCalendar, dt::TimeType; forward::Bool = true)
 	return next
 end
 
-function advancebdays(hc::HolidayCalendar, dt::TimeType, bdays_count::Int)
+function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)
 	# Computation starts by next Business Day if dt is not a BusinessDay, inspired by Banking Account convention.
-	local result::TimeType = tobday(hc, dt)
+	local result::Date = tobday(hc, dt)
 
 	# does nothing
 	if bdays_count == 0
@@ -61,7 +61,7 @@ end
 
 # Counts the number of BusinessDays between dt0 and dt1
 # Returns instance of Dates.Day
-function bdays(hc::HolidayCalendar, dt0::TimeType, dt1::TimeType)
+function bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 	if _getcachestate(hc)
 		hcc::HolidayCalendarCache = _getholidaycalendarcache(hc)
 		return bdays(hcc, dt0, dt1)

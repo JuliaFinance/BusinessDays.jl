@@ -1,4 +1,6 @@
-
+#
+# Tests for BusinessDays module
+#
 using Base.Dates
 using BusinessDays
 using Base.Test
@@ -529,18 +531,41 @@ for usecache in [false, true]
 	d0 = Date(2015, 06, 29) ; d2 = Date(2100, 12, 20)
 	@test bdays(BrazilBanking(), d0, d2).value == 21471
 
+	println("Timing single bdays calculation")
 	@time bdays(BrazilBanking(), d0, d2)
 	
+	println("Timing 100 bdays calculations")
 	@time for i in 1:100 bdays(BrazilBanking(), d0, d2) end
 	
 	dInicio = Date(1950, 01, 01) ; dFim = Date(2100, 12, 20)
 
+	println("Timing cache creation")
 	@time x = BusinessDays._createbdayscache(BrazilBanking(), dInicio, dFim)
 	
 	if usecache
 		print("\n a million... \n")
 		@time for i in 1:1000000 bdays(BrazilBanking(), d0, d2) end
 	end
+
+	# Vector functions
+	d0 = Date(2000,01,04)
+	d1 = Date(2020,01,04)
+
+	d1vec = convert(Array{Date,1}, d0:d1)
+	d0vec = fill(d0, length(d1vec))
+
+	r = bdays(BrazilBanking(), d0vec, d1vec)
+	b = isbday(BrazilBanking(), d0vec)
+
+	println("Timing vectorized functions (vector length $(length(d0vec)))")
+	@time bdays(BrazilBanking(), d0vec, d1vec)
+	@time isbday(BrazilBanking(), d0vec)
+
+	d2001 = convert(Array{Date,1}, Date(2001,01,01):Date(2001,01,15))
+
+	@test isweekend(d2001) == [ false, false, false, false, false, true, true, false, false, false, false, false, true, true, false]
+	@test tobday(BrazilBanking(), d2001; forward=true) == [ Date(2001,01,02), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,08), Date(2001,01,08), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,15), Date(2001,01,15), Date(2001,01,15)]
+	@test tobday(BrazilBanking(), d2001; forward=false) == [ Date(2000,12,29), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,05), Date(2001,01,05), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,12), Date(2001,01,12), Date(2001,01,15)]
 
 end
 
@@ -552,20 +577,32 @@ easter maximum month is 4 on date 2099-04-12
 ########################
 Using cache: false
 ########################
-   4.733 milliseconds (31222 allocations: 2439 KB)
- 416.021 milliseconds (3122 k allocations: 238 MB, 2.12% gc time)
-   6.913 milliseconds (55146 allocations: 4577 KB)
+Timing single bdays calculation
+   4.892 milliseconds (31222 allocations: 2439 KB)
+Timing 100 bdays calculations
+ 423.346 milliseconds (3122 k allocations: 238 MB, 2.41% gc time)
+Timing cache creation
+   6.981 milliseconds (55146 allocations: 4577 KB)
+Timing vectorized functions (vector length 7306)
+   3.478 seconds      (26707 k allocations: 2038 MB, 1.58% gc time)
+   1.698 milliseconds (7306 allocations: 578 KB, 33.33% gc time)
 ########################
 Using cache: true
 ########################
-     803 nanoseconds  (4 allocations: 64 bytes)
-  49.718 microseconds (400 allocations: 6400 bytes)
-   5.859 milliseconds (5 allocations: 269 KB)
+Timing single bdays calculation
+   1.135 microseconds (4 allocations: 64 bytes)
+Timing 100 bdays calculations
+  50.179 microseconds (400 allocations: 6400 bytes)
+Timing cache creation
+   6.091 milliseconds (5 allocations: 269 KB)
 
  a million... 
- 414.399 milliseconds (4000 k allocations: 62500 KB, 1.65% gc time)
+ 435.128 milliseconds (4000 k allocations: 62500 KB, 1.22% gc time)
+Timing vectorized functions (vector length 7306)
+   3.380 milliseconds (29226 allocations: 514 KB)
+ 806.222 microseconds (0 allocations: 7392 bytes)
 Running perftests
-   7.663 milliseconds (1572 allocations: 342 KB)
-   2.444 microseconds (9 allocations: 224 bytes)
- 585.907 milliseconds (5000 k allocations: 78125 KB, 1.59% gc time)
+   7.968 milliseconds (1572 allocations: 342 KB)
+   2.744 microseconds (9 allocations: 224 bytes)
+ 583.243 milliseconds (5000 k allocations: 78125 KB, 1.18% gc time)
  =#

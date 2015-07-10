@@ -1,5 +1,3 @@
-# part of BusinessDays module
-
 # returns Rata Die number as Int64, Algo R http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html
 function easter_rata(y::Year)
 

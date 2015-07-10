@@ -14,22 +14,22 @@ function _getholidaycalendarcache(hc::HolidayCalendar)
 	return _CACHE_DICT[hc]
 end
 
-function checkbounds(hcc::HolidayCalendarCache, dt::TimeType)
+function checkbounds(hcc::HolidayCalendarCache, dt::Date)
 	if !((hcc.dtmin <= dt) && (dt <= hcc.dtmax))
 		error("Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt).")
 	end
 end
 
-function _linenumber(hcc::HolidayCalendarCache, dt::TimeType)
+function _linenumber(hcc::HolidayCalendarCache, dt::Date)
 	return Dates.days(dt) - Dates.days(hcc.dtmin) + 1
 end
 
-function isbday(hcc::HolidayCalendarCache, dt::TimeType)
+function isbday(hcc::HolidayCalendarCache, dt::Date)
 	checkbounds(hcc, dt)
 	return hcc.isbday_array[ _linenumber(hcc, dt) ]
 end
 
-function bdays(hcc::HolidayCalendarCache, dt0::TimeType, dt1::TimeType)
+function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
 	# Computation is always based on next Business Days if given dates are not Business Days, inspired by Banking Account convention.
 	dt0 = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
 	dt1 = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday

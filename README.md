@@ -23,7 +23,7 @@ while d0 <= d1
 	if d0 not in holidays
 		bdays = bdays + 1
 	end
-	d0 = d0 +1
+	d0 = d0 + 1
 end while
 ```
 
@@ -78,9 +78,9 @@ bdays(cal, d0, d1) # force JIT compilation
 
 **Results**
 ```
- 194.197 milliseconds (335 k allocations: 17000 KB, 7.00% gc time)
-   2.980 microseconds (9 allocations: 224 bytes)
- 568.525 milliseconds (5000 k allocations: 78125 KB, 0.89% gc time)
+ 175.452 milliseconds (335 k allocations: 16994 KB)
+   3.706 microseconds (9 allocations: 224 bytes)
+ 559.897 milliseconds (5000 k allocations: 78125 KB, 1.14% gc time)
  ```
 
 ##Usage
@@ -104,7 +104,7 @@ Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* nu
 
 Returns result of `easter_rata` as a `Base.Date` instance.
 
-**isholiday(hc::HolidayCalendar, dt::TimeType)**
+**isholiday(hc::HolidayCalendar, dt::Date)**
 
 Checks if `dt` is a holiday. Returns Bool.
 
@@ -116,26 +116,29 @@ Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
 If `occurrence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of the given month, and so on.
 
-**isweekend(x::TimeType)**
+**isweekend(x::Date)**
 
-Checks if `x` is a weekend day.
+Checks if `x` is a weekend day. Check methods(isweekend) for vectorized alternative.
 
-**isbday(hc::HolidayCalendar, dt::TimeType)**
+**isbday(hc::HolidayCalendar, dt::Date)**
 
 Checks for a Business Day. Usually it checks two conditions: whether it's not a holiday, and not a weekend day.
+Check methods(isbday) for vectorized alternative.
 
-**tobday(hc::HolidayCalendar, dt::TimeType; forward::Bool = true)**
+**tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)**
 
-Ajusts given date to next Business Day if `forward = true`.
-Ajusts to the last Business Day if `forward = false`.
+Ajusts given date to next Business Day if `forward == true`.
+Ajusts to the last Business Day if `forward == false`.
+Check methods(tobday) for vectorized alternative.
 
-**advancebdays(hc::HolidayCalendar, dt::TimeType, bdays_count::Int)**
+**advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)**
 
 Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_count` is negative).
 
-**bdays(hc::HolidayCalendar, dt0::TimeType, dt1::TimeType)**
+**bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)**
 
 Counts number of Business Days between `dt0` and `dt1`.
+Check methods(bdays) for vectorized alternative.
 
 **initcache(hc::HolidayCalendar)**
 
@@ -150,7 +153,7 @@ Creates cache for given calendar. Check `methods(initcache)` for alternatives.
 You can add your custom Holiday Calendar by doing the following:
 
 1. Define an immutable subtype of HolidayCalendar. `immutable MyCal <: HolidayCalendar end`
-2. Implement a new method for `isholiday` for your calendar. `function isholiday(:: MyCal, dt :: TimeType)`
+2. Implement a new method for `isholiday` for your calendar. `function isholiday(::MyCal, dt::Date)`
 
 And that's it.
 
@@ -205,7 +208,7 @@ You can find more about Julia at http://julialang.org.
 There's also an alternative library to Business Days counting in Julia at http://aviks.github.io/Ito.jl/time.html .
 
 ##Roadmap for v0.1.0
-- [ ] Include helper functions for vector inputs.
+- [x] Include helper functions for vector inputs.
 - [x] Use Julia's package development tools (Pkg).
 - [x] Holiday Calendar for United States.
 - [x] Holiday Calendar for UK.

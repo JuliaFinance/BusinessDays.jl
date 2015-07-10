@@ -1,12 +1,12 @@
 
 # Fallback implementation for isholiday()
-function isholiday(hc::HolidayCalendar, dt::TimeType)
+function isholiday(hc::HolidayCalendar, dt::Date)
 	error("isholiday for $(hc) not yet implemented.")
 end
 
 # BrazilBanking <: HolidayCalendar
 # Brazilian Banking Holidays
-function isholiday(::BrazilBanking , dt::TimeType)
+function isholiday(::BrazilBanking , dt::Date)
 
 	const yy = Dates.year(dt)
 	const mm = Dates.month(dt)
@@ -111,7 +111,7 @@ end
 
 # In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
 # If it falls on Sunday, it's observed on the next Monday.
-function adjustweekendholidayUS(dt::TimeType)
+function adjustweekendholidayUS(dt::Date)
 	
 	if dayofweek(dt) == Dates.Saturday
 		return dt - Dates.Day(1)
@@ -124,7 +124,7 @@ function adjustweekendholidayUS(dt::TimeType)
 	return dt
 end
 
-function isholiday(::UnitedStates , dt::TimeType)
+function isholiday(::UnitedStates , dt::Date)
 
 	const dt_Date = convert(Dates.Date, dt)
 
@@ -173,7 +173,7 @@ end
 
 # In the UK, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
 # This function will adjust to the next Monday.
-function adjustweekendholidayUK(dt::TimeType)
+function adjustweekendholidayUK(dt::Date)
 	
 	if dayofweek(dt) == Dates.Saturday
 		return dt + Dates.Day(2)
@@ -187,7 +187,7 @@ function adjustweekendholidayUK(dt::TimeType)
 end
 
 # England and Wales Banking Holidays
-function isholiday(::UKEnglandBanking , dt::TimeType)
+function isholiday(::UKEnglandBanking , dt::Date)
 
 	const dt_Date = convert(Dates.Date, dt)
 

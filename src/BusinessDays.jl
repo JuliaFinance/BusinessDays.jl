@@ -41,5 +41,6 @@ include("easter.jl")
 include("isholiday.jl")
 include("bdayscache.jl")
 include("bdays.jl")
+include("bdaysvecfun.jl")
 
 end
