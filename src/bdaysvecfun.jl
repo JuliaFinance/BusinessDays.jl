@@ -27,7 +27,7 @@ function bdays(hc::HolidayCalendar, dt0::Array{Date,1}, dt1::Array{Date,1})
 	const l1 = length(dt1)
 
 	if length(dt0) != length(dt1)
-		error("Input vectors must have the same sizes. ($(l0) != $(l1)")
+		error("Input vectors must have the same sizes. $(l0) != $(l1)")
 	end
 
 	result = Array(Day, l0)
