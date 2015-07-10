@@ -38,4 +38,3 @@ function bdays(hc::HolidayCalendar, dt0::Array{Date,1}, dt1::Array{Date,1})
 
 	return result
 end
-
