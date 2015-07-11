@@ -28,3 +28,5 @@ function holidaycalendarlist()
 	
 	return calendars
 end
+
+Base.string(hc::HolidayCalendar) = string(typeof(hc))
