@@ -411,6 +411,9 @@ for usecache in [false, true]
 	@test isbday(hc_usa, Date(2015, 12, 25)) == false # Christmas - Friday
 	@test isbday(hc_usa, Date(2015, 12, 26)) == false
 
+	@test isbday(hc_usa, Date(2010, 12, 31)) == false # new years day observed
+	@test isbday(hc_usa, Date(2004, 12, 31)) == false # new years day observed
+
 	## UKEnglandBanking
 	@test isbday(hc_uk, Date(2014, 12, 31)) == true
 	@test isbday(hc_uk, Date(2015, 01, 01)) == false # New Year's Day Thursday
@@ -477,6 +480,8 @@ for usecache in [false, true]
 	@test isbday(hc_uk, Date(2012, 06, 04)) == false # 4 June	Monday	Spring bank holiday (substitute day)
 	@test isbday(hc_uk, Date(2012, 06, 05)) == false # 5 June	Tuesday	Queen’s Diamond Jubilee (extra bank holiday)
 	@test isbday(hc_uk, Date(2012, 06, 06)) == true
+
+	@test isbday(hc_uk, Date(2011, 04, 29)) == false # wedding
 
 	@test isbday(hc_uk, Date(2012, 08, 26)) == false
 	@test isbday(hc_uk, Date(2012, 08, 27)) == false # 27 August	Monday	Summer bank holiday

@@ -129,8 +129,8 @@ function isholiday(::UnitedStates , dt::Date)
 	const dt_Date = convert(Dates.Date, dt)
 
 	const yy = Dates.year(dt)
-	##const mm = Dates.month(dt)
-	##const dd = Dates.day(dt)
+	const mm = Dates.month(dt)
+	const dd = Dates.day(dt)
 
 	const dt_rata = Dates.days(dt)
 
@@ -138,29 +138,32 @@ function isholiday(::UnitedStates , dt::Date)
 			# New Year's Day
 			adjustweekendholidayUS(Date(yy, 1, 1)) == dt_Date
 			||
+			# New Year's Day on the previous year when 1st Jan is Saturday
+			(mm == 12 &&  dd == 31 && dayofweek(dt_Date) == Friday)
+			||
 			# Birthday of Martin Luther King, Jr.
-			adjustweekendholidayUS(  findweekday(Dates.Monday, yy, 1, 3, true) ) == dt_Date
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 1, 3, true)) == dt_Date
 			||
 			# Washington's Birthday
-			adjustweekendholidayUS(  findweekday(Dates.Monday, yy, 2, 3, true) ) == dt_Date
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 2, 3, true)) == dt_Date
 			||
 			# Memorial Day
-			adjustweekendholidayUS(  findweekday(Dates.Monday, yy, 5, 1, false) ) == dt_Date
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 5, 1, false)) == dt_Date
 			||
 			# Independence Day
 			adjustweekendholidayUS(Date(yy, 7, 4)) == dt_Date
 			||
 			# Labor Day
-			adjustweekendholidayUS(  findweekday(Dates.Monday, yy, 9, 1, true) ) == dt_Date
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 9, 1, true)) == dt_Date
 			||
 			# Columbus Day
-			adjustweekendholidayUS(  findweekday(Dates.Monday, yy, 10, 2, true) ) == dt_Date
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 10, 2, true)) == dt_Date
 			||
 			# Veterans Day
 			adjustweekendholidayUS(Date(yy, 11, 11)) == dt_Date
 			||
 			# Thanksgiving Day
-			adjustweekendholidayUS(  findweekday(Dates.Thursday, yy, 11, 4, true) ) == dt_Date
+			adjustweekendholidayUS(findweekday(Dates.Thursday, yy, 11, 4, true)) == dt_Date
 			||
 			# Christmas
 			adjustweekendholidayUS(Date(yy, 12, 25)) == dt_Date
@@ -224,10 +227,10 @@ function isholiday(::UKEnglandBanking , dt::Date)
 				adjustweekendholidayUK(  Date(yy, 01, 01) ) == dt_Date
 				||
 				# May Day, Early May Bank Holiday
-				adjustweekendholidayUK(  findweekday(Dates.Monday, yy, 5, 1, true) ) == dt_Date
+				adjustweekendholidayUK(findweekday(Dates.Monday, yy, 5, 1, true)) == dt_Date
 				||
 				# Spring Bank Holiday
-				(adjustweekendholidayUK(  findweekday(Dates.Monday, yy, 5, 1, false) ) == dt_Date && yy != 2012 && yy != 2002 )
+				(adjustweekendholidayUK(findweekday(Dates.Monday, yy, 5, 1, false)) == dt_Date && yy != 2012 && yy != 2002)
 			)
 			return true
 		end
@@ -235,7 +238,7 @@ function isholiday(::UKEnglandBanking , dt::Date)
 		# Easter occurs up to April, which is before August (mm < 8). See test/easter-min-max.jl .
 		# Holidays based on easter date
 		const dt_rata::Int64 = Dates.days(dt)
-		const e_rata::Int64 = easter_rata( Dates.Year(yy))
+		const e_rata::Int64 = easter_rata(Dates.Year(yy))
 
 		if (
 				# Good Friday
@@ -260,6 +263,9 @@ function isholiday(::UKEnglandBanking , dt::Date)
 			||
 			# Substitute date for Spring Bank Holiday
 			(dt_Date == Date(2002, 06, 04))
+			||
+			# Wedding of Prince William and Catherine Middleton
+			(dt_Date == Date(2011, 04, 29))
 			)
 			return true
 		end
