@@ -7,7 +7,7 @@ Also known as *Working Days* calculator.
 julia> Pkg.update()
 julia> Pkg.add("BusinessDays")
 ```
-*Current version is v0.0.2*
+*Current version is v0.0.3*
 
 ##Motivation
 This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, especially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
