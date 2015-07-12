@@ -48,6 +48,7 @@ end
 ################
 
 # easter dates from http://www.maa.mhn.de/StarDate/publ_holidays.html
+@test_throws ErrorException easter_date(Year(1100))
 @test easter_date(Year(1901)) == Date(1901, 04, 07)
 @test easter_date(Year(1902)) == Date(1902, 03, 30)
 @test easter_date(Year(1903)) == Date(1903, 04, 12)
