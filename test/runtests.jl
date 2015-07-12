@@ -29,6 +29,8 @@ ukhc = UKEnglandBanking()
 @test bhc == BrazilBanking()
 @test ushc == UnitedStates()
 @test bhc != ushc
+@test bhc != Type(BrazilBanking) # content of list is an instance, not a singleton
+@test string(bhc) == "BusinessDays.BrazilBanking"
 
 # Check typing system
 @test typeof(bhc) <: HolidayCalendar
@@ -40,7 +42,7 @@ lst = holidaycalendarlist()
 
 for hc in lst
 	@test typeof(hc) <: HolidayCalendar
-	@test hc != Type(BrazilBanking) # content of list is an instance, not a singleton
+	println(string(hc))
 end
 
 ################
@@ -279,6 +281,9 @@ include("easter-min-max.jl")
 @test findweekday(Dates.Wednesday, 2015, 07, 5, false) == Date(2015, 07, 01)
 @test findweekday(Dates.Wednesday, 2015, 07, 6, false) == Date(2015, 06, 24)
 
+@test_throws ErrorException findweekday(Dates.Wednesday, 2015, 07, -1, false)
+@test_throws ErrorException findweekday(Dates.Wednesday, 2015, 07, -1, true)
+
 ################
 # bdayscache.jl
 ################
@@ -306,6 +311,21 @@ for usecache in [false, true]
 	hc_brazil = BrazilBanking()
 	hc_usa = UnitedStates()
 	hc_uk = UKEnglandBanking()
+
+	# Bounds tests
+	if !usecache
+		# this should work
+		isbday(hc_brazil, Date(1600,2,1))
+		isbday(hc_brazil, Date(3000,2,1))
+		bdays(hc_brazil, Date(1600,2,1), Date(1600, 2, 5))
+		bdays(hc_brazil, Date(3000,2,1), Date(3000, 2, 5))
+	else
+		#this should not work
+		@test_throws ErrorException isbday(hc_brazil, Date(1600,2,1))
+		@test_throws ErrorException isbday(hc_brazil, Date(3000,2,1))
+		@test_throws ErrorException bdays(hc_brazil, Date(1600,2,1), Date(1600, 2, 5))
+		@test_throws ErrorException bdays(hc_brazil, Date(3000,2,1), Date(3000, 2, 5))
+	end
 
 	@test isweekend(dt_friday) == false
 	@test isweekend(dt_saturday) == true
@@ -562,6 +582,9 @@ for usecache in [false, true]
 
 	r = bdays(BrazilBanking(), d0vec, d1vec)
 	b = isbday(BrazilBanking(), d0vec)
+
+	# Vector with different sizes
+	@test_throws ErrorException bdays(BrazilBanking(), fill(d0, length(d1vec)+1), d1vec)
 
 	println("Timing vectorized functions (vector length $(length(d0vec)))")
 	@time bdays(BrazilBanking(), d0vec, d1vec)
