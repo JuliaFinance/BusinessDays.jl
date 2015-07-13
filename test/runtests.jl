@@ -5,29 +5,6 @@ using Base.Dates
 using BusinessDays
 using Base.Test
 
-#sizeof(x[1]) = 31221
-#sizeof(x[2]) = 249768
-
-#--track-allocation=<setting>
-#Profile.clear_malloc_data() 
-#@profile (for i = 1:100; myfunc(); end)
-#Profile.print(format=:flat)
-#Profile.clear()
-
-
-#@test hello("Julia") == "Hello, Julia"
-#@test_approx_eq domath(2.0) 7.0
-
-println("##########################################")
-branch = ENV["TRAVIS_BRANCH"]
-pull_request = ENV["TRAVIS_PULL_REQUEST"]
-job = ENV["TRAVIS_JOB_ID"]
-owner_repo = ENV["TRAVIS_REPO_SLUG"]
-build = ENV["TRAVIS_JOB_NUMBER"]
-commit = ENV["TRAVIS_COMMIT"]
-println("branch=$branch, pull_request=$pull_request, job=$job, owner_repo=$owner_repo, build=$build, commit=$commit")
-println("##########################################")
-
 ###########
 # types.jl
 ###########
