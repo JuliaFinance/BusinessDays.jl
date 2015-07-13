@@ -20,10 +20,10 @@ using Base.Test
 
 println("##########################################")
 branch = ENV["TRAVIS_BRANCH"]
-pull_request = ENV['TRAVIS_PULL_REQUEST']
+pull_request = ENV["TRAVIS_PULL_REQUEST"]
 job = ENV["TRAVIS_JOB_ID"]
-owner_repo = ENV['TRAVIS_REPO_SLUG']
-build = ENV['TRAVIS_JOB_NUMBER']
+owner_repo = ENV["TRAVIS_REPO_SLUG"]
+build = ENV["TRAVIS_JOB_NUMBER"]
 commit = ENV["TRAVIS_COMMIT"]
 println("branch=$branch, pull_request=$pull_request, job=$job, owner_repo=$owner_repo, build=$build, commit=$commit")
 println("##########################################")
