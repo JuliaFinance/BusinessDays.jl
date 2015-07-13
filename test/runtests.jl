@@ -19,10 +19,13 @@ using Base.Test
 #@test_approx_eq domath(2.0) 7.0
 
 println("##########################################")
-commit = ENV["TRAVIS_COMMIT"]
 branch = ENV["TRAVIS_BRANCH"]
-travis = ENV["TRAVIS_JOB_ID"]
-println("commit=$commit, branch=$branch, travis=$travis")
+pull_request = ENV['TRAVIS_PULL_REQUEST']
+job = ENV["TRAVIS_JOB_ID"]
+owner_repo = ENV['TRAVIS_REPO_SLUG']
+build = ENV['TRAVIS_JOB_NUMBER']
+commit = ENV["TRAVIS_COMMIT"]
+println("branch=$branch, pull_request=$pull_request, job=$job, owner_repo=$owner_repo, build=$build, commit=$commit")
 println("##########################################")
 
 ###########
