@@ -587,38 +587,40 @@ end
 
 include("perftests.jl")
 
-#= Results using Julia build 0503f2a
+#= Results using Julia build e2b76ad
+BusinessDays.BrazilBanking
+BusinessDays.UKEnglandBanking
+BusinessDays.UnitedStates
 easter minimum month is 3 on date 2100-03-28 
 easter maximum month is 4 on date 2099-04-12
 ########################
 Using cache: false
 ########################
 Timing single bdays calculation
-   4.892 milliseconds (31222 allocations: 2439 KB)
+   4.726 milliseconds (31222 allocations: 2439 KB)
 Timing 100 bdays calculations
- 423.346 milliseconds (3122 k allocations: 238 MB, 2.41% gc time)
+ 420.832 milliseconds (3122 k allocations: 238 MB, 2.88% gc time)
 Timing cache creation
-   6.981 milliseconds (55146 allocations: 4577 KB)
+   7.130 milliseconds (55146 allocations: 4577 KB)
 Timing vectorized functions (vector length 7306)
-   3.478 seconds      (26707 k allocations: 2038 MB, 1.58% gc time)
-   1.698 milliseconds (7306 allocations: 578 KB, 33.33% gc time)
+   3.497 seconds      (26707 k allocations: 2038 MB, 1.80% gc time)
+   1.184 milliseconds (7306 allocations: 578 KB)
 ########################
 Using cache: true
 ########################
 Timing single bdays calculation
-   1.135 microseconds (4 allocations: 64 bytes)
+   1.180 microseconds (4 allocations: 64 bytes)
 Timing 100 bdays calculations
-  50.179 microseconds (400 allocations: 6400 bytes)
+  52.191 microseconds (400 allocations: 6400 bytes)
 Timing cache creation
-   6.091 milliseconds (5 allocations: 269 KB)
+   6.473 milliseconds (5 allocations: 269 KB)
 
  a million... 
- 435.128 milliseconds (4000 k allocations: 62500 KB, 1.22% gc time)
+ 436.246 milliseconds (4000 k allocations: 62500 KB, 1.65% gc time)
 Timing vectorized functions (vector length 7306)
-   3.380 milliseconds (29226 allocations: 514 KB)
- 806.222 microseconds (0 allocations: 7392 bytes)
-Running perftests
-   7.968 milliseconds (1572 allocations: 342 KB)
-   2.744 microseconds (9 allocations: 224 bytes)
- 583.243 milliseconds (5000 k allocations: 78125 KB, 1.18% gc time)
+   3.480 milliseconds (29226 allocations: 514 KB)
+ 906.325 microseconds (0 allocations: 7392 bytes)
+   8.553 milliseconds (1474 allocations: 339 KB)
+   2.448 microseconds (9 allocations: 224 bytes)
+ 459.563 milliseconds (5000 k allocations: 78125 KB, 1.92% gc time)
  =#

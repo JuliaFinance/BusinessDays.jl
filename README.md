@@ -65,7 +65,7 @@ using Base.Dates
 using BusinessDays
 using Base.Test
 
-d0 = Date(1950, 01, 01); d1 = Date(2100, 12, 20)
+d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
 
 cal = BrazilBanking()
 @time BusinessDays.initcache(cal)
@@ -76,9 +76,9 @@ bdays(cal, d0, d1) # force JIT compilation
 
 **Results**
 ```
- 175.452 milliseconds (335 k allocations: 16994 KB)
-   3.706 microseconds (9 allocations: 224 bytes)
- 559.897 milliseconds (5000 k allocations: 78125 KB, 1.14% gc time)
+ 169.562 milliseconds (321 k allocations: 16803 KB, 2.11% gc time)
+   2.755 microseconds (9 allocations: 224 bytes)
+ 444.661 milliseconds (5000 k allocations: 78125 KB, 1.16% gc time)
  ```
 
 ##Usage
