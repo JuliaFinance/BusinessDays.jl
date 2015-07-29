@@ -203,7 +203,10 @@ I would like to point out that, currently, there's nothing special about the **B
 
 You can find more about Julia at http://julialang.org.
 
-There's also an alternative library to Business Days counting in Julia at http://aviks.github.io/Ito.jl/time.html .
+## Alternative Libraries
+
+* Ito.jl: http://aviks.github.io/Ito.jl/time.html
+* FinancialMarkets.jl: https://github.com/imanuelcostigan/FinancialMarkets.jl
 
 ##Roadmap for v0.1.0
 - [x] Include helper functions for vector inputs.
