@@ -2,7 +2,7 @@
 
 @vectorize_1arg Date isweekend
 
-function isbday(hc::HolidayCalendar, dt::Array{Date,1})
+function isbday(hc::HolidayCalendar, dt::Vector{Date})
 	result = Array(Bool, length(dt))
 	
 	for i in eachindex(dt)
@@ -12,7 +12,7 @@ function isbday(hc::HolidayCalendar, dt::Array{Date,1})
 	return result
 end
 
-function isbday(hc::Array{HolidayCalendar,1}, dt::Array{Date,1})
+function isbday(hc::Vector{HolidayCalendar}, dt::Vector{Date})
 	const l_hc = length(hc)
 	const l_dt = length(dt)
 
@@ -29,7 +29,7 @@ function isbday(hc::Array{HolidayCalendar,1}, dt::Array{Date,1})
 	return result
 end
 
-function tobday(hc::HolidayCalendar, dt::Array{Date,1}; forward::Bool = true)
+function tobday(hc::HolidayCalendar, dt::Vector{Date}; forward::Bool = true)
 	result = Array(Date, length(dt))
 
 	for i in eachindex(dt)
@@ -39,7 +39,7 @@ function tobday(hc::HolidayCalendar, dt::Array{Date,1}; forward::Bool = true)
 	return result
 end
 
-function tobday(hc::Array{HolidayCalendar,1}, dt::Array{Date,1}; forward::Bool = true)
+function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Date}; forward::Bool = true)
 	const l_hc = length(hc)
 	const l_dt = length(dt)
 
@@ -54,7 +54,7 @@ function tobday(hc::Array{HolidayCalendar,1}, dt::Array{Date,1}; forward::Bool =
 	end
 end
 
-function bdays(hc::HolidayCalendar, dt0::Array{Date,1}, dt1::Array{Date,1})
+function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
 	const l0 = length(dt0)
 	const l1 = length(dt1)
 
@@ -71,7 +71,7 @@ function bdays(hc::HolidayCalendar, dt0::Array{Date,1}, dt1::Array{Date,1})
 	return result
 end
 
-function bdays(hc::Array{HolidayCalendar,1}, dt0::Array{Date,1}, dt1::Array{Date,1})
+function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date})
 	const l_hc = length(hc)
 	const l0 = length(dt0)
 	const l1 = length(dt1)

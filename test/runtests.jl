@@ -564,7 +564,7 @@ for usecache in [false, true]
 	d0 = Date(2000,01,04)
 	d1 = Date(2020,01,04)
 
-	d1vec = convert(Array{Date,1}, d0:d1)
+	d1vec = convert(Vector{Date}, d0:d1)
 	d0vec = fill(d0, length(d1vec))
 
 	r = bdays(BrazilBanking(), d0vec, d1vec)

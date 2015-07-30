@@ -41,15 +41,15 @@ to_vect <- rep(to, 1000000)
 microbenchmark(businessDaysBetween("Brazil", from_vect, to_vect), times=1)
 ```
 
-Running this code, we get the following:
+Running this code, we get the following: *(only the fastest execution is shown)*
 ```
 Unit: milliseconds
-                                    expr     min       lq     mean   median       uq      max neval
- businessDaysBetween("Brazil", from, to) 1.63803 1.663067 1.869885 1.698184 1.969011 3.594702   100
+                                    expr     min
+ businessDaysBetween("Brazil", from, to) 1.63803
 
 Unit: seconds
-                                              expr      min       lq     mean   median       uq      max neval
- businessDaysBetween("Brazil", from_vect, to_vect) 1837.476 1837.476 1837.476 1837.476 1837.476 1837.476     1
+                                              expr      min
+ businessDaysBetween("Brazil", from_vect, to_vect) 1837.476
 
 ```
 
@@ -163,13 +163,13 @@ Although the code does not depend on packages outside Base, it requires Julia v0
 Julia is an alternative language to Matlab, R, Scilab, Python, and others, but without the *non-vectorizable code penalty*. In fact, the following two pieces of code run with almost the same performance. This is due to the JIT compiler built into the julia runtime.
 
 ```julia
-# sum all elements of 2 vectors, quick code
-function sum2V(x, y)
-	sum(x) + sum(y)
-end
+using Base.Test
 
-# sum all elements of 2 vectors, specialized code
-function sum2V_2(x::Array{Float64, 1}, y::Array{Float64, 1})
+# sum all elements of 2 vectors, quick code
+sum2V(x, y) = sum(x) + sum(y)
+
+# sum all elements of 2 vectors, especialized code
+function sum2V_2(x::Vector{Float64}, y::Vector{Float64})
 
   const lx = length(x)
   const ly = length(y)
@@ -178,7 +178,7 @@ function sum2V_2(x::Array{Float64, 1}, y::Array{Float64, 1})
     error("x y must have equal sizes")
   end
   
-  r::Float64 = 0
+  r = 0.0
   for i = 1:lx
     r += x[i] + y[i]
   end
@@ -192,8 +192,15 @@ y = rand(convert(Int, 1e7))
 r1 = sum2V(x, y)
 r2 = sum2V_2(x, y)
 
-@time sum2V(x, y)
-@time sum2V_2(x, y)
+@test_approx_eq r1 r2
+
+@time r1 = sum2V(x, y)
+@time r2 = sum2V_2(x, y)
+
+# Results
+#julia> include("dummy-test.jl")
+#  12.409 milliseconds (157 allocations: 26956 bytes)
+#  12.915 milliseconds (5 allocations: 176 bytes)
 ```
 
 I would like to point out that, currently, there's nothing special about the **BusinessDays.jl** implementation. One could implement the same code in any computer language, using standard data structures. As a matter of fact, I've done this before in VBA and C, with similar performance results. But, I decided to do it in Julia for the following reasons:

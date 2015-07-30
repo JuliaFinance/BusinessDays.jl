@@ -6,8 +6,8 @@ immutable UKEnglandBanking <: HolidayCalendar end
 
 type HolidayCalendarCache
 	hc::HolidayCalendar
-	isbday_array::Array{Bool,1}
-	bdayscounter_array::Array{UInt32,1}
+	isbday_array::Vector{Bool}
+	bdayscounter_array::Vector{UInt32}
 	dtmin::Date
 	dtmax::Date
 end

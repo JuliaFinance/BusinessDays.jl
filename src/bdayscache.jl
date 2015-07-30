@@ -4,7 +4,7 @@
 
 # Key = HolidayCalendar instance
 # Value = instance of HolidayCalendarCache
-global _CACHE_DICT = Dict{ HolidayCalendar, HolidayCalendarCache }()
+global _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
 
 function _getcachestate(hc::HolidayCalendar)
 	return haskey(_CACHE_DICT, hc)
@@ -34,7 +34,7 @@ function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
 	dt0 = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
 	dt1 = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
 	
-	return Day( convert(Int64, hcc.bdayscounter_array[ _linenumber(hcc, dt1) ]) - convert(Int64, hcc.bdayscounter_array[ _linenumber(hcc, dt0) ])  )
+	return Day(convert(Int64, hcc.bdayscounter_array[_linenumber(hcc, dt1)]) - convert(Int64, hcc.bdayscounter_array[_linenumber(hcc, dt0)]))
 end
 
 # Be sure to use this function on a syncronized code (not parallel).
