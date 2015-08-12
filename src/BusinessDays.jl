@@ -7,11 +7,8 @@ export
 	# Abstract type for Holiday Calendars
 	HolidayCalendar,
 
-	#immutable concrete types <: HolidayCalendar
-	BrazilBanking, UnitedStates, UKEnglandBanking,
-
-	# Lists all concrete types of HolidayCalendars
-	holidaycalendarlist
+	#concrete types <: HolidayCalendar
+	BrazilBanking, UnitedStates, UKEnglandBanking, CompositeHolidayCalendar
 
 # easter.jl
 export
@@ -42,5 +39,6 @@ include("isholiday.jl")
 include("bdayscache.jl")
 include("bdays.jl")
 include("bdaysvecfun.jl")
+include("composite.jl")
 
 end

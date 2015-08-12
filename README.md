@@ -90,10 +90,6 @@ See *runtests.jl* for examples.
 
 *Abstract* type for Holiday Calendars.
 
-**holidaycalendarlist()**
-
-Accessor function for `HolidayCalendar` subtypes.
-
 **easter_rata(y::Year)**
 
 Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number (`Int64`).
@@ -146,11 +142,12 @@ Creates cache for given calendar. Check `methods(initcache)` for alternatives.
 - **BrazilBanking** : banking holidays for Brazil (federal holidays plus Carnival).
 - **UnitedStates** : United States federal holidays.
 - **UKEnglandBanking** : banking holidays for England and Wales.
+- **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 
 ## Adding new Holiday Calendars
 You can add your custom Holiday Calendar by doing the following:
 
-1. Define an immutable subtype of HolidayCalendar. `immutable MyCal <: HolidayCalendar end`
+1. Define a subtype of HolidayCalendar. `type MyCal <: HolidayCalendar end`
 2. Implement a new method for `isholiday` for your calendar. `function isholiday(::MyCal, dt::Date)`
 
 And that's it.
@@ -223,4 +220,4 @@ You can find more about Julia at http://julialang.org.
 - [ ] Package documentation using Julia's framework.
 - [x] Package documentation on Readme file.
 - [x] Add this package to Julia's official package list.
-- [ ] Support for Composite Holiday Calendars.
+- [x] Support for Composite Holiday Calendars.

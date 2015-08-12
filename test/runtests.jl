@@ -11,6 +11,8 @@ using Base.Test
 bhc = BrazilBanking()
 ushc = UnitedStates()
 ukhc = UKEnglandBanking()
+hc_composite_BR_USA = CompositeHolidayCalendar([BrazilBanking(), UnitedStates()])
+all_calendars_vec = [bhc, ushc, ukhc, hc_composite_BR_USA]
 
 # two different instances of the same HolidayCalendar subtype should be equal
 @test bhc == BrazilBanking()
@@ -23,14 +25,6 @@ ukhc = UKEnglandBanking()
 @test typeof(bhc) <: HolidayCalendar
 @test typeof(ushc) <: HolidayCalendar
 @test typeof(ukhc) <: HolidayCalendar
-
-# Same tests for result of holidaycalendarlist()
-lst = holidaycalendarlist()
-
-for hc in lst
-	@test typeof(hc) <: HolidayCalendar
-	println(string(hc))
-end
 
 ################
 ## easter.jl
@@ -281,7 +275,7 @@ for usecache in [false, true]
 	print("########################\n")
 
 	if usecache
-		BusinessDays.initcache()
+		BusinessDays.initcache(all_calendars_vec)
 	end
 
 	################
@@ -544,6 +538,14 @@ for usecache in [false, true]
 	d0 = Date(2015, 06, 29) ; d2 = Date(2100, 12, 20)
 	@test bdays(BrazilBanking(), d0, d2).value == 21471
 
+	# Tests for Composite Calendar
+	@test isholiday(hc_composite_BR_USA, Date(2012,9,3)) # US Labor Day
+	@test isholiday(hc_composite_BR_USA, Date(2012,9,7)) # BR Independence Day
+	@test bdays(hc_composite_BR_USA, Date(2012,8,31), Date(2012,9,10)) == Day(4) # 1/sep labor day US, 7/sep Indep day BR
+
+	println("Timing composite calendar bdays calculation")
+	@time bdays(hc_composite_BR_USA, Date(2012,8,31), Date(2012,9,10))
+
 	println("Timing single bdays calculation")
 	@time bdays(BrazilBanking(), d0, d2)
 	
@@ -587,7 +589,7 @@ end
 
 include("perftests.jl")
 
-#= Results using Julia build e2b76ad
+#=
 BusinessDays.BrazilBanking
 BusinessDays.UKEnglandBanking
 BusinessDays.UnitedStates
@@ -597,30 +599,31 @@ easter maximum month is 4 on date 2099-04-12
 Using cache: false
 ########################
 Timing single bdays calculation
-   4.726 milliseconds (31222 allocations: 2439 KB)
+  0.006673 seconds (62.44 k allocations: 2.858 MB)
 Timing 100 bdays calculations
- 420.832 milliseconds (3122 k allocations: 238 MB, 2.88% gc time)
+  0.628242 seconds (6.24 M allocations: 285.846 MB, 6.55% gc time)
 Timing cache creation
-   7.130 milliseconds (55146 allocations: 4577 KB)
+  0.013776 seconds (164.92 k allocations: 6.145 MB, 6.11% gc time)
 Timing vectorized functions (vector length 7306)
-   3.497 seconds      (26707 k allocations: 2038 MB, 1.80% gc time)
-   1.184 milliseconds (7306 allocations: 578 KB)
+  5.002628 seconds (53.41 M allocations: 2.388 GB, 1.82% gc time)
+  0.001944 seconds (21.41 k allocations: 798.328 KB)
 ########################
 Using cache: true
 ########################
 Timing single bdays calculation
-   1.180 microseconds (4 allocations: 64 bytes)
+  0.000001 seconds (4 allocations: 64 bytes)
 Timing 100 bdays calculations
-  52.191 microseconds (400 allocations: 6400 bytes)
+  0.000056 seconds (400 allocations: 6.250 KB)
 Timing cache creation
-   6.473 milliseconds (5 allocations: 269 KB)
+  0.009807 seconds (54.63 k allocations: 1.097 MB)
 
  a million... 
- 436.246 milliseconds (4000 k allocations: 62500 KB, 1.65% gc time)
+  0.410023 seconds (4.00 M allocations: 61.035 MB, 0.99% gc time)
 Timing vectorized functions (vector length 7306)
-   3.480 milliseconds (29226 allocations: 514 KB)
- 906.325 microseconds (0 allocations: 7392 bytes)
-   8.553 milliseconds (1474 allocations: 339 KB)
-   2.448 microseconds (9 allocations: 224 bytes)
- 459.563 milliseconds (5000 k allocations: 78125 KB, 1.92% gc time)
- =#
+  0.003473 seconds (29.23 k allocations: 513.766 KB)
+  0.001370 seconds (6.80 k allocations: 113.391 KB)
+Perftests
+  0.010197 seconds (54.70 k allocations: 1.100 MB)
+  0.000003 seconds (9 allocations: 240 bytes)
+  0.464481 seconds (5.00 M allocations: 76.294 MB, 0.79% gc time)
+=#

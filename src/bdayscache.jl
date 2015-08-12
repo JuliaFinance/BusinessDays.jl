@@ -48,12 +48,7 @@ function initcache(hc::HolidayCalendar)
 	initcache(hc, Date(1950, 01, 01), Date(2100, 12, 20))
 end
 
-function initcache()
-	l = holidaycalendarlist() # see types.jl
-	for hc in l
-		initcache(hc)
-	end
-end
+@vectorize_1arg HolidayCalendar initcache
 
 # Returns tuple
 # tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
