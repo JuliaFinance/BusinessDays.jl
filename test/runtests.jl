@@ -541,7 +541,7 @@ for usecache in [false, true]
 	# Tests for Composite Calendar
 	@test isholiday(hc_composite_BR_USA, Date(2012,9,3)) # US Labor Day
 	@test isholiday(hc_composite_BR_USA, Date(2012,9,7)) # BR Independence Day
-	@test bdays(hc_composite_BR_USA, Date(2012,8,31), Date(2012,9,10)) == Day(4) # 1/sep labor day US, 7/sep Indep day BR
+	@test bdays(hc_composite_BR_USA, Date(2012,8,31), Date(2012,9,10)) == Day(4) # 3/sep labor day US, 7/sep Indep day BR
 
 	println("Timing composite calendar bdays calculation")
 	@time bdays(hc_composite_BR_USA, Date(2012,8,31), Date(2012,9,10))
@@ -585,6 +585,8 @@ for usecache in [false, true]
 	@test tobday(BrazilBanking(), d2001; forward=true) == [ Date(2001,01,02), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,08), Date(2001,01,08), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,15), Date(2001,01,15), Date(2001,01,15)]
 	@test tobday(BrazilBanking(), d2001; forward=false) == [ Date(2000,12,29), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,05), Date(2001,01,05), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,12), Date(2001,01,12), Date(2001,01,15)]
 
+	@test bdays([BrazilBanking(), UnitedStates()], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+	@test isbday([BrazilBanking(), UnitedStates()], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
 end
 
 include("perftests.jl")
