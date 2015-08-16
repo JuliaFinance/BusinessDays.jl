@@ -592,40 +592,41 @@ end
 include("perftests.jl")
 
 #=
-BusinessDays.BrazilBanking
-BusinessDays.UKEnglandBanking
-BusinessDays.UnitedStates
 easter minimum month is 3 on date 2100-03-28 
 easter maximum month is 4 on date 2099-04-12
 ########################
 Using cache: false
 ########################
+Timing composite calendar bdays calculation
+  0.000012 seconds (30 allocations: 1.219 KB)
 Timing single bdays calculation
-  0.006673 seconds (62.44 k allocations: 2.858 MB)
+  0.005159 seconds (31.22 k allocations: 2.382 MB)
 Timing 100 bdays calculations
-  0.628242 seconds (6.24 M allocations: 285.846 MB, 6.55% gc time)
+  0.403182 seconds (3.12 M allocations: 238.205 MB, 2.97% gc time)
 Timing cache creation
-  0.013776 seconds (164.92 k allocations: 6.145 MB, 6.11% gc time)
+  0.006647 seconds (55.15 k allocations: 4.470 MB)
 Timing vectorized functions (vector length 7306)
-  5.002628 seconds (53.41 M allocations: 2.388 GB, 1.82% gc time)
-  0.001944 seconds (21.41 k allocations: 798.328 KB)
+  3.306994 seconds (26.71 M allocations: 1.990 GB, 1.97% gc time)
+  0.001251 seconds (7.31 k allocations: 578.000 KB)
 ########################
 Using cache: true
 ########################
+Timing composite calendar bdays calculation
+  0.000002 seconds (7 allocations: 112 bytes)
 Timing single bdays calculation
-  0.000001 seconds (4 allocations: 64 bytes)
+  0.000002 seconds (4 allocations: 64 bytes)
 Timing 100 bdays calculations
-  0.000056 seconds (400 allocations: 6.250 KB)
+  0.000061 seconds (400 allocations: 6.250 KB)
 Timing cache creation
-  0.009807 seconds (54.63 k allocations: 1.097 MB)
+  0.005485 seconds (5 allocations: 269.422 KB)
 
  a million... 
-  0.410023 seconds (4.00 M allocations: 61.035 MB, 0.99% gc time)
+  0.411354 seconds (4.00 M allocations: 61.035 MB, 4.79% gc time)
 Timing vectorized functions (vector length 7306)
-  0.003473 seconds (29.23 k allocations: 513.766 KB)
-  0.001370 seconds (6.80 k allocations: 113.391 KB)
+  0.002992 seconds (29.23 k allocations: 513.766 KB)
+  0.000654 seconds (1 allocation: 7.219 KB)
 Perftests
-  0.010197 seconds (54.70 k allocations: 1.100 MB)
-  0.000003 seconds (9 allocations: 240 bytes)
-  0.464481 seconds (5.00 M allocations: 76.294 MB, 0.79% gc time)
+  0.006348 seconds (1.53 k allocations: 341.006 KB)
+  0.000002 seconds (9 allocations: 240 bytes)
+  0.403762 seconds (5.00 M allocations: 76.294 MB, 4.98% gc time)
 =#

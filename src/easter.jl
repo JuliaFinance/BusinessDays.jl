@@ -15,10 +15,10 @@ function easter_rata(y::Year)
      c = div( y.value , 100) + 1
 
      # Shifted Epact
-     e = mod( ( 14 + 11*(mod(y.value,19)) - div(3*c, 4) + div( (5+8*c), 25 )), 30)
+     e = mod(14 + 11*(mod(y.value, 19)) - div(3*c, 4) + div(5+8*c, 25), 30)
 
      # Adjust Epact
-     if (e == 0) || (  (e == 1) && ( 10 < mod(y.value, 19)) )
+     if (e == 0) || ((e == 1) && ( 10 < mod(y.value, 19) ))
      	e += 1
      end
 
