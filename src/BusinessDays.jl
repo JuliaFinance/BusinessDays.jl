@@ -27,7 +27,7 @@ export
 
 # bdayscache.jl : Cache routines for Business Days precalculated days
 export
-	initcache # TODO cleancache , try a better name...
+	initcache
 
 # bdays.jl : main functions for BusinessDays module
 export
@@ -41,4 +41,4 @@ include("bdays.jl")
 include("bdaysvecfun.jl")
 include("composite.jl")
 
-end
+end # module BusinessDays

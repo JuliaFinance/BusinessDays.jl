@@ -53,7 +53,7 @@ Unit: seconds
 
 ```
 
-While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete.
+While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R performance, because *RQuantLib* is a simple wrapper to QuantLib *c++* library.
 
 **BusinessDays.jl** uses a *tailor-made* cache to store Business Days results, reducing the time spent to the order of a few *microseconds* for a single computation. Also, the time spent to process the whole portfolio is reduced to **under a second**.
 
@@ -76,13 +76,67 @@ bdays(cal, d0, d1) # force JIT compilation
 
 **Results**
 ```
- 169.562 milliseconds (321 k allocations: 16803 KB, 2.11% gc time)
-   2.755 microseconds (9 allocations: 224 bytes)
- 444.661 milliseconds (5000 k allocations: 78125 KB, 1.16% gc time)
- ```
+0.169692 seconds (302.96 k allocations: 15.468 MB)
+0.000003 seconds (9 allocations: 240 bytes)
+0.385035 seconds (5.00 M allocations: 76.294 MB, 4.10% gc time)
+```
 
+**There's no magic**
+
+If we disable BusinessDays's cache, however, the performance is worse than QuantLib's implementation. It takes around 1 hour to process the same benchmark test.
+
+```julia
+BusinessDays.cleancache()
+@time for i in 1:1000000 bdays(cal, d0, d1) end
+# 4025.424090 seconds (31.22 G allocations: 2.272 TB, 8.14% gc time)
+```
+
+# Result
+# 
+```
 ##Usage
-See *runtests.jl* for examples.
+```julia
+julia> using BusinessDays
+julia> hc_usa = UnitedStates() # instance for United States federal holidays
+BusinessDays.UnitedStates()
+
+julia> initcache(hc_usa) # creates cache for given calendar, allowing fast computations
+BusinessDays.HolidayCalendarCache(BusinessDays.UnitedStates(),Bool[false,false,true,true,true,true,false,false,true,true  …  false,false,true,true,true,true,true,false,false,true],UInt32[0x00000000,0x00000000,0x00000001,0x00000002,0x00000003,0x00000004,0x00000004,0x00000004,0x00000005,0x00000006  …  0x000093ef,0x000093ef,0x000093f0,0x000093f1,0x000093f2,0x000093f3,0x000093f4,0x000093f4,0x000093f4,0x000093f5],1950-01-01,2100-12-20)
+
+julia> isbday(hc_usa, Date(2015, 01, 01)) # New Year's Day - Thursday
+false
+
+julia> tobday(hc_usa, Date(2015, 01, 01)) # Adjust to next business day
+2015-01-02
+
+julia> tobday(hc_usa, Date(2015, 01, 01); forward = false) # Adjust to last business day
+2014-12-31
+
+julia> advancebdays(hc_usa, Date(2015, 01, 02), 1) # advances 1 business day
+2015-01-05
+
+julia> advancebdays(hc_usa, Date(2015, 01, 02), -1) # goes back 1 business day
+2014-12-31
+
+julia> bdays(hc_usa, Date(2014, 12, 31), Date(2015, 01, 05)) # counts number of business days between dates
+2 days
+
+julia> isbday(hc_usa, [Date(2014,12,31),Date(2015,01,01),Date(2015,01,02),Date(2015,01,03),Date(2015,01,05)])
+5-element Array{Bool,1}:
+  true
+ false
+  true
+ false
+  true
+
+julia> bdays(hc_usa, [Date(2014,12,31),Date(2015,01,02)], [Date(2015,01,05),Date(2015,01,05)])
+2-element Array{Base.Dates.Day,1}:
+ 2 days
+ 1 day 
+
+```
+
+See *runtests.jl* for more examples.
 
 ##Package Documentation
 
@@ -90,46 +144,46 @@ See *runtests.jl* for examples.
 
 *Abstract* type for Holiday Calendars.
 
-**easter_rata(y::Year)**
+**easter_rata(y::Year) → Int64**
 
-Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number (`Int64`).
+Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number.
 
-**easter_date(y::Year)**
+**easter_date(y::Year) → Date**
 
-Returns result of `easter_rata` as a `Base.Date` instance.
+Returns result of `easter_rata` as a `Base.Dates.Date` instance.
 
-**isholiday(hc::HolidayCalendar, dt::Date)**
+**isholiday(hc::HolidayCalendar, dt::Date) → Bool**
 
-Checks if `dt` is a holiday. Returns Bool.
+Checks if `dt` is a holiday.
 
-**findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)**
+**findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date**
 
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
-`weekday_target` values are declared in the `Dates` module.
+`weekday_target` values are declared in the `Dates` base module.
 `const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
 If `occurrence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of the given month, and so on.
 
-**isweekend(x::Date)**
+**isweekend(x::Date) → Bool**
 
 Checks if `x` is a weekend day. Check methods(isweekend) for vectorized alternative.
 
-**isbday(hc::HolidayCalendar, dt::Date)**
+**isbday(hc::HolidayCalendar, dt::Date) → Bool**
 
 Checks for a Business Day. Usually it checks two conditions: whether it's not a holiday, and not a weekend day.
 Check methods(isbday) for vectorized alternative.
 
-**tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)**
+**tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true) → Date**
 
 Ajusts given date to next Business Day if `forward == true`.
 Ajusts to the last Business Day if `forward == false`.
 Check methods(tobday) for vectorized alternative.
 
-**advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)**
+**advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int) → Date**
 
 Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_count` is negative).
 
-**bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)**
+**bdays(hc::HolidayCalendar, dt0::Date, dt1::Date) → Int64**
 
 Counts number of Business Days between `dt0` and `dt1`.
 Check methods(bdays) for vectorized alternative.

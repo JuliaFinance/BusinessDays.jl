@@ -50,6 +50,20 @@ end
 
 @vectorize_1arg HolidayCalendar initcache
 
+# remove all elements from cache
+function cleancache()
+	for k in keys(_CACHE_DICT)
+		delete!(_CACHE_DICT, k)
+	end
+end
+
+# remove single HolidayCalendar from cache
+function cleancache(hc::HolidayCalendar)
+	if haskey(_CACHE_DICT, hc)
+		delete!(_CACHE_DICT, hc)
+	end
+end
+
 # Returns tuple
 # tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
 function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)

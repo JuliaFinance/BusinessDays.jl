@@ -265,6 +265,11 @@ include("easter-min-max.jl")
 @test_throws ErrorException findweekday(Dates.Wednesday, 2015, 07, -1, false)
 @test_throws ErrorException findweekday(Dates.Wednesday, 2015, 07, -1, true)
 
+# Create HolidayCalendar instances
+hc_brazil = BrazilBanking()
+hc_usa = UnitedStates()
+hc_uk = UKEnglandBanking()
+
 ################
 # bdayscache.jl
 ################
@@ -288,10 +293,6 @@ for usecache in [false, true]
 	dt_saturday = Date(2015, 06, 27)
 	dt_sunday = Date(2015, 06, 28)
 	dt_monday = Date(2015, 06, 29)
-
-	hc_brazil = BrazilBanking()
-	hc_usa = UnitedStates()
-	hc_uk = UKEnglandBanking()
 
 	# Bounds tests
 	if !usecache
@@ -590,6 +591,9 @@ for usecache in [false, true]
 end
 
 include("perftests.jl")
+
+BusinessDays.cleancache(hc_brazil)
+BusinessDays.cleancache()
 
 #=
 easter minimum month is 3 on date 2100-03-28 
