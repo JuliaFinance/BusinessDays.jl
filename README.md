@@ -53,7 +53,7 @@ Unit: seconds
 
 ```
 
-While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R performance, because *RQuantLib* is a simple wrapper to QuantLib *c++* library.
+While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R's performance, because *RQuantLib* is a simple wrapper to QuantLib *c++* library.
 
 **BusinessDays.jl** uses a *tailor-made* cache to store Business Days results, reducing the time spent to the order of a few *microseconds* for a single computation. Also, the time spent to process the whole portfolio is reduced to **under a second**.
 
@@ -86,14 +86,13 @@ bdays(cal, d0, d1) # force JIT compilation
 If we disable BusinessDays's cache, however, the performance is worse than QuantLib's implementation. It takes around 1 hour to process the same benchmark test.
 
 ```julia
-BusinessDays.cleancache()
-@time for i in 1:1000000 bdays(cal, d0, d1) end
+julia> BusinessDays.cleancache() # cleans existing cache
+julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
 # 4025.424090 seconds (31.22 G allocations: 2.272 TB, 8.14% gc time)
 ```
 
-# Result
-# 
-```
+It's important to point out that **cache is disabled by default**. So, in order to take advantage of high speed computation provided by this package, one must call `initcache` function.
+
 ##Usage
 ```julia
 julia> using BusinessDays
@@ -118,7 +117,7 @@ julia> advancebdays(hc_usa, Date(2015, 01, 02), 1) # advances 1 business day
 julia> advancebdays(hc_usa, Date(2015, 01, 02), -1) # goes back 1 business day
 2014-12-31
 
-julia> bdays(hc_usa, Date(2014, 12, 31), Date(2015, 01, 05)) # counts number of business days between dates
+julia> bdays(hc_usa, Date(2014, 12, 31), Date(2015, 01, 05)) # counts the number of business days between dates
 2 days
 
 julia> isbday(hc_usa, [Date(2014,12,31),Date(2015,01,01),Date(2015,01,02),Date(2015,01,03),Date(2015,01,05)])
@@ -191,6 +190,10 @@ Check methods(bdays) for vectorized alternative.
 **initcache(hc::HolidayCalendar)**
 
 Creates cache for given calendar. Check `methods(initcache)` for alternatives.
+
+**cleancache()** and **cleancache(hc::HolidayCalendar)**
+
+Removes calendars from cache.
 
 ##Available Business Days Calendars
 - **BrazilBanking** : banking holidays for Brazil (federal holidays plus Carnival).
