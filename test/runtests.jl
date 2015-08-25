@@ -572,9 +572,12 @@ for usecache in [false, true]
 
 	r = bdays(BrazilBanking(), d0vec, d1vec)
 	b = isbday(BrazilBanking(), d0vec)
+	@test tobday([BrazilBanking(), UnitedStates()], [Date(2015,11,11), Date(2015,11,11)]) == [Date(2015,11,11), Date(2015,11,12)]
 
 	# Vector with different sizes
 	@test_throws ErrorException bdays(BrazilBanking(), fill(d0, length(d1vec)+1), d1vec)
+	@test_throws ErrorException bdays([BrazilBanking(), UnitedStates()], [Date(2015,11,11)], [Date(2015,11,11),Date(2015,11,11)])
+	@test_throws ErrorException tobday([BrazilBanking(), UnitedStates()], fill(d0, 3))
 
 	println("Timing vectorized functions (vector length $(length(d0vec)))")
 	@time bdays(BrazilBanking(), d0vec, d1vec)

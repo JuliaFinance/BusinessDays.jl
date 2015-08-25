@@ -52,6 +52,8 @@ function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Date}; forward::Bool = t
 	for i in 1:l_hc
 		result[i] = tobday(hc[i], dt[i]; forward=forward)
 	end
+
+	return result
 end
 
 function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
