@@ -598,6 +598,18 @@ include("perftests.jl")
 BusinessDays.cleancache(hc_brazil)
 BusinessDays.cleancache()
 
+type CustomCalendar <: HolidayCalendar end
+cc = CustomCalendar()
+@test_throws ErrorException isholiday(cc, Date(2015,1,1))
+import BusinessDays.isholiday
+isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
+@test isholiday(cc, Date(2015,8,26)) == false
+@test isholiday(cc, Date(2015,8,27)) == true
+initcache(cc)
+@test isholiday(cc, Date(2015,8,26)) == false
+@test isholiday(cc, Date(2015,8,27)) == true
+BusinessDays.cleancache(cc)
+
 #=
 easter minimum month is 3 on date 2100-03-28 
 easter maximum month is 4 on date 2099-04-12

@@ -7,7 +7,7 @@ Also known as *Working Days* calculator.
 julia> Pkg.update()
 julia> Pkg.add("BusinessDays")
 ```
-*Current version is v0.0.4*
+*Current version is v0.0.5*
 
 ##Motivation
 This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
@@ -207,7 +207,19 @@ You can add your custom Holiday Calendar by doing the following:
 1. Define a subtype of HolidayCalendar. `type MyCal <: HolidayCalendar end`
 2. Implement a new method for `isholiday` for your calendar. `function isholiday(::MyCal, dt::Date)`
 
-And that's it.
+**Example Code**
+
+```julia
+using BusinessDays
+import BusinessDays.isholiday
+
+type CustomCalendar <: HolidayCalendar end
+isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
+
+cc = CustomCalendar()
+println("$(isholiday(cc, Date(2015,8,26)))")
+println("$(isholiday(cc, Date(2015,8,27)))")
+```
 
 ##Requirements
 This package was writen in pure Julia code.
