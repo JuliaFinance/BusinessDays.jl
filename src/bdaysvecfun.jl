@@ -90,3 +90,12 @@ function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date}
 
 	return result
 end
+
+function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count_vec::Vector{Int})
+	l = length(bdays_count_vec)
+	result = Array(Date, l)
+	for i in 1:l
+		result[i] = advancebdays(hc, dt, bdays_count_vec[i])
+	end
+	return result
+end
