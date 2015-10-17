@@ -8,6 +8,7 @@ julia> Pkg.update()
 julia> Pkg.add("BusinessDays")
 ```
 *Current version is v0.0.5*
+
 *Requires Julia v0.4*
 
 ##Motivation
