@@ -8,6 +8,7 @@ julia> Pkg.update()
 julia> Pkg.add("BusinessDays")
 ```
 *Current version is v0.0.5*
+*Requires Julia v0.4*
 
 ##Motivation
 This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
@@ -220,10 +221,6 @@ cc = CustomCalendar()
 println("$(isholiday(cc, Date(2015,8,26)))")
 println("$(isholiday(cc, Date(2015,8,27)))")
 ```
-
-##Requirements
-This package was writen in pure Julia code.
-Although the code does not depend on packages outside Base, it requires Julia v0.4 *cutting-edge* version, due to the Dates module.
 
 ##But, why Julia?
 Julia is an alternative language to Matlab, R, Scilab, Python, and others, but without the *non-vectorizable code penalty*. In fact, the following two pieces of code run with almost the same performance. This is due to the JIT compiler built into the julia runtime.
