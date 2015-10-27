@@ -593,6 +593,7 @@ for usecache in [false, true]
 	@test isbday([BrazilBanking(), UnitedStates()], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
 
 	@test advancebdays(BrazilBanking(), Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
+	@test advancebdays(BrazilBanking(), Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
 end
 
 include("perftests.jl")
