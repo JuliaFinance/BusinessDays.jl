@@ -37,7 +37,7 @@ function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
 	return Day(convert(Int64, hcc.bdayscounter_array[_linenumber(hcc, dt1)]) - convert(Int64, hcc.bdayscounter_array[_linenumber(hcc, dt0)]))
 end
 
-# Be sure to use this function on a syncronized code (not parallel).
+# Be sure to use this function on a syncronized code (not multithreaded).
 function initcache(hc::HolidayCalendar, d0::Date, d1::Date)
 	isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
 	_CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
