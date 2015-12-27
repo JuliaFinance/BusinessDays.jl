@@ -227,13 +227,3 @@ println("$(isholiday(cc, Date(2015,8,27)))")
 
 * Ito.jl: http://aviks.github.io/Ito.jl/time.html
 * FinancialMarkets.jl: https://github.com/imanuelcostigan/FinancialMarkets.jl
-
-##Roadmap for v0.1.0
-- [x] Include helper functions for vector inputs.
-- [x] Use Julia's package development tools (Pkg).
-- [x] Holiday Calendar for United States.
-- [x] Holiday Calendar for UK.
-- [x] Package documentation using Julia's framework.
-- [x] Package documentation on Readme file.
-- [x] Add this package to Julia's official package list.
-- [x] Support for Composite Holiday Calendars.
