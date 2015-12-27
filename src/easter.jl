@@ -1,4 +1,8 @@
-# returns Rata Die number as Int64, Algo R http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html
+doc"""
+Returns Easter date as a *Rata Die* `Int64`. See *https://en.wikipedia.org/wiki/Rata_Die*.
+
+Based on Algo R, at *http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html*.
+"""
 function easter_rata(y::Year)
 
 	local c::Int64
@@ -29,7 +33,9 @@ function easter_rata(y::Year)
      return p + 7 - mod(p, 7)
 end
 
-# Returns Date
+doc"""
+Returns result of `easter_rata` as a `Base.Dates.Date` instance.
+"""
 function easter_date(y::Year)
 	# Compute the gregorian date for Rata Die number
      return Date(Dates.rata2datetime( easter_rata(y) ))

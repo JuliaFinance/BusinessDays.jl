@@ -1,5 +1,8 @@
 
 # Fallback implementation for isholiday()
+doc"""
+Checks if `dt` is a holiday.
+"""
 function isholiday(hc::HolidayCalendar, dt::Date)
 	error("isholiday for $(hc) not yet implemented.")
 end

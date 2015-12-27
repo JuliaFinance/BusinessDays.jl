@@ -1,3 +1,6 @@
+doc"""
+*Abstract* type for Holiday Calendars.
+"""
 abstract HolidayCalendar
 
 type BrazilBanking <: HolidayCalendar end

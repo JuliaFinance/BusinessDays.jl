@@ -1,9 +1,15 @@
-# Checks for Saturdays or Sundays
+doc"""
+Returns `true` for Saturdays or Sundays.
+Returns `false` otherwise.
+"""
 function isweekend(x::Date)
 	return dayofweek(x) in [6, 7]
 end
 
-# Checks for holidays and weekends
+doc"""
+Returns `true` for weekends or holidays.
+Returns `false` otherwise.
+"""
 function isbday(hc::HolidayCalendar, dt::Date)
 	if _getcachestate(hc)
 		hcc :: HolidayCalendarCache = _getholidaycalendarcache(hc)
@@ -13,8 +19,10 @@ function isbday(hc::HolidayCalendar, dt::Date)
 	end
 end
 
-# Ajusts date to next BusinessDay if dt !isbday.
-# If isbday(dt), return dt.
+doc"""
+Adjusts `dt` to next Business Day if it's not a Business Day.
+If `isbday(dt)`, returns `dt`.
+"""
 function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
 	if isbday(hc, dt)
 		return dt
@@ -31,8 +39,13 @@ function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
 	return next
 end
 
+doc"""
+Increments given date `dt` by `bdays_count`.
+Decrements it if `bdays_count` is negative.
+
+Computation starts by next Business Day if `dt` is not a Business Day.
+"""
 function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)
-	# Computation starts by next Business Day if dt is not a BusinessDay, inspired by Banking Account convention.
 	local result::Date = tobday(hc, dt)
 
 	# does nothing
@@ -59,14 +72,17 @@ function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)
 	return result
 end
 
-# Counts the number of BusinessDays between dt0 and dt1
-# Returns instance of Dates.Day
+doc"""
+Counts the number of Business Days between `dt0` and `dt1`.
+Returns instance of `Dates.Day`.
+
+Computation is always based on next Business Day if given dates are not Business Days.
+"""
 function bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 	if _getcachestate(hc)
 		hcc::HolidayCalendarCache = _getholidaycalendarcache(hc)
 		return bdays(hcc, dt0, dt1)
 	else
-		# Computation is always based on next Business Days if given dates are not Business Days, inspired by Banking Account convention.
 		dt0 = tobday(hc, dt0)
 		dt1 = tobday(hc, dt1)
 		inc::Int = dt0 <= dt1 ? +1 : -1

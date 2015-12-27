@@ -55,7 +55,7 @@ Unit: seconds
 
 ```
 
-While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R's performance, because *RQuantLib* is a simple wrapper to QuantLib *c++* library.
+While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R's performance, because *RQuantLib* is a simple wrapper to QuantLib *C++* library.
 
 **BusinessDays.jl** uses a *tailor-made* cache to store Business Days results, reducing the time spent to the order of a few *microseconds* for a single computation. Also, the time spent to process the whole portfolio is reduced to **under a second**.
 
@@ -206,8 +206,8 @@ Removes calendars from cache.
 ## Adding new Holiday Calendars
 You can add your custom Holiday Calendar by doing the following:
 
-1. Define a subtype of HolidayCalendar. `type MyCal <: HolidayCalendar end`
-2. Implement a new method for `isholiday` for your calendar. `function isholiday(::MyCal, dt::Date)`
+1. Define a subtype of `HolidayCalendar`.
+2. Implement a new method for `isholiday` for your calendar.
 
 **Example Code**
 
@@ -284,7 +284,7 @@ You can find more about Julia at http://julialang.org.
 - [x] Use Julia's package development tools (Pkg).
 - [x] Holiday Calendar for United States.
 - [x] Holiday Calendar for UK.
-- [ ] Package documentation using Julia's framework.
+- [x] Package documentation using Julia's framework.
 - [x] Package documentation on Readme file.
 - [x] Add this package to Julia's official package list.
 - [x] Support for Composite Holiday Calendars.

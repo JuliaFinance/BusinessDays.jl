@@ -555,11 +555,13 @@ for usecache in [false, true]
 	
 	dInicio = Date(1950, 01, 01) ; dFim = Date(2100, 12, 20)
 
-	println("Timing cache creation")
-	@time x = BusinessDays._createbdayscache(BrazilBanking(), dInicio, dFim)
+	if !usecache
+		println("Timing cache creation")
+		@time x = BusinessDays._createbdayscache(BrazilBanking(), dInicio, dFim)
+	end
 	
 	if usecache
-		print("\n a million... \n")
+		println("a million...")
 		@time for i in 1:1000000 bdays(BrazilBanking(), d0, d2) end
 	end
 
@@ -614,22 +616,23 @@ initcache(cc)
 BusinessDays.cleancache(cc)
 
 #=
+INFO: Testing BusinessDays
 easter minimum month is 3 on date 2100-03-28 
 easter maximum month is 4 on date 2099-04-12
 ########################
 Using cache: false
 ########################
 Timing composite calendar bdays calculation
-  0.000012 seconds (30 allocations: 1.219 KB)
+  0.000010 seconds (30 allocations: 1.219 KB)
 Timing single bdays calculation
-  0.005159 seconds (31.22 k allocations: 2.382 MB)
+  0.003867 seconds (31.22 k allocations: 2.382 MB)
 Timing 100 bdays calculations
-  0.403182 seconds (3.12 M allocations: 238.205 MB, 2.97% gc time)
+  0.402546 seconds (3.12 M allocations: 238.205 MB, 3.16% gc time)
 Timing cache creation
-  0.006647 seconds (55.15 k allocations: 4.470 MB)
+  0.006496 seconds (55.15 k allocations: 4.470 MB)
 Timing vectorized functions (vector length 7306)
-  3.306994 seconds (26.71 M allocations: 1.990 GB, 1.97% gc time)
-  0.001251 seconds (7.31 k allocations: 578.000 KB)
+  3.244968 seconds (26.71 M allocations: 1.990 GB, 2.05% gc time)
+  0.001049 seconds (7.31 k allocations: 578.000 KB)
 ########################
 Using cache: true
 ########################
@@ -638,17 +641,15 @@ Timing composite calendar bdays calculation
 Timing single bdays calculation
   0.000002 seconds (4 allocations: 64 bytes)
 Timing 100 bdays calculations
-  0.000061 seconds (400 allocations: 6.250 KB)
-Timing cache creation
-  0.005485 seconds (5 allocations: 269.422 KB)
-
- a million... 
-  0.411354 seconds (4.00 M allocations: 61.035 MB, 4.79% gc time)
+  0.000047 seconds (400 allocations: 6.250 KB)
+a million...
+  0.362528 seconds (4.00 M allocations: 61.035 MB, 2.07% gc time)
 Timing vectorized functions (vector length 7306)
-  0.002992 seconds (29.23 k allocations: 513.766 KB)
-  0.000654 seconds (1 allocation: 7.219 KB)
+  0.002840 seconds (29.23 k allocations: 513.766 KB)
+  0.000617 seconds (1 allocation: 7.219 KB)
 Perftests
-  0.006348 seconds (1.53 k allocations: 341.006 KB)
-  0.000002 seconds (9 allocations: 240 bytes)
-  0.403762 seconds (5.00 M allocations: 76.294 MB, 4.98% gc time)
+  0.006216 seconds (1.48 k allocations: 285.462 KB)
+  0.000003 seconds (9 allocations: 240 bytes)
+  0.387744 seconds (5.00 M allocations: 76.294 MB, 2.02% gc time)
+INFO: BusinessDays tests passed
 =#

@@ -2,8 +2,12 @@
 # Cache routines for Business Days precalculated days
 #
 
-# Key = HolidayCalendar instance
-# Value = instance of HolidayCalendarCache
+doc"""
+Holds caches for Holiday Calendars.
+
+* Key = `HolidayCalendar` instance
+* Value = instance of `HolidayCalendarCache`
+"""
 global _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
 
 function _getcachestate(hc::HolidayCalendar)
@@ -38,14 +42,18 @@ function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
 end
 
 # Be sure to use this function on a syncronized code (not multithreaded).
+doc"""
+Creates cache for a given Holiday Calendar. After calling this function, any call to `isbday`
+function, or any function that uses `isbday`, will be optimized to use this cache.
+"""
 function initcache(hc::HolidayCalendar, d0::Date, d1::Date)
 	isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
 	_CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
 end
 
-# Defaults to d0 = 1st Jan 1950 , d1 = 20th dec 2100
+# Defaults to d0 = 1st Jan 1980 , d1 = 20th dec 2100
 function initcache(hc::HolidayCalendar)
-	initcache(hc, Date(1950, 01, 01), Date(2100, 12, 20))
+	initcache(hc, Date(1980, 01, 01), Date(2100, 12, 20))
 end
 
 @vectorize_1arg HolidayCalendar initcache
@@ -57,7 +65,9 @@ function cleancache()
 	end
 end
 
-# remove single HolidayCalendar from cache
+doc"""
+Cleans cache for a given Holiday Calendar.
+"""
 function cleancache(hc::HolidayCalendar)
 	if haskey(_CACHE_DICT, hc)
 		delete!(_CACHE_DICT, hc)
