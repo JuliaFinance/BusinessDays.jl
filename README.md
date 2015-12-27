@@ -223,57 +223,6 @@ println("$(isholiday(cc, Date(2015,8,26)))")
 println("$(isholiday(cc, Date(2015,8,27)))")
 ```
 
-##But, why Julia?
-Julia is an alternative language to Matlab, R, Scilab, Python, and others, but without the *non-vectorizable code penalty*. In fact, the following two pieces of code run with almost the same performance. This is due to the JIT compiler built into the julia runtime.
-
-```julia
-using Base.Test
-
-# sum all elements of 2 vectors, quick code
-sum2V(x, y) = sum(x) + sum(y)
-
-# sum all elements of 2 vectors, especialized code
-function sum2V_2(x::Vector{Float64}, y::Vector{Float64})
-
-  const lx = length(x)
-  const ly = length(y)
-  
-  if lx != ly
-    error("x y must have equal sizes")
-  end
-  
-  r = 0.0
-  for i = 1:lx
-    r += x[i] + y[i]
-  end
-  
-  return r
-end
-
-x = rand(convert(Int, 1e7))
-y = rand(convert(Int, 1e7))
-
-r1 = sum2V(x, y)
-r2 = sum2V_2(x, y)
-
-@test_approx_eq r1 r2
-
-@time r1 = sum2V(x, y)
-@time r2 = sum2V_2(x, y)
-
-# Results
-#julia> include("dummy-test.jl")
-#  12.409 milliseconds (157 allocations: 26956 bytes)
-#  12.915 milliseconds (5 allocations: 176 bytes)
-```
-
-I would like to point out that, currently, there's nothing special about the **BusinessDays.jl** implementation. One could implement the same code in any computer language, using standard data structures. As a matter of fact, I've done this before in VBA and C, with similar performance results. But, I decided to do it in Julia for the following reasons:
-* The Julia Language is all about optimization.
-* The Julia Language is a lot of fun to code in.
-* I would like to encourage others to get to know about Julia.
-
-You can find more about Julia at http://julialang.org.
-
 ## Alternative Libraries
 
 * Ito.jl: http://aviks.github.io/Ito.jl/time.html
