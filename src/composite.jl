@@ -1,22 +1,5 @@
 doc"""
-You can add your custom Holiday Calendar by doing the following:
-
-1. Define a subtype of `HolidayCalendar`.
-2. Implement a new method for `isholiday` for your calendar.
-
-**Example Code**
-
-```
-using BusinessDays
-import BusinessDays.isholiday
-
-type CustomCalendar <: HolidayCalendar end
-isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
-
-cc = CustomCalendar()
-println("$(isholiday(cc, Date(2015,8,26)))")
-println("$(isholiday(cc, Date(2015,8,27)))")
-```
+Allows for combination of several Holiday Calendars.
 """
 type CompositeHolidayCalendar <: HolidayCalendar
 	calendars::Vector{HolidayCalendar}
