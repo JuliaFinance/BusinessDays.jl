@@ -4,11 +4,11 @@ using Base.Dates
 
 # types.jl
 export
-	# Abstract type for Holiday Calendars
+	# Module for HolidayCalendars.
+	# Provided calendars: HolidayCalendars.BrazilBanking, HolidayCalendars.UnitedStates, HolidayCalendars.UKEnglandBanking
+	HolidayCalendars,
 	HolidayCalendar,
-
-	#concrete types <: HolidayCalendar
-	BrazilBanking, UnitedStates, UKEnglandBanking, CompositeHolidayCalendar
+	CompositeHolidayCalendar
 
 # easter.jl
 export

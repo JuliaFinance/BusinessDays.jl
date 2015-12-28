@@ -69,7 +69,7 @@ using Base.Test
 
 d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
 
-cal = BrazilBanking()
+cal = HolidayCalendars.BrazilBanking()
 @time BusinessDays.initcache(cal)
 bdays(cal, d0, d1) # force JIT compilation
 @time bdays(cal, d0, d1)
@@ -78,9 +78,9 @@ bdays(cal, d0, d1) # force JIT compilation
 
 **Results**
 ```
-0.169692 seconds (302.96 k allocations: 15.468 MB)
-0.000003 seconds (9 allocations: 240 bytes)
-0.385035 seconds (5.00 M allocations: 76.294 MB, 4.10% gc time)
+0.177943 seconds (245.69 k allocations: 12.450 MB)
+0.000007 seconds (9 allocations: 240 bytes)
+0.427177 seconds (5.00 M allocations: 76.294 MB, 2.23% gc time)
 ```
 
 **There's no magic**
@@ -98,11 +98,11 @@ It's important to point out that **cache is disabled by default**. So, in order 
 ##Usage
 ```julia
 julia> using BusinessDays
-julia> hc_usa = UnitedStates() # instance for United States federal holidays
-BusinessDays.UnitedStates()
+julia> hc_usa = HolidayCalendars.UnitedStates() # instance for United States federal holidays
+BusinessDays.HolidayCalendars.UnitedStates()
 
 julia> initcache(hc_usa) # creates cache for given calendar, allowing fast computations
-BusinessDays.HolidayCalendarCache(BusinessDays.UnitedStates(),Bool[false,false,true,true,true,true,false,false,true,true  …  false,false,true,true,true,true,true,false,false,true],UInt32[0x00000000,0x00000000,0x00000001,0x00000002,0x00000003,0x00000004,0x00000004,0x00000004,0x00000005,0x00000006  …  0x000093ef,0x000093ef,0x000093f0,0x000093f1,0x000093f2,0x000093f3,0x000093f4,0x000093f4,0x000093f4,0x000093f5],1950-01-01,2100-12-20)
+BusinessDays.HolidayCalendarCache(BusinessDays.HolidayCalendars.UnitedStates(),Bool[false,true,true,true,false,false,true,true,true,true  …  false,false,true,true,true,true,true,false,false,true],UInt32[0x00000000,0x00000001,0x00000002,0x00000003,0x00000003,0x00000003,0x00000004,0x00000005,0x00000006,0x00000007  …  0x00007689,0x00007689,0x0000768a,0x0000768b,0x0000768c,0x0000768d,0x0000768e,0x0000768e,0x0000768e,0x0000768f],1980-01-01,2100-12-20)
 
 julia> isbday(hc_usa, Date(2015, 01, 01)) # New Year's Day - Thursday
 false
@@ -201,9 +201,9 @@ Creates cache for given calendar. Check `methods(initcache)` for alternatives.
 Removes calendars from cache.
 
 ##Available Business Days Calendars
-- **BrazilBanking** : banking holidays for Brazil (federal holidays plus Carnival).
-- **UnitedStates** : United States federal holidays.
-- **UKEnglandBanking** : banking holidays for England and Wales.
+- **HolidayCalendars.BrazilBanking** : banking holidays for Brazil (federal holidays plus Carnival).
+- **HolidayCalendars.UnitedStates** : United States federal holidays.
+- **HolidayCalendars.UKEnglandBanking** : banking holidays for England and Wales.
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 
 ## Adding new Holiday Calendars

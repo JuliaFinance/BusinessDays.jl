@@ -8,18 +8,18 @@ using Base.Test
 ###########
 # types.jl
 ###########
-bhc = BrazilBanking()
-ushc = UnitedStates()
-ukhc = UKEnglandBanking()
-hc_composite_BR_USA = CompositeHolidayCalendar([BrazilBanking(), UnitedStates()])
+bhc = HolidayCalendars.BrazilBanking()
+ushc = HolidayCalendars.UnitedStates()
+ukhc = HolidayCalendars.UKEnglandBanking()
+hc_composite_BR_USA = CompositeHolidayCalendar([HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates()])
 all_calendars_vec = [bhc, ushc, ukhc, hc_composite_BR_USA]
 
 # two different instances of the same HolidayCalendar subtype should be equal
-@test bhc == BrazilBanking()
-@test ushc == UnitedStates()
+@test bhc == HolidayCalendars.BrazilBanking()
+@test ushc == HolidayCalendars.UnitedStates()
 @test bhc != ushc
-@test bhc != Type(BrazilBanking) # content of list is an instance, not a singleton
-@test string(bhc) == "BusinessDays.BrazilBanking"
+@test bhc != Type(HolidayCalendars.BrazilBanking) # content of list is an instance, not a singleton
+@test string(bhc) == "BusinessDays.HolidayCalendars.BrazilBanking"
 
 # Check typing system
 @test typeof(bhc) <: HolidayCalendar
@@ -266,9 +266,9 @@ include("easter-min-max.jl")
 @test_throws ErrorException findweekday(Dates.Wednesday, 2015, 07, -1, true)
 
 # Create HolidayCalendar instances
-hc_brazil = BrazilBanking()
-hc_usa = UnitedStates()
-hc_uk = UKEnglandBanking()
+hc_brazil = HolidayCalendars.BrazilBanking()
+hc_usa = HolidayCalendars.UnitedStates()
+hc_uk = HolidayCalendars.UKEnglandBanking()
 
 ################
 # bdayscache.jl
@@ -537,7 +537,7 @@ for usecache in [false, true]
 	@test d1 == Date(2013, 02, 14)
 
 	d0 = Date(2015, 06, 29) ; d2 = Date(2100, 12, 20)
-	@test bdays(BrazilBanking(), d0, d2).value == 21471
+	@test bdays(HolidayCalendars.BrazilBanking(), d0, d2).value == 21471
 
 	# Tests for Composite Calendar
 	@test isholiday(hc_composite_BR_USA, Date(2012,9,3)) # US Labor Day
@@ -548,21 +548,21 @@ for usecache in [false, true]
 	@time bdays(hc_composite_BR_USA, Date(2012,8,31), Date(2012,9,10))
 
 	println("Timing single bdays calculation")
-	@time bdays(BrazilBanking(), d0, d2)
+	@time bdays(HolidayCalendars.BrazilBanking(), d0, d2)
 	
 	println("Timing 100 bdays calculations")
-	@time for i in 1:100 bdays(BrazilBanking(), d0, d2) end
+	@time for i in 1:100 bdays(HolidayCalendars.BrazilBanking(), d0, d2) end
 	
 	dInicio = Date(1950, 01, 01) ; dFim = Date(2100, 12, 20)
 
 	if !usecache
 		println("Timing cache creation")
-		@time x = BusinessDays._createbdayscache(BrazilBanking(), dInicio, dFim)
+		@time x = BusinessDays._createbdayscache(HolidayCalendars.BrazilBanking(), dInicio, dFim)
 	end
 	
 	if usecache
 		println("a million...")
-		@time for i in 1:1000000 bdays(BrazilBanking(), d0, d2) end
+		@time for i in 1:1000000 bdays(HolidayCalendars.BrazilBanking(), d0, d2) end
 	end
 
 	# Vector functions
@@ -572,30 +572,30 @@ for usecache in [false, true]
 	d1vec = convert(Vector{Date}, d0:d1)
 	d0vec = fill(d0, length(d1vec))
 
-	r = bdays(BrazilBanking(), d0vec, d1vec)
-	b = isbday(BrazilBanking(), d0vec)
-	@test tobday([BrazilBanking(), UnitedStates()], [Date(2015,11,11), Date(2015,11,11)]) == [Date(2015,11,11), Date(2015,11,12)]
+	r = bdays(HolidayCalendars.BrazilBanking(), d0vec, d1vec)
+	b = isbday(HolidayCalendars.BrazilBanking(), d0vec)
+	@test tobday([HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates()], [Date(2015,11,11), Date(2015,11,11)]) == [Date(2015,11,11), Date(2015,11,12)]
 
 	# Vector with different sizes
-	@test_throws ErrorException bdays(BrazilBanking(), fill(d0, length(d1vec)+1), d1vec)
-	@test_throws ErrorException bdays([BrazilBanking(), UnitedStates()], [Date(2015,11,11)], [Date(2015,11,11),Date(2015,11,11)])
-	@test_throws ErrorException tobday([BrazilBanking(), UnitedStates()], fill(d0, 3))
+	@test_throws ErrorException bdays(HolidayCalendars.BrazilBanking(), fill(d0, length(d1vec)+1), d1vec)
+	@test_throws ErrorException bdays([HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates()], [Date(2015,11,11)], [Date(2015,11,11),Date(2015,11,11)])
+	@test_throws ErrorException tobday([HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates()], fill(d0, 3))
 
 	println("Timing vectorized functions (vector length $(length(d0vec)))")
-	@time bdays(BrazilBanking(), d0vec, d1vec)
-	@time isbday(BrazilBanking(), d0vec)
+	@time bdays(HolidayCalendars.BrazilBanking(), d0vec, d1vec)
+	@time isbday(HolidayCalendars.BrazilBanking(), d0vec)
 
 	d2001 = convert(Array{Date,1}, Date(2001,01,01):Date(2001,01,15))
 
 	@test isweekend(d2001) == [ false, false, false, false, false, true, true, false, false, false, false, false, true, true, false]
-	@test tobday(BrazilBanking(), d2001; forward=true) == [ Date(2001,01,02), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,08), Date(2001,01,08), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,15), Date(2001,01,15), Date(2001,01,15)]
-	@test tobday(BrazilBanking(), d2001; forward=false) == [ Date(2000,12,29), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,05), Date(2001,01,05), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,12), Date(2001,01,12), Date(2001,01,15)]
+	@test tobday(HolidayCalendars.BrazilBanking(), d2001; forward=true) == [ Date(2001,01,02), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,08), Date(2001,01,08), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,15), Date(2001,01,15), Date(2001,01,15)]
+	@test tobday(HolidayCalendars.BrazilBanking(), d2001; forward=false) == [ Date(2000,12,29), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,05), Date(2001,01,05), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,12), Date(2001,01,12), Date(2001,01,15)]
 
-	@test bdays([BrazilBanking(), UnitedStates()], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
-	@test isbday([BrazilBanking(), UnitedStates()], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
+	@test bdays([HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates()], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+	@test isbday([HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates()], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
 
-	@test advancebdays(BrazilBanking(), Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
-	@test advancebdays(BrazilBanking(), Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
+	@test advancebdays(HolidayCalendars.BrazilBanking(), Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
+	@test advancebdays(HolidayCalendars.BrazilBanking(), Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
 end
 
 include("perftests.jl")
@@ -623,16 +623,16 @@ easter maximum month is 4 on date 2099-04-12
 Using cache: false
 ########################
 Timing composite calendar bdays calculation
-  0.000010 seconds (30 allocations: 1.219 KB)
+  0.000014 seconds (30 allocations: 1.219 KB)
 Timing single bdays calculation
-  0.003867 seconds (31.22 k allocations: 2.382 MB)
+  0.005989 seconds (31.22 k allocations: 2.382 MB)
 Timing 100 bdays calculations
-  0.402546 seconds (3.12 M allocations: 238.205 MB, 3.16% gc time)
+  0.424231 seconds (3.12 M allocations: 238.205 MB, 2.56% gc time)
 Timing cache creation
-  0.006496 seconds (55.15 k allocations: 4.470 MB)
+  0.007082 seconds (55.15 k allocations: 4.470 MB)
 Timing vectorized functions (vector length 7306)
-  3.244968 seconds (26.71 M allocations: 1.990 GB, 2.05% gc time)
-  0.001049 seconds (7.31 k allocations: 578.000 KB)
+  3.489890 seconds (26.71 M allocations: 1.990 GB, 1.98% gc time)
+  0.001533 seconds (7.31 k allocations: 578.000 KB)
 ########################
 Using cache: true
 ########################
@@ -641,15 +641,15 @@ Timing composite calendar bdays calculation
 Timing single bdays calculation
   0.000002 seconds (4 allocations: 64 bytes)
 Timing 100 bdays calculations
-  0.000047 seconds (400 allocations: 6.250 KB)
+  0.000042 seconds (400 allocations: 6.250 KB)
 a million...
-  0.362528 seconds (4.00 M allocations: 61.035 MB, 2.07% gc time)
+  0.381700 seconds (4.00 M allocations: 61.035 MB, 2.15% gc time)
 Timing vectorized functions (vector length 7306)
-  0.002840 seconds (29.23 k allocations: 513.766 KB)
-  0.000617 seconds (1 allocation: 7.219 KB)
+  0.003048 seconds (29.23 k allocations: 513.766 KB)
+  0.000726 seconds (1 allocation: 7.219 KB)
 Perftests
-  0.006216 seconds (1.48 k allocations: 285.462 KB)
-  0.000003 seconds (9 allocations: 240 bytes)
-  0.387744 seconds (5.00 M allocations: 76.294 MB, 2.02% gc time)
+  0.007222 seconds (1.48 k allocations: 285.462 KB)
+  0.000002 seconds (9 allocations: 240 bytes)
+  0.425237 seconds (5.00 M allocations: 76.294 MB, 1.95% gc time)
 INFO: BusinessDays tests passed
 =#

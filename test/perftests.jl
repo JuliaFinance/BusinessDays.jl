@@ -6,7 +6,7 @@ println("Perftests")
 
 d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
 
-cal = BrazilBanking()
+cal = HolidayCalendars.BrazilBanking()
 @time BusinessDays.initcache(cal)
 bdays(cal, d0, d1) # force JIT compilation
 @time bdays(cal, d0, d1)
