@@ -1,7 +1,8 @@
 
 # Fallback implementation for isholiday()
 doc"""
-Checks if `dt` is a holiday.
+Returns `true` if `dt` is a holiday.
+Returns `false` otherwise.
 """
 function isholiday(hc::HolidayCalendar, dt::Date)
 	error("isholiday for $(hc) not yet implemented.")
@@ -81,7 +82,16 @@ end
 # const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7
 # See query.jl on Dates module
 # See also dayofweek(dt) function.
-# This should go to Base.Dates
+doc"""
+Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
+
+`weekday_target` values are declared in module `Base.Dates`: 
+`Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
+
+If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
+
+If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
+"""
 function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)
 	
 	local dt::Date = Date(yy, mm, 1)

@@ -160,10 +160,13 @@ Checks if `dt` is a holiday.
 **findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date**
 
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
-`weekday_target` values are declared in the `Dates` base module.
-`const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
+
+`weekday_target` values are declared in module `Base.Dates`: 
+`Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
+
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
-If `occurrence` is 2 and `weekday_target` is Monday, searches the 2nd Monday of the given month, and so on.
+
+If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 
 **isweekend(x::Date) → Bool**
 
