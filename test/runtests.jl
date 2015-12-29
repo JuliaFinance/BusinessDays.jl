@@ -265,6 +265,11 @@ include("easter-min-max.jl")
 @test_throws ErrorException findweekday(Dates.Wednesday, 2015, 07, -1, false)
 @test_throws ErrorException findweekday(Dates.Wednesday, 2015, 07, -1, true)
 
+len = typemax(UInt32) + 1
+d0 = Date(1950, 2, 1)
+d1 = d0 + Day(len)
+@test_throws ErrorException BusinessDays._createbdayscache(HolidayCalendars.BrazilBanking(), d0, d1)
+
 # Create HolidayCalendar instances
 hc_brazil = HolidayCalendars.BrazilBanking()
 hc_usa = HolidayCalendars.UnitedStates()
@@ -580,6 +585,7 @@ for usecache in [false, true]
 	@test_throws ErrorException bdays(HolidayCalendars.BrazilBanking(), fill(d0, length(d1vec)+1), d1vec)
 	@test_throws ErrorException bdays([HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates()], [Date(2015,11,11)], [Date(2015,11,11),Date(2015,11,11)])
 	@test_throws ErrorException tobday([HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates()], fill(d0, 3))
+	@test_throws ErrorException isbday( [HolidayCalendars.BrazilBanking(), HolidayCalendars.UnitedStates(), HolidayCalendars.UKEnglandBanking()], [Date(2015,01,01), Date(2015,01,01)])
 
 	println("Timing vectorized functions (vector length $(length(d0vec)))")
 	@time bdays(HolidayCalendars.BrazilBanking(), d0vec, d1vec)

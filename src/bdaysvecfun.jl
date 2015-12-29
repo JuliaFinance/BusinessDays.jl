@@ -17,7 +17,7 @@ function isbday(hc::Vector{HolidayCalendar}, dt::Vector{Date})
 	const l_dt = length(dt)
 
 	if l_hc != l_dt
-		error("Input vector must have the same sizes. $(l_hc) != $(l_dt)")
+		error("Input vectors must have the same size. $(l_hc) != $(l_dt)")
 	end
 
 	result = Array(Bool, length(dt))
@@ -44,7 +44,7 @@ function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Date}; forward::Bool = t
 	const l_dt = length(dt)
 
 	if l_hc != l_dt
-		error("Input vector must have the same sizes. $(l_hc) != $(l_dt)")
+		error("Input vectors must have the same size. $(l_hc) != $(l_dt)")
 	end
 
 	result = Array(Date, l_hc)
@@ -61,7 +61,7 @@ function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
 	const l1 = length(dt1)
 
 	if l0 != l1
-		error("Input vectors must have the same sizes. $(l0) != $(l1)")
+		error("Input vectors must have the same size. $(l0) != $(l1)")
 	end
 
 	result = Array(Day, l0)
@@ -79,7 +79,7 @@ function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date}
 	const l1 = length(dt1)
 
 	if l_hc != l0 || l0 != l1
-		error("Input vectors must have the same sizes. $(l_hc), $(l0), $(l1)")
+		error("Input vectors must have the same size. $(l_hc), $(l0), $(l1)")
 	end
 
 	result = Array(Day, l0)
