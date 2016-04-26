@@ -226,4 +226,7 @@ println("$(isholiday(cc, Date(2015,8,27)))")
 ## Alternative Libraries
 
 * Ito.jl: http://aviks.github.io/Ito.jl/time.html
+
 * FinancialMarkets.jl: https://github.com/imanuelcostigan/FinancialMarkets.jl
+
+* QuantLib.jl : https://github.com/pazzo83/QuantLib.jl
