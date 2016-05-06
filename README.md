@@ -60,9 +60,7 @@ It's also important to point out that the initialization of the memory cache, wh
 
 **Example Code**
 ```julia
-using Base.Dates
 using BusinessDays
-using Base.Test
 
 d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
 
