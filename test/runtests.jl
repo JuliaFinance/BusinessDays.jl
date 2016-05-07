@@ -287,7 +287,7 @@ for usecache in [false, true]
 	print("##########################\n")
 
 	if usecache
-		initcache(all_calendars_vec)
+		bd.initcache(all_calendars_vec)
 	end
 
 	################
@@ -618,7 +618,7 @@ import BusinessDays.isholiday
 isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
 @test isholiday(cc, Date(2015,8,26)) == false
 @test isholiday(cc, Date(2015,8,27)) == true
-initcache(cc)
+bd.initcache(cc)
 @test isholiday(cc, Date(2015,8,26)) == false
 @test isholiday(cc, Date(2015,8,27)) == true
 bd.cleancache(cc)

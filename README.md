@@ -90,7 +90,7 @@ julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
 # 4025.424090 seconds (31.22 G allocations: 2.272 TB, 8.14% gc time)
 ```
 
-It's important to point out that **cache is disabled by default**. So, in order to take advantage of high speed computation provided by this package, one must call `initcache` function.
+It's important to point out that **cache is disabled by default**. So, in order to take advantage of high speed computation provided by this package, one must call `BusinessDays.initcache` function.
 
 ##Usage
 ```julia
@@ -190,9 +190,9 @@ Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_co
 Counts number of Business Days between `dt0` and `dt1`.
 Check methods(bdays) for vectorized alternative.
 
-**initcache(hc::HolidayCalendar)**
+**BusinessDays.initcache(hc::HolidayCalendar)**
 
-Creates cache for given calendar. Check `methods(initcache)` for alternatives.
+Creates cache for given calendar. Check `methods(BusinessDays.initcache)` for alternatives.
 
 **BusinessDays.cleancache()** and **BusinessDays.cleancache(hc::HolidayCalendar)**
 
