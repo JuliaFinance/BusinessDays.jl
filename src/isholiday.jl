@@ -10,7 +10,7 @@ end
 
 # BrazilBanking <: HolidayCalendar
 # Brazilian Banking Holidays
-function isholiday(::HolidayCalendars.BrazilBanking , dt::Date)
+function isholiday(::Brazil, dt::Date)
 
 	const yy = Dates.year(dt)
 	const mm = Dates.month(dt)
@@ -137,7 +137,7 @@ function adjustweekendholidayUS(dt::Date)
 	return dt
 end
 
-function isholiday(::HolidayCalendars.UnitedStates , dt::Date)
+function isholiday(::USSettlement , dt::Date)
 
 	const dt_Date = convert(Dates.Date, dt)
 
@@ -203,7 +203,7 @@ function adjustweekendholidayUK(dt::Date)
 end
 
 # England and Wales Banking Holidays
-function isholiday(::HolidayCalendars.UKEnglandBanking , dt::Date)
+function isholiday(::UKSettlement , dt::Date)
 
 	const dt_Date = convert(Dates.Date, dt)
 

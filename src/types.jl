@@ -1,11 +1,11 @@
+
 doc"""
 *Abstract* type for Holiday Calendars.
 """
-
 abstract HolidayCalendar
 
 doc"""
-Data structure for calendar cache. See 
+Data structure for calendar cache.
 """
 type HolidayCalendarCache
 	hc::HolidayCalendar
@@ -17,12 +17,9 @@ end
 
 Base.string(hc::HolidayCalendar) = string(typeof(hc))
 
-module HolidayCalendars
-
-import ..HolidayCalendar
-
-type BrazilBanking <: HolidayCalendar end
-type UnitedStates <: HolidayCalendar end
-type UKEnglandBanking <: HolidayCalendar end
-
-end # module HolidayCalendars
+#####################################
+## CONCRETE CALENDAR IMPLEMENTATIONS
+#####################################
+type Brazil <: HolidayCalendar end
+type USSettlement <: HolidayCalendar end
+type UKSettlement <: HolidayCalendar end

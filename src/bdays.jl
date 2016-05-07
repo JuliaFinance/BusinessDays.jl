@@ -1,3 +1,4 @@
+
 doc"""
 Returns `true` for Saturdays or Sundays.
 Returns `false` otherwise.
@@ -29,8 +30,8 @@ function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
 	else
 		local next::Date
 		local increment::Int64 = forward ? 1 : -1
-
 		next = dt + Dates.Day(increment)
+
 		while !isbday(hc, next)
 			next += Dates.Day(increment)
 		end

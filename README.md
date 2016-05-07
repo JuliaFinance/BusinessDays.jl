@@ -1,3 +1,4 @@
+
 #BusinessDays.jl [![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl) [![Coverage Status](https://coveralls.io/repos/felipenoris/BusinessDays.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/felipenoris/BusinessDays.jl?branch=master) [![codecov.io](http://codecov.io/github/felipenoris/BusinessDays.jl/coverage.svg?branch=master)](http://codecov.io/github/felipenoris/BusinessDays.jl?branch=master)
 A highly optimized *Business Days* calculator written in Julia language.
 Also known as *Working Days* calculator.
@@ -61,11 +62,12 @@ It's also important to point out that the initialization of the memory cache, wh
 **Example Code**
 ```julia
 using BusinessDays
+bd = BusinessDays
 
 d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
 
-cal = HolidayCalendars.BrazilBanking()
-@time BusinessDays.initcache(cal)
+cal = bd.Brazil()
+@time bd.initcache(cal)
 bdays(cal, d0, d1) # force JIT compilation
 @time bdays(cal, d0, d1)
 @time for i in 1:1000000 bdays(cal, d0, d1) end
@@ -93,11 +95,12 @@ It's important to point out that **cache is disabled by default**. So, in order 
 ##Usage
 ```julia
 julia> using BusinessDays
-julia> hc_usa = HolidayCalendars.UnitedStates() # instance for United States federal holidays
-BusinessDays.HolidayCalendars.UnitedStates()
+julia> bd = BusinessDays
+julia> hc_usa = bd.USSettlement() # instance for United States federal holidays
+BusinessDays.USSettlement()
 
-julia> initcache(hc_usa) # creates cache for given calendar, allowing fast computations
-BusinessDays.HolidayCalendarCache(BusinessDays.HolidayCalendars.UnitedStates(),Bool[false,true,true,true,false,false,true,true,true,true  …  false,false,true,true,true,true,true,false,false,true],UInt32[0x00000000,0x00000001,0x00000002,0x00000003,0x00000003,0x00000003,0x00000004,0x00000005,0x00000006,0x00000007  …  0x00007689,0x00007689,0x0000768a,0x0000768b,0x0000768c,0x0000768d,0x0000768e,0x0000768e,0x0000768e,0x0000768f],1980-01-01,2100-12-20)
+julia> bd.initcache(hc_usa) # creates cache for given calendar, allowing fast computations
+BusinessDays.HolidayCalendarCache(BusinessDays.USSettlement(),Bool[false,true,true,true,false,false,true,true,true,true  …  false,false,true,true,true,true,true,false,false,true],UInt32[0x00000000,0x00000001,0x00000002,0x00000003,0x00000003,0x00000003,0x00000004,0x00000005,0x00000006,0x00000007  …  0x00007689,0x00007689,0x0000768a,0x0000768b,0x0000768c,0x0000768d,0x0000768e,0x0000768e,0x0000768e,0x0000768f],1980-01-01,2100-12-20)
 
 julia> isbday(hc_usa, Date(2015, 01, 01)) # New Year's Day - Thursday
 false
@@ -140,11 +143,11 @@ See *runtests.jl* for more examples.
 
 *Abstract* type for Holiday Calendars.
 
-**easter_rata(y::Year) → Int64**
+**BusinessDays.easter_rata(y::Year) → Int64**
 
 Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number.
 
-**easter_date(y::Year) → Date**
+**BusinessDays.easter_date(y::Year) → Date**
 
 Returns result of `easter_rata` as a `Base.Dates.Date` instance.
 
@@ -152,7 +155,7 @@ Returns result of `easter_rata` as a `Base.Dates.Date` instance.
 
 Checks if `dt` is a holiday.
 
-**findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date**
+**BusinessDays.findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date**
 
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 
@@ -191,14 +194,14 @@ Check methods(bdays) for vectorized alternative.
 
 Creates cache for given calendar. Check `methods(initcache)` for alternatives.
 
-**cleancache()** and **cleancache(hc::HolidayCalendar)**
+**BusinessDays.cleancache()** and **BusinessDays.cleancache(hc::HolidayCalendar)**
 
 Removes calendars from cache.
 
 ##Available Business Days Calendars
-- **HolidayCalendars.BrazilBanking** : banking holidays for Brazil (federal holidays plus Carnival).
-- **HolidayCalendars.UnitedStates** : United States federal holidays.
-- **HolidayCalendars.UKEnglandBanking** : banking holidays for England and Wales.
+- **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
+- **USSettlement** : United States federal holidays.
+- **UKSettlement** : banking holidays for England and Wales.
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 
 ## Adding new Holiday Calendars
