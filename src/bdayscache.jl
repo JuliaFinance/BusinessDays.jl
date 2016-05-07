@@ -51,9 +51,9 @@ function initcache(hc::HolidayCalendar, d0::Date, d1::Date)
 	_CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
 end
 
-# Defaults to d0 = 1st Jan 1980 , d1 = 20th dec 2100
+# Defaults to d0 = 1st Jan 1980 , d1 = 20th dec 2150
 function initcache(hc::HolidayCalendar)
-	initcache(hc, Date(1980, 01, 01), Date(2100, 12, 20))
+	initcache(hc, Date(1980, 01, 01), Date(2150, 12, 20))
 end
 
 @vectorize_1arg HolidayCalendar initcache
