@@ -604,6 +604,8 @@ for usecache in [false, true]
 
 	@test advancebdays(hc_brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
 	@test advancebdays(hc_brazil, Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
+
+	@test listholidays(hc_brazil, Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
 end
 
 include("perftests.jl")
