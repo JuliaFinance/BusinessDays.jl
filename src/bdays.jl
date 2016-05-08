@@ -103,3 +103,14 @@ function bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 		return Dates.Day(result)
 	end
 end
+
+doc"""
+Returns a Vector{Date} with the list of holidays between dt0 and dt1.
+"""
+function listholidays(hc::HolidayCalendar, dt0::Date, dt1::Date)
+	const d0 = min(dt0, dt1)
+	const d1 = max(dt0, dt1)
+	const dt_range = d0:d1
+	isbday_vec = [ isholiday(hc, i) for i in dt_range ]
+	return dt_range[isbday_vec]
+end

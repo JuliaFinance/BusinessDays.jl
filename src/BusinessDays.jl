@@ -19,7 +19,12 @@ export
 
 # bdays.jl : main functions for BusinessDays module
 export
-	isweekend, isbday, tobday, advancebdays, bdays
+	isweekend,
+	isbday,
+	tobday,
+	advancebdays,
+	bdays,
+	listholidays
 	
 include("types.jl")
 include("easter.jl")

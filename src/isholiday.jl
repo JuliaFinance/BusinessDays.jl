@@ -203,7 +203,7 @@ function adjustweekendholidayUK(dt::Date)
 end
 
 # England and Wales Banking Holidays
-function isholiday(::UKSettlement , dt::Date)
+function isholiday(::UKSettlement, dt::Date)
 
 	const dt_Date = convert(Dates.Date, dt)
 
