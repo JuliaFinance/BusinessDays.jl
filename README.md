@@ -190,6 +190,10 @@ Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_co
 Counts number of Business Days between `dt0` and `dt1`.
 Check methods(bdays) for vectorized alternative.
 
+**listholidays(hc::HolidayCalendar, dt0::Date, dt1::Date) → Vector{Date}**
+
+Returns a `Vector{Date}` with the list of holidays between `dt0` and `dt1`.
+
 **BusinessDays.initcache(hc::HolidayCalendar)**
 
 Creates cache for given calendar. Check `methods(BusinessDays.initcache)` for alternatives.

@@ -105,7 +105,7 @@ function bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 end
 
 doc"""
-Returns a Vector{Date} with the list of holidays between dt0 and dt1.
+Returns a `Vector{Date}` with the list of holidays between `dt0` and `dt1`.
 """
 function listholidays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 	const d0 = min(dt0, dt1)
