@@ -20,6 +20,8 @@ function isbday(hc::HolidayCalendar, dt::Date)
 	end
 end
 
+isbday(calendar, dt) = isbday(convert(HolidayCalendar, calendar), dt)
+
 doc"""
 Adjusts `dt` to next Business Day if it's not a Business Day.
 If `isbday(dt)`, returns `dt`.
@@ -39,6 +41,8 @@ function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
 	
 	return next
 end
+
+tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar,calendar), dt; forward)
 
 doc"""
 Increments given date `dt` by `bdays_count`.
@@ -73,6 +77,8 @@ function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)
 	return result
 end
 
+advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar,calendar), dt, bdays_count)
+
 doc"""
 Counts the number of Business Days between `dt0` and `dt1`.
 Returns instance of `Dates.Day`.
@@ -104,6 +110,8 @@ function bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 	end
 end
 
+bdays(calendar, dt0, dt1) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
+
 doc"""
 Returns a `Vector{Date}` with the list of holidays between `dt0` and `dt1`.
 """
@@ -114,3 +122,5 @@ function listholidays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 	isbday_vec = [ isholiday(hc, i) for i in dt_range ]
 	return dt_range[isbday_vec]
 end
+
+listholidays(calendar, dt0::Date, dt1::Date) = listholidays(convert(HolidayCalendar,calendar), dt0, dt1)

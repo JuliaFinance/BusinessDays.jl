@@ -300,6 +300,7 @@ for usecache in [false, true]
 	dt_saturday = Date(2015, 06, 27)
 	dt_sunday = Date(2015, 06, 28)
 	dt_monday = Date(2015, 06, 29)
+	dt_newyears = Date(2016,1,1)
 
 	# Bounds tests
 	if !usecache
@@ -316,6 +317,9 @@ for usecache in [false, true]
 		@test_throws ErrorException bdays(hc_brazil, Date(3000,2,1), Date(3000, 2, 5))
 	end
 
+	@test_throws ErrorException isbday(:UnknownCalendar, Date(2016,1,1))
+	@test_throws ErrorException isbday("UnknownCalendar", Date(2016,1,1))
+
 	@test isweekend(dt_friday) == false
 	@test isweekend(dt_saturday) == true
 	@test isweekend(dt_sunday) == true
@@ -330,8 +334,23 @@ for usecache in [false, true]
 	@test isholiday(hc_brazil, dt_saturday) == false
 	@test isholiday(hc_brazil, dt_sunday) == false
 	@test isholiday(hc_brazil, dt_monday) == false
+	@test isholiday(hc_brazil, dt_newyears) == true
 
-	# BrazilBanking
+	# Symbol
+	@test isholiday(:Brazil, dt_friday) == false
+	@test isholiday(:Brazil, dt_saturday) == false
+	@test isholiday(:Brazil, dt_sunday) == false
+	@test isholiday(:Brazil, dt_monday) == false
+	@test isholiday(:Brazil, dt_newyears) == true
+
+	# String
+	@test isholiday("Brazil", dt_friday) == false
+	@test isholiday("Brazil", dt_saturday) == false
+	@test isholiday("Brazil", dt_sunday) == false
+	@test isholiday("Brazil", dt_monday) == false
+	@test isholiday("Brazil", dt_newyears) == true
+
+	# Brazil HolidayCalendar tests
 	@test isbday(hc_brazil, Date(2014, 12, 31)) == true # wednesday
 	@test isbday(hc_brazil, Date(2015, 01, 01)) == false # new year
 	@test isbday(hc_brazil, Date(2015, 01, 02)) == true # friday
@@ -379,7 +398,17 @@ for usecache in [false, true]
 	@test isbday(hc_brazil, Date(2013, 05, 30)) == false # Corpus Christi
 	@test isbday(hc_brazil, Date(2013, 05, 31)) == true # friday
 
-	# UnitedStates
+	# Symbol
+	@test isbday(:Brazil, Date(2013, 05, 29)) == true # wednesday
+	@test isbday(:Brazil, Date(2013, 05, 30)) == false # Corpus Christi
+	@test isbday(:Brazil, Date(2013, 05, 31)) == true # friday
+
+	# String
+	@test isbday("Brazil", Date(2013, 05, 29)) == true # wednesday
+	@test isbday("Brazil", Date(2013, 05, 30)) == false # Corpus Christi
+	@test isbday("Brazil", Date(2013, 05, 31)) == true # friday
+
+	# USSettlement HolidayCaledar tests
 	# Federal Holidays listed on https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/#url=2015
 	@test isbday(hc_usa, Date(2014, 12, 31)) == true
 	@test isbday(hc_usa, Date(2015, 01, 01)) == false # New Year's Day - Thursday
@@ -424,7 +453,17 @@ for usecache in [false, true]
 	@test isbday(hc_usa, Date(2010, 12, 31)) == false # new years day observed
 	@test isbday(hc_usa, Date(2004, 12, 31)) == false # new years day observed
 
-	## UKEnglandBanking
+	# Symbol
+	@test isbday(:USSettlement, Date(2015, 12, 24)) == true
+	@test isbday(:USSettlement, Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday(:USSettlement, Date(2015, 12, 26)) == false
+
+	# String
+	@test isbday("USSettlement", Date(2015, 12, 24)) == true
+	@test isbday("USSettlement", Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday("USSettlement", Date(2015, 12, 26)) == false
+
+	## UKSettlement HolidayCalendar tests
 	@test isbday(hc_uk, Date(2014, 12, 31)) == true
 	@test isbday(hc_uk, Date(2015, 01, 01)) == false # New Year's Day Thursday
 	@test isbday(hc_uk, Date(2015, 01, 02)) == true
@@ -581,7 +620,11 @@ for usecache in [false, true]
 
 	r = bdays(hc_brazil, d0vec, d1vec)
 	b = isbday(hc_brazil, d0vec)
+	b2 = isbday(:Brazil, d0vec)
+	b3 = isbday("Brazil", d0vec)
 	@test tobday([hc_brazil, hc_usa], [Date(2015,11,11), Date(2015,11,11)]) == [Date(2015,11,11), Date(2015,11,12)]
+	@test tobday([:Brazil, :USSettlement], [Date(2015,11,11), Date(2015,11,11)]) == [Date(2015,11,11), Date(2015,11,12)]
+	@test tobday(["Brazil", "USSettlement"], [Date(2015,11,11), Date(2015,11,11)]) == [Date(2015,11,11), Date(2015,11,12)]
 
 	# Vector with different sizes
 	@test_throws ErrorException bdays(hc_brazil, fill(d0, length(d1vec)+1), d1vec)
@@ -591,7 +634,11 @@ for usecache in [false, true]
 
 	println("Timing vectorized functions (vector length $(length(d0vec)))")
 	@time bdays(hc_brazil, d0vec, d1vec)
+	@time bdays(:Brazil, d0vec, d1vec)
+	@time bdays("Brazil", d0vec, d1vec)
 	@time isbday(hc_brazil, d0vec)
+	@time isbday(:Brazil, d0vec)
+	@time isbday("Brazil", d0vec)
 
 	d2001 = convert(Array{Date,1}, Date(2001,01,01):Date(2001,01,15))
 
@@ -601,11 +648,21 @@ for usecache in [false, true]
 
 	@test bdays([hc_brazil, hc_usa], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
 	@test isbday([hc_brazil, hc_usa], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
-
 	@test advancebdays(hc_brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
 	@test advancebdays(hc_brazil, Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
-
 	@test listholidays(hc_brazil, Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
+
+	@test bdays([:Brazil, :USSettlement], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+	@test isbday([:Brazil, :USSettlement], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
+	@test advancebdays(:Brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
+	@test advancebdays(:Brazil, Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
+	@test listholidays(:Brazil, Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
+
+	@test bdays(["Brazil", "USSettlement"], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+	@test isbday(["Brazil", "USSettlement"], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
+	@test advancebdays("Brazil", Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
+	@test advancebdays("Brazil", Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
+	@test listholidays("Brazil", Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
 end
 
 include("perftests.jl")
@@ -624,6 +681,14 @@ bd.initcache(cc)
 @test isholiday(cc, Date(2015,8,26)) == false
 @test isholiday(cc, Date(2015,8,27)) == true
 bd.cleancache(cc)
+
+sym_vec = [:Brazil, :UKSettlement]
+bd.initcache(sym_vec)
+bd.cleancache(sym_vec)
+
+str_vec = ["Brazil", "UKSettlement"]
+bd.initcache(str_vec)
+bd.cleancache(str_vec)
 
 #=
 INFO: Testing BusinessDays

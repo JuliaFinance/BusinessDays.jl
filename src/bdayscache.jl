@@ -51,10 +51,15 @@ function initcache(hc::HolidayCalendar, d0::Date, d1::Date)
 	_CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
 end
 
+initcache(calendar, d0::Date, d1::Date) = initcache(convert(HolidayCalendar, calendar), d0, d1)
+
 # Defaults to d0 = 1st Jan 1980 , d1 = 20th dec 2150
 function initcache(hc::HolidayCalendar)
 	initcache(hc, Date(1980, 01, 01), Date(2150, 12, 20))
 end
+
+initcache(calendar) = initcache(convert(HolidayCalendar,calendar))
+initcache{A<:AbstractArray}(calendars::A) = initcache(convert(Vector{HolidayCalendar}, calendars))
 
 @vectorize_1arg HolidayCalendar initcache
 
@@ -73,6 +78,17 @@ function cleancache(hc::HolidayCalendar)
 		delete!(_CACHE_DICT, hc)
 	end
 end
+
+function cleancache(hc_vec::Vector{HolidayCalendar})
+	for k in hc_vec
+		if k in keys(_CACHE_DICT)
+			delete!(_CACHE_DICT, k)
+		end
+	end
+end
+
+cleancache(calendar) = cleancache(convert(HolidayCalendar, calendar))
+cleancache{A<:AbstractArray}(calendars::A) = cleancache(convert(Vector{HolidayCalendar}, calendars))
 
 # Returns tuple
 # tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)

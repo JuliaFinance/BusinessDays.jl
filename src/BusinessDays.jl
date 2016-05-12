@@ -7,14 +7,11 @@ using Base.Dates
 
 # types.jl
 export
-	# Module for HolidayCalendars.
-	# Provided calendars: HolidayCalendars.BrazilBanking, HolidayCalendars.UnitedStates, HolidayCalendars.UKEnglandBanking
 	HolidayCalendar,
 	CompositeHolidayCalendar
 
 # isholiday.jl
 export
-	# Implements holiday functions for various HolidayCalendar subtypes
 	isholiday
 
 # bdays.jl : main functions for BusinessDays module
@@ -25,9 +22,9 @@ export
 	advancebdays,
 	bdays,
 	listholidays
-	
+
+include("dateutils.jl")
 include("types.jl")
-include("easter.jl")
 include("isholiday.jl")
 include("bdayscache.jl")
 include("bdays.jl")

@@ -8,6 +8,9 @@ function isholiday(hc::HolidayCalendar, dt::Date)
 	error("isholiday for $(hc) not yet implemented.")
 end
 
+isholiday(::NullHolidayCalendar, dt::Date) = false
+isholiday(calendar, dt::Date) = isholiday(convert(HolidayCalendar, calendar), dt)
+
 # BrazilBanking <: HolidayCalendar
 # Brazilian Banking Holidays
 function isholiday(::Brazil, dt::Date)
@@ -76,50 +79,6 @@ function isholiday(::Brazil, dt::Date)
 	end
 
 	return false
-end
-
-# weekday_target values:
-# const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7
-# See query.jl on Dates module
-# See also dayofweek(dt) function.
-doc"""
-Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
-
-`weekday_target` values are declared in module `Base.Dates`: 
-`Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
-
-If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
-
-If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
-"""
-function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)
-	
-	local dt::Date = Date(yy, mm, 1)
-	local dt_dayofweek::Integer
-	local offset::Integer
-
-	if occurrence <= 0
-		error("occurrence must be >= 1. Provided $(occurrence).")
-	end
-
-	if ascending
-		dt_dayofweek = dayofweek(dt)
-		offset = rem(weekday_target + 7 - dt_dayofweek, 7) # rem = MOD function
-	else
-		dt = lastdayofmonth(dt)
-		dt_dayofweek = dayofweek(dt)
-		offset = rem(dt_dayofweek + 7 - weekday_target, 7)
-	end
-
-	if occurrence > 1
-		offset += 7 * (occurrence - 1)
-	end
-
-	if ascending
-		return dt + Dates.Day(offset)
-	else
-		return dt - Dates.Day(offset)
-	end
 end
 
 # In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
