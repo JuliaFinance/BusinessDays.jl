@@ -1,5 +1,5 @@
 
-## v0.2.1 release notes
+## For the next release
 
 * A `HolidayCalendar` can now be referenced using `Symbol` or `String`.
 
