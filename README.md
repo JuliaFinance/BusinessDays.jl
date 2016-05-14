@@ -208,6 +208,7 @@ Removes calendars from cache.
 - **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
 - **USSettlement** : United States federal holidays.
 - **USNYSE** : United States NYSE holidays.
+- **USGovernmentBond** : United States Government Bond calendar.
 - **UKSettlement** : banking holidays for England and Wales.
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 

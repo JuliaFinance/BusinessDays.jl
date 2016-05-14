@@ -68,7 +68,6 @@ function isholiday(::USNYSE , dt::Date)
 	const mm = Dates.month(dt)
 	const dd = Dates.day(dt)
 
-	const dt_rata = Dates.days(dt)
 	const dt_rata::Int64 = Dates.days(dt)
 	const e_rata::Int64 = easter_rata(Dates.Year(yy))
 
@@ -175,5 +174,57 @@ function isholiday(::USNYSE , dt::Date)
 		return true
 	end
 
+	return false
+end
+
+function isholiday(::USGovernmentBond , dt::Date)
+
+	const yy = Dates.year(dt)
+	const mm = Dates.month(dt)
+	const dd = Dates.day(dt)
+
+	const dt_rata::Int64 = Dates.days(dt)
+	const e_rata::Int64 = easter_rata(Dates.Year(yy))
+
+	if (
+			# New Year's Day
+			adjustweekendholidayUS(Date(yy, 1, 1)) == dt
+			||
+			# New Year's Day on the previous year when 1st Jan is Saturday
+			(mm == 12 &&  dd == 31 && dayofweek(dt) == Friday)
+			||
+			# Birthday of Martin Luther King, Jr.
+			yy >= 1983 && adjustweekendholidayUS(findweekday(Dates.Monday, yy, 1, 3, true)) == dt
+			||
+			# Washington's Birthday
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 2, 3, true)) == dt
+			||
+			# Good Friday
+			dt_rata == ( e_rata - 2 )
+			||
+			# Memorial Day
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 5, 1, false)) == dt
+			||
+			# Independence Day
+			adjustweekendholidayUS(Date(yy, 7, 4)) == dt
+			||
+			# Labor Day
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 9, 1, true)) == dt
+			||
+			# Columbus Day
+			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 10, 2, true)) == dt
+			||
+			# Veterans Day
+			adjustweekendholidayUS(Date(yy, 11, 11)) == dt
+			||
+			# Thanksgiving Day
+			adjustweekendholidayUS(findweekday(Dates.Thursday, yy, 11, 4, true)) == dt
+			||
+			# Christmas
+			adjustweekendholidayUS(Date(yy, 12, 25)) == dt
+		)
+		return true
+	end
+	
 	return false
 end
