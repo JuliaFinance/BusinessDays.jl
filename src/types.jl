@@ -44,8 +44,8 @@ HCDICT = Dict{Symbol, HolidayCalendar}(
 )
 
 function symtocalendar(sym::Symbol)
-	nc = NullHolidayCalendar()
-	hc = get(HCDICT, sym, nc)
+	nc::HolidayCalendar = NullHolidayCalendar()
+	hc::HolidayCalendar = get(HCDICT, sym, nc)
 	if hc == nc
 		error("Invalid calendar: $sym")
 	end

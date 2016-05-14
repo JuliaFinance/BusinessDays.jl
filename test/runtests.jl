@@ -1,6 +1,4 @@
-#
-# Tests for BusinessDays module
-#
+
 using Base.Dates
 using BusinessDays
 using Base.Test
