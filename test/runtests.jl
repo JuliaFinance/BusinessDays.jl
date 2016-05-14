@@ -348,6 +348,8 @@ for usecache in [false, true]
 	@test isholiday("Brazil", dt_monday) == false
 	@test isholiday("Brazil", dt_newyears) == true
 
+	@test isholiday(bd.NullHolidayCalendar(), Date(2000,10,1)) == false
+
 	# Brazil HolidayCalendar tests
 	@test isbday(hc_brazil, Date(2014, 12, 31)) == true # wednesday
 	@test isbday(hc_brazil, Date(2015, 01, 01)) == false # new year
@@ -560,6 +562,18 @@ for usecache in [false, true]
 	@test advancebdays(hc_brazil, Date(2013, 02, 06), 3) == Date(2013, 02, 13) # after carnaval wednesday
 	@test advancebdays(hc_brazil, Date(2013, 02, 06), 4) == Date(2013, 02, 14) # after carnaval thursday
 
+	@test advancebdays(:Brazil, Date(2013, 02, 06), 0) == Date(2013, 02, 06) # regular wednesday
+	@test advancebdays(:Brazil, Date(2013, 02, 06), 1) == Date(2013, 02, 07) # regular thursday
+	@test advancebdays(:Brazil, Date(2013, 02, 06), 2) == Date(2013, 02, 08) # regular friday
+	@test advancebdays(:Brazil, Date(2013, 02, 06), 3) == Date(2013, 02, 13) # after carnaval wednesday
+	@test advancebdays(:Brazil, Date(2013, 02, 06), 4) == Date(2013, 02, 14) # after carnaval thursday
+
+	@test advancebdays("Brazil", Date(2013, 02, 06), 0) == Date(2013, 02, 06) # regular wednesday
+	@test advancebdays("Brazil", Date(2013, 02, 06), 1) == Date(2013, 02, 07) # regular thursday
+	@test advancebdays("Brazil", Date(2013, 02, 06), 2) == Date(2013, 02, 08) # regular friday
+	@test advancebdays("Brazil", Date(2013, 02, 06), 3) == Date(2013, 02, 13) # after carnaval wednesday
+	@test advancebdays("Brazil", Date(2013, 02, 06), 4) == Date(2013, 02, 14) # after carnaval thursday
+
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 06)) == Day(0)
 	@test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 07)) == Day(1)
 	@test bdays(hc_brazil, Date(2013, 02, 07), Date(2013, 02, 06)).value == -1
@@ -644,6 +658,9 @@ for usecache in [false, true]
 	@test tobday(hc_brazil, d2001; forward=true) == [ Date(2001,01,02), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,08), Date(2001,01,08), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,15), Date(2001,01,15), Date(2001,01,15)]
 	@test tobday(hc_brazil, d2001; forward=false) == [ Date(2000,12,29), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,05), Date(2001,01,05), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,12), Date(2001,01,12), Date(2001,01,15)]
 
+	@test tobday(:Brazil, d2001; forward=true) == [ Date(2001,01,02), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,08), Date(2001,01,08), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,15), Date(2001,01,15), Date(2001,01,15)]
+	@test tobday("Brazil", d2001; forward=false) == [ Date(2000,12,29), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,05), Date(2001,01,05), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,12), Date(2001,01,12), Date(2001,01,15)]
+
 	@test bdays([hc_brazil, hc_usa], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
 	@test isbday([hc_brazil, hc_usa], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
 	@test advancebdays(hc_brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
@@ -687,6 +704,9 @@ bd.cleancache(sym_vec)
 str_vec = ["Brazil", "UKSettlement"]
 bd.initcache(str_vec)
 bd.cleancache(str_vec)
+
+bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,5,2))
+bd.cleancache("UKSettlement")
 
 #=
 INFO: Testing BusinessDays
