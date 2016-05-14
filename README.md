@@ -207,6 +207,7 @@ Removes calendars from cache.
 ##Available Business Days Calendars
 - **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
 - **USSettlement** : United States federal holidays.
+- **USNYSE** : United States NYSE holidays.
 - **UKSettlement** : banking holidays for England and Wales.
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 

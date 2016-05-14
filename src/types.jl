@@ -31,6 +31,11 @@ United States federal holidays.
 type USSettlement <: HolidayCalendar end
 
 doc"""
+United States NYSE holidays.
+"""
+type USNYSE <: HolidayCalendar end
+
+doc"""
 Banking holidays for England and Wales.
 """
 type UKSettlement <: HolidayCalendar end
@@ -40,6 +45,7 @@ type NullHolidayCalendar <: HolidayCalendar end
 HCDICT = Dict{Symbol, HolidayCalendar}(
 	:Brazil=>Brazil(),
 	:USSettlement=>USSettlement(),
+	:USNYSE=>USNYSE(),
 	:UKSettlement=>UKSettlement()
 )
 
