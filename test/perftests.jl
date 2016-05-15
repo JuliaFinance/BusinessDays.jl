@@ -9,11 +9,19 @@ println("Perftests")
 
 d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
 
-cal = bd.Brazil()
-@time bd.initcache(cal)
-bdays(cal, d0, d1) # force JIT compilation
-@time bdays(cal, d0, d1)
-@time for i in 1:1000000 bdays(cal, d0, d1) end
+cal_type = bd.Brazil()
+cal_sym = :Brazil
+cal_str = "Brazil"
+
+@time bd.initcache(cal_type)
+bdays(cal_type, d0, d1) # force JIT compilation
+@time bdays(cal_type, d0, d1)
+@time for i in 1:1000000 bdays(cal_type, d0, d1) end
+
+bdays(cal_sym, d0, d1) # force JIT compilation
+bdays(cal_str, d0, d1) # force JIT compilation
+@time for i in 1:1000000 bdays(cal_sym, d0, d1) end
+@time for i in 1:1000000 bdays(cal_str, d0, d1) end
 
 #=
 Perftests
@@ -22,9 +30,6 @@ Perftests
   0.464481 seconds (5.00 M allocations: 76.294 MB, 0.79% gc time)
 =#
 
-cal_type = bd.Brazil()
-cal_sym = :Brazil
-cal_str = "Brazil"
 N = 1000
 d0vec = fill(d0, N)
 d1vec = fill(d1, N)
