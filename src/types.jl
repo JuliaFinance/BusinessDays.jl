@@ -23,12 +23,16 @@ Base.string(hc::HolidayCalendar) = string(typeof(hc))
 doc"""
 Banking holidays for Brazil (federal holidays plus Carnival).
 """
-type Brazil <: HolidayCalendar end
+type BRSettlement <: HolidayCalendar end
+
+typealias Brazil BRSettlement
 
 doc"""
 United States federal holidays.
 """
 type USSettlement <: HolidayCalendar end
+
+typealias UnitedStates USSettlement
 
 doc"""
 United States NYSE holidays.
@@ -45,14 +49,19 @@ Banking holidays for England and Wales.
 """
 type UKSettlement <: HolidayCalendar end
 
+typealias UnitedKingdom UKSettlement
+
 type NullHolidayCalendar <: HolidayCalendar end
 
 HCDICT = Dict{Symbol, HolidayCalendar}(
+	:BRSettlement=>BRSettlement(),
 	:Brazil=>Brazil(),
 	:USSettlement=>USSettlement(),
+	:UnitedStates=>UnitedStates(),
 	:USNYSE=>USNYSE(),
 	:USGovernmentBond=>USGovernmentBond(),
-	:UKSettlement=>UKSettlement()
+	:UKSettlement=>UKSettlement(),
+	:UnitedKingdom=>UnitedKingdom()
 )
 
 function symtocalendar(sym::Symbol)

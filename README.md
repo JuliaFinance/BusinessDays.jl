@@ -205,11 +205,11 @@ Creates cache for given calendar. Check `methods(BusinessDays.initcache)` for al
 Removes calendars from cache.
 
 ##Available Business Days Calendars
-- **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
-- **USSettlement** : United States federal holidays.
+- **BRSettlement** or **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
+- **USSettlement** or **UnitedStates**: United States federal holidays.
 - **USNYSE** : United States NYSE holidays.
 - **USGovernmentBond** : United States Government Bond calendar.
-- **UKSettlement** : banking holidays for England and Wales.
+- **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales.
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 
 ## Adding new Holiday Calendars

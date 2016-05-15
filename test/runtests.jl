@@ -19,7 +19,7 @@ all_calendars_vec = [bhc, ushc, ukhc, hc_composite_BR_USA]
 @test ushc == bd.USSettlement()
 @test bhc != ushc
 @test bhc != Type(bd.Brazil) # content of list is an instance, not a singleton
-@test string(bhc) == "BusinessDays.Brazil"
+@test string(bhc) == "BusinessDays.BRSettlement"
 
 # Check typing system
 @test typeof(bhc) <: HolidayCalendar
