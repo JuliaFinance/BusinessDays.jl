@@ -848,37 +848,65 @@ bd.cleancache("UKSettlement")
 INFO: Testing BusinessDays
 easter minimum month is 3 on date 2100-03-28 
 easter maximum month is 4 on date 2099-04-12
-########################
-Using cache: false
-########################
+##########################
+ Using cache: false
+##########################
 Timing composite calendar bdays calculation
-  0.000014 seconds (30 allocations: 1.219 KB)
+  0.000022 seconds (30 allocations: 1.219 KB)
 Timing single bdays calculation
-  0.005989 seconds (31.22 k allocations: 2.382 MB)
+  0.016914 seconds (31.22 k allocations: 2.382 MB, 30.99% gc time)
 Timing 100 bdays calculations
-  0.424231 seconds (3.12 M allocations: 238.205 MB, 2.56% gc time)
+  0.610497 seconds (3.12 M allocations: 238.206 MB, 1.74% gc time)
 Timing cache creation
-  0.007082 seconds (55.15 k allocations: 4.470 MB)
+  0.010609 seconds (55.15 k allocations: 4.470 MB, 7.17% gc time)
 Timing vectorized functions (vector length 7306)
-  3.489890 seconds (26.71 M allocations: 1.990 GB, 1.98% gc time)
-  0.001533 seconds (7.31 k allocations: 578.000 KB)
-########################
-Using cache: true
-########################
+  4.731765 seconds (26.71 M allocations: 1.990 GB, 1.70% gc time)
+  4.709852 seconds (26.71 M allocations: 1.990 GB, 1.69% gc time)
+  4.703030 seconds (26.71 M allocations: 1.990 GB, 1.62% gc time)
+  0.001923 seconds (7.31 k allocations: 578.000 KB)
+  0.001742 seconds (7.31 k allocations: 578.000 KB)
+  0.001734 seconds (7.31 k allocations: 578.000 KB)
+##########################
+ Using cache: true
+##########################
 Timing composite calendar bdays calculation
-  0.000002 seconds (7 allocations: 112 bytes)
+  0.000006 seconds (7 allocations: 112 bytes)
 Timing single bdays calculation
-  0.000002 seconds (4 allocations: 64 bytes)
+  0.000004 seconds (5 allocations: 80 bytes)
 Timing 100 bdays calculations
-  0.000042 seconds (400 allocations: 6.250 KB)
+  0.000066 seconds (500 allocations: 7.813 KB)
 a million...
-  0.381700 seconds (4.00 M allocations: 61.035 MB, 2.15% gc time)
+  0.589832 seconds (5.00 M allocations: 76.294 MB, 2.34% gc time)
 Timing vectorized functions (vector length 7306)
-  0.003048 seconds (29.23 k allocations: 513.766 KB)
-  0.000726 seconds (1 allocation: 7.219 KB)
+  0.004112 seconds (29.23 k allocations: 513.766 KB)
+  0.004052 seconds (29.23 k allocations: 513.766 KB)
+  0.004037 seconds (29.23 k allocations: 513.766 KB)
+  0.001003 seconds (1 allocation: 7.219 KB)
+  0.000980 seconds (1 allocation: 7.219 KB)
+  0.000979 seconds (1 allocation: 7.219 KB)
 Perftests
-  0.007222 seconds (1.48 k allocations: 285.462 KB)
-  0.000002 seconds (9 allocations: 240 bytes)
-  0.425237 seconds (5.00 M allocations: 76.294 MB, 1.95% gc time)
+  0.017908 seconds (1.48 k allocations: 374.630 KB)
+  0.000005 seconds (9 allocations: 240 bytes)
+  0.575191 seconds (5.00 M allocations: 76.294 MB, 1.38% gc time)
+  1.226357 seconds (8.00 M allocations: 122.070 MB, 1.37% gc time)
+  1.547292 seconds (8.00 M allocations: 122.070 MB, 1.36% gc time)
+type
+  0.000568 seconds (5.00 k allocations: 78.125 KB)
+  0.000487 seconds (4.00 k allocations: 70.547 KB)
+  0.000581 seconds (7.01 k allocations: 125.313 KB)
+sym
+  0.001273 seconds (8.00 k allocations: 125.000 KB)
+  0.000504 seconds (4.00 k allocations: 70.547 KB)
+  0.001064 seconds (7.01 k allocations: 125.313 KB)
+str
+  0.002078 seconds (8.00 k allocations: 125.000 KB)
+  0.000630 seconds (4.00 k allocations: 70.547 KB)
+  0.001645 seconds (7.01 k allocations: 125.313 KB)
+initcache type
+  0.013472 seconds (62.46 k allocations: 5.062 MB)
+initcache sym
+  0.028815 seconds (62.46 k allocations: 5.062 MB)
+initcache str
+  0.025278 seconds (62.46 k allocations: 5.062 MB)
 INFO: BusinessDays tests passed
 =#
