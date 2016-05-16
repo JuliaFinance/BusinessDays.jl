@@ -11,8 +11,10 @@ bd = BusinessDays
 bhc = bd.Brazil()
 ushc = bd.USSettlement()
 ukhc = bd.UKSettlement()
+usnysehc = bd.USNYSE()
+usgovbondhc = bd.USGovernmentBond()
 hc_composite_BR_USA = CompositeHolidayCalendar([bd.Brazil(), bd.USSettlement()])
-all_calendars_vec = [bhc, ushc, ukhc, hc_composite_BR_USA]
+all_calendars_vec = [bhc, ushc, ukhc, hc_composite_BR_USA, usnysehc, usgovbondhc]
 
 # two different instances of the same HolidayCalendar subtype should be equal
 @test bhc == bd.Brazil()
@@ -274,6 +276,8 @@ d1 = d0 + Day(len)
 hc_brazil = bd.Brazil()
 hc_usa = bd.USSettlement()
 hc_uk = bd.UKSettlement()
+hc_usnyse = bd.USNYSE()
+hc_usgovbond = bd.USGovernmentBond()
 
 ################
 # bdayscache.jl
@@ -453,6 +457,10 @@ for usecache in [false, true]
 	@test isbday(hc_usa, Date(2010, 12, 31)) == false # new years day observed
 	@test isbday(hc_usa, Date(2004, 12, 31)) == false # new years day observed
 
+	@test isbday(hc_usa, Date(2013, 03, 28)) == true # thursday
+	@test isbday(hc_usa, Date(2013, 03, 29)) == true # good friday
+	@test isbday(hc_usa, Date(2013, 03, 30)) == false # saturday
+
 	# Symbol
 	@test isbday(:USSettlement, Date(2015, 12, 24)) == true
 	@test isbday(:USSettlement, Date(2015, 12, 25)) == false # Christmas - Friday
@@ -462,6 +470,123 @@ for usecache in [false, true]
 	@test isbday("USSettlement", Date(2015, 12, 24)) == true
 	@test isbday("USSettlement", Date(2015, 12, 25)) == false # Christmas - Friday
 	@test isbday("USSettlement", Date(2015, 12, 26)) == false
+
+	## USNYSE HolidayCalendar tests
+
+	@test isbday(hc_usnyse, Date(2014, 12, 31)) == true
+	@test isbday(hc_usnyse, Date(2015, 01, 01)) == false # New Year's Day - Thursday
+	@test isbday(hc_usnyse, Date(2015, 01, 02)) == true
+
+	@test isbday(hc_usnyse, Date(2015, 01, 18)) == false
+	@test isbday(hc_usnyse, Date(2015, 01, 19)) == false # Birthday of Martin Luther King, Jr. - Monday
+	@test isbday(hc_usnyse, Date(2015, 01, 20)) == true
+
+	@test isbday(hc_usnyse, Date(2015, 02, 15)) == false
+	@test isbday(hc_usnyse, Date(2015, 02, 16)) == false # Washington’s Birthday - Monday
+	@test isbday(hc_usnyse, Date(2015, 02, 17)) == true
+
+	@test isbday(hc_usnyse, Date(2015, 05, 24)) == false
+	@test isbday(hc_usnyse, Date(2015, 05, 25)) == false # Memorial Day - Monday
+	@test isbday(hc_usnyse, Date(2015, 05, 26)) == true
+
+	@test isbday(hc_usnyse, Date(2015, 07, 02)) == true
+	@test isbday(hc_usnyse, Date(2015, 07, 03)) == false # Independence Day - Friday
+	@test isbday(hc_usnyse, Date(2015, 07, 04)) == false
+
+	@test isbday(hc_usnyse, Date(2015, 09, 06)) == false
+	@test isbday(hc_usnyse, Date(2015, 09, 07)) == false # Labor Day - Monday
+	@test isbday(hc_usnyse, Date(2015, 09, 08)) == true
+
+	@test isbday(hc_usnyse, Date(2015, 10, 11)) == false
+	@test isbday(hc_usnyse, Date(2015, 10, 12)) == true # Columbus Day - Monday
+	@test isbday(hc_usnyse, Date(2015, 10, 13)) == true
+
+	@test isbday(hc_usnyse, Date(2015, 11, 10)) == true
+	@test isbday(hc_usnyse, Date(2015, 11, 11)) == true # Veterans Day - Wednesday
+	@test isbday(hc_usnyse, Date(2015, 11, 12)) == true
+
+	@test isbday(hc_usnyse, Date(2015, 11, 25)) == true
+	@test isbday(hc_usnyse, Date(2015, 11, 26)) == false # Thanksgiving Day - Thursday
+	@test isbday(hc_usnyse, Date(2015, 11, 27)) == true
+
+	@test isbday(hc_usnyse, Date(2015, 12, 24)) == true
+	@test isbday(hc_usnyse, Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday(hc_usnyse, Date(2015, 12, 26)) == false
+
+	@test isbday(hc_usnyse, Date(2010, 12, 31)) == false # new years day observed
+	@test isbday(hc_usnyse, Date(2004, 12, 31)) == false # new years day observed
+
+	@test isbday(hc_usnyse, Date(2013, 03, 28)) == true # thursday
+	@test isbday(hc_usnyse, Date(2013, 03, 29)) == false # good friday
+	@test isbday(hc_usnyse, Date(2013, 03, 30)) == false # saturday
+
+	# Symbol
+	@test isbday(:USNYSE, Date(2015, 12, 24)) == true
+	@test isbday(:USNYSE, Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday(:USNYSE, Date(2015, 12, 26)) == false
+
+	# String
+	@test isbday("USNYSE", Date(2015, 12, 24)) == true
+	@test isbday("USNYSE", Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday("USNYSE", Date(2015, 12, 26)) == false
+
+	## USGovernmentBond HolidayCalendar tests
+	@test isbday(hc_usgovbond, Date(2014, 12, 31)) == true
+	@test isbday(hc_usgovbond, Date(2015, 01, 01)) == false # New Year's Day - Thursday
+	@test isbday(hc_usgovbond, Date(2015, 01, 02)) == true
+
+	@test isbday(hc_usgovbond, Date(2015, 01, 18)) == false
+	@test isbday(hc_usgovbond, Date(2015, 01, 19)) == false # Birthday of Martin Luther King, Jr. - Monday
+	@test isbday(hc_usgovbond, Date(2015, 01, 20)) == true
+
+	@test isbday(hc_usgovbond, Date(2015, 02, 15)) == false
+	@test isbday(hc_usgovbond, Date(2015, 02, 16)) == false # Washington’s Birthday - Monday
+	@test isbday(hc_usgovbond, Date(2015, 02, 17)) == true
+
+	@test isbday(hc_usgovbond, Date(2015, 05, 24)) == false
+	@test isbday(hc_usgovbond, Date(2015, 05, 25)) == false # Memorial Day - Monday
+	@test isbday(hc_usgovbond, Date(2015, 05, 26)) == true
+
+	@test isbday(hc_usgovbond, Date(2015, 07, 02)) == true
+	@test isbday(hc_usgovbond, Date(2015, 07, 03)) == false # Independence Day - Friday
+	@test isbday(hc_usgovbond, Date(2015, 07, 04)) == false
+
+	@test isbday(hc_usgovbond, Date(2015, 09, 06)) == false
+	@test isbday(hc_usgovbond, Date(2015, 09, 07)) == false # Labor Day - Monday
+	@test isbday(hc_usgovbond, Date(2015, 09, 08)) == true
+
+	@test isbday(hc_usgovbond, Date(2015, 10, 11)) == false
+	@test isbday(hc_usgovbond, Date(2015, 10, 12)) == false # Columbus Day - Monday
+	@test isbday(hc_usgovbond, Date(2015, 10, 13)) == true
+
+	@test isbday(hc_usgovbond, Date(2015, 11, 10)) == true
+	@test isbday(hc_usgovbond, Date(2015, 11, 11)) == false # Veterans Day - Wednesday
+	@test isbday(hc_usgovbond, Date(2015, 11, 12)) == true
+
+	@test isbday(hc_usgovbond, Date(2015, 11, 25)) == true
+	@test isbday(hc_usgovbond, Date(2015, 11, 26)) == false # Thanksgiving Day - Thursday
+	@test isbday(hc_usgovbond, Date(2015, 11, 27)) == true
+
+	@test isbday(hc_usgovbond, Date(2015, 12, 24)) == true
+	@test isbday(hc_usgovbond, Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday(hc_usgovbond, Date(2015, 12, 26)) == false
+
+	@test isbday(hc_usgovbond, Date(2010, 12, 31)) == false # new years day observed
+	@test isbday(hc_usgovbond, Date(2004, 12, 31)) == false # new years day observed
+
+	@test isbday(hc_usgovbond, Date(2013, 03, 28)) == true # thursday
+	@test isbday(hc_usgovbond, Date(2013, 03, 29)) == false # good friday
+	@test isbday(hc_usgovbond, Date(2013, 03, 30)) == false # saturday
+
+	# Symbol
+	@test isbday(:USGovernmentBond, Date(2015, 12, 24)) == true
+	@test isbday(:USGovernmentBond, Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday(:USGovernmentBond, Date(2015, 12, 26)) == false
+
+	# String
+	@test isbday("USGovernmentBond", Date(2015, 12, 24)) == true
+	@test isbday("USGovernmentBond", Date(2015, 12, 25)) == false # Christmas - Friday
+	@test isbday("USGovernmentBond", Date(2015, 12, 26)) == false
 
 	## UKSettlement HolidayCalendar tests
 	@test isbday(hc_uk, Date(2014, 12, 31)) == true

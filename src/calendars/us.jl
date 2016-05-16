@@ -108,7 +108,7 @@ function isholiday(::USNYSE , dt::Date)
 	end
 
 	# Presidential election days
-	if (yy <= 1968 || (yy <= 1980 && yy % 4 == 0)) && mm == 11 && d <= 7 && Dates.istuesday(dt)
+	if (yy <= 1968 || (yy <= 1980 && yy % 4 == 0)) && mm == 11 && dd <= 7 && Dates.istuesday(dt)
 		return true
 	end 
 
