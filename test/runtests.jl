@@ -24,9 +24,9 @@ all_calendars_vec = [bhc, ushc, ukhc, hc_composite_BR_USA, usnysehc, usgovbondhc
 @test string(bhc) == "BusinessDays.BRSettlement"
 
 # Check typing system
-@test typeof(bhc) <: HolidayCalendar
-@test typeof(ushc) <: HolidayCalendar
-@test typeof(ukhc) <: HolidayCalendar
+@test isa(bhc,HolidayCalendar)
+@test isa(ushc,HolidayCalendar)
+@test isa(ukhc,HolidayCalendar)
 
 ################
 ## easter.jl
