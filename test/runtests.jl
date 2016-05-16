@@ -552,9 +552,20 @@ for usecache in [false, true]
 	@test tobday(hc_brazil, Date(2013, 02, 08)) == Date(2013, 02, 08) # regular friday
 	@test tobday(hc_brazil, Date(2013, 02, 09)) == Date(2013, 02, 13) # after carnaval
 	@test tobday(hc_brazil, Date(2013, 02, 09); forward = true) == Date(2013, 02, 13) # after carnaval
-
 	@test tobday(hc_brazil, Date(2013, 02, 13); forward = false) == Date(2013, 02, 13) # after carnaval
 	@test tobday(hc_brazil, Date(2013, 02, 12); forward = false) == Date(2013, 02, 08) # before carnaval
+
+	@test tobday(:Brazil, Date(2013, 02, 08)) == Date(2013, 02, 08) # regular friday
+	@test tobday(:Brazil, Date(2013, 02, 09)) == Date(2013, 02, 13) # after carnaval
+	@test tobday(:Brazil, Date(2013, 02, 09); forward = true) == Date(2013, 02, 13) # after carnaval
+	@test tobday(:Brazil, Date(2013, 02, 13); forward = false) == Date(2013, 02, 13) # after carnaval
+	@test tobday(:Brazil, Date(2013, 02, 12); forward = false) == Date(2013, 02, 08) # before carnaval
+
+	@test tobday("Brazil", Date(2013, 02, 08)) == Date(2013, 02, 08) # regular friday
+	@test tobday("Brazil", Date(2013, 02, 09)) == Date(2013, 02, 13) # after carnaval
+	@test tobday("Brazil", Date(2013, 02, 09); forward = true) == Date(2013, 02, 13) # after carnaval
+	@test tobday("Brazil", Date(2013, 02, 13); forward = false) == Date(2013, 02, 13) # after carnaval
+	@test tobday("Brazil", Date(2013, 02, 12); forward = false) == Date(2013, 02, 08) # before carnaval
 
 	@test advancebdays(hc_brazil, Date(2013, 02, 06), 0) == Date(2013, 02, 06) # regular wednesday
 	@test advancebdays(hc_brazil, Date(2013, 02, 06), 1) == Date(2013, 02, 07) # regular thursday

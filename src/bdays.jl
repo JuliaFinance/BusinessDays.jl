@@ -42,7 +42,7 @@ function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
 	return next
 end
 
-tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar,calendar), dt; forward)
+tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar,calendar), dt; forward=forward)
 
 doc"""
 Increments given date `dt` by `bdays_count`.
