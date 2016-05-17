@@ -131,11 +131,15 @@ Returns a `Vector{Date}` with the list of business days between `dt0` and `dt1`.
 function listbdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 	d = tobday(hc,min(dt0,dt1))
 	const d1 = max(dt0, dt1)
-	const n = convert(Int, d1-d)
-	raw_vec::Array{Date, 1} = Array(Date, n)
-	if d <= d1
-		raw_vec[1] = d
+
+	# empty result
+	if d > d1
+		return Array(Date,0)
 	end
+
+	const n = convert(Int, d1-d)+1
+	raw_vec::Array{Date, 1} = Array(Date, n)
+	raw_vec[1] = d
 	i::Int = 2
 	d = advancebdays(hc,d,1)
 	while d <= d1

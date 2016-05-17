@@ -816,6 +816,10 @@ for usecache in [false, true]
 	@test listholidays("Brazil", Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
 
 	@test listbdays("Brazil", Date(2016,5,18), Date(2016,5,23)) == [Date(2016,5,18),Date(2016,5,19),Date(2016,5,20),Date(2016,5,23)]
+	@test listbdays("Brazil", Date(2016,5,18), Date(2016,5,18)) == [Date(2016,5,18)]
+	@test isempty(listbdays("Brazil", Date(2016,5,21), Date(2016,5,21)))
+	@test isempty(listbdays("Brazil", Date(2016,5,21), Date(2016,5,22)))
+	@test listbdays("Brazil", Date(2016,5,21), Date(2016,5,23)) == [Date(2016,5,23)]
 end
 
 include("perftests.jl")
