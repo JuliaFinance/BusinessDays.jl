@@ -31,5 +31,6 @@ include("bdayscache.jl")
 include("bdays.jl")
 include("bdaysvecfun.jl")
 include("composite.jl")
+include("query.jl")
 
 end # module BusinessDays
