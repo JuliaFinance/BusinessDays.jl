@@ -1,5 +1,5 @@
 
-doc"""
+"""
 Returns `true` for Saturdays or Sundays.
 Returns `false` otherwise.
 """
@@ -7,7 +7,7 @@ function isweekend(x::Date)
 	return dayofweek(x) in [6, 7]
 end
 
-doc"""
+"""
 Returns `true` for weekends or holidays.
 Returns `false` otherwise.
 """
@@ -22,7 +22,7 @@ end
 
 isbday(calendar, dt) = isbday(convert(HolidayCalendar, calendar), dt)
 
-doc"""
+"""
 Adjusts `dt` to next Business Day if it's not a Business Day.
 If `isbday(dt)`, returns `dt`.
 """
@@ -44,7 +44,7 @@ end
 
 tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar,calendar), dt; forward=forward)
 
-doc"""
+"""
 Increments given date `dt` by `bdays_count`.
 Decrements it if `bdays_count` is negative.
 
@@ -79,7 +79,7 @@ end
 
 advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar,calendar), dt, bdays_count)
 
-doc"""
+"""
 Counts the number of Business Days between `dt0` and `dt1`.
 Returns instance of `Dates.Day`.
 
@@ -112,15 +112,35 @@ end
 
 bdays(calendar, dt0, dt1) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 
-doc"""
+"""
 Returns a `Vector{Date}` with the list of holidays between `dt0` and `dt1`.
 """
 function listholidays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 	const d0 = min(dt0, dt1)
 	const d1 = max(dt0, dt1)
 	const dt_range = d0:d1
-	isbday_vec = [ isholiday(hc, i) for i in dt_range ]
-	return dt_range[isbday_vec]
+	isholiday_vec = [ isholiday(hc, i) for i in dt_range ]
+	return dt_range[isholiday_vec]
 end
 
 listholidays(calendar, dt0::Date, dt1::Date) = listholidays(convert(HolidayCalendar,calendar), dt0, dt1)
+
+function listbdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
+	d = tobday(hc,min(dt0,dt1))
+	const d1 = max(dt0, dt1)
+	const n = convert(Int, d1-d)
+	raw_vec::Array{Date, 1} = Array(Date, n)
+	if d <= d1
+		raw_vec[1] = d
+	end
+	i::Int = 2
+	d = advancebdays(hc,d,1)
+	while d <= d1
+		raw_vec[i] = d
+		i+=1
+		d = advancebdays(hc,d,1)
+	end
+	return raw_vec[1:(i-1)]
+end
+
+listbdays(calendar, dt0::Date, dt1::Date) = listbdays(convert(HolidayCalendar,calendar), dt0, dt1)

@@ -1,10 +1,10 @@
 
-doc"""
+"""
 *Abstract* type for Holiday Calendars.
 """
 abstract HolidayCalendar
 
-doc"""
+"""
 Data structure for calendar cache.
 """
 type HolidayCalendarCache
@@ -20,31 +20,31 @@ Base.string(hc::HolidayCalendar) = string(typeof(hc))
 #####################################
 ## CONCRETE CALENDAR IMPLEMENTATIONS
 #####################################
-doc"""
+"""
 Banking holidays for Brazil (federal holidays plus Carnival).
 """
 type BRSettlement <: HolidayCalendar end
 
 typealias Brazil BRSettlement
 
-doc"""
+"""
 United States federal holidays.
 """
 type USSettlement <: HolidayCalendar end
 
 typealias UnitedStates USSettlement
 
-doc"""
+"""
 United States NYSE holidays.
 """
 type USNYSE <: HolidayCalendar end
 
-doc"""
+"""
 United States Government Bond calendar.
 """
 type USGovernmentBond <: HolidayCalendar end
 
-doc"""
+"""
 Banking holidays for England and Wales.
 """
 type UKSettlement <: HolidayCalendar end

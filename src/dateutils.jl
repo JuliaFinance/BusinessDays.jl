@@ -1,5 +1,5 @@
 
-doc"""
+"""
 Returns Easter date as a *Rata Die* `Int64`. See *https://en.wikipedia.org/wiki/Rata_Die*.
 
 Based on Algo R, at *http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html*.
@@ -34,7 +34,7 @@ function easter_rata(y::Year)
      return p + 7 - mod(p, 7)
 end
 
-doc"""
+"""
 Returns result of `easter_rata` as a `Base.Dates.Date` instance.
 """
 function easter_date(y::Year)
@@ -46,7 +46,7 @@ end
 # const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7
 # See query.jl on Dates module
 # See also dayofweek(dt) function.
-doc"""
+"""
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 
 `weekday_target` values are declared in module `Base.Dates`: 

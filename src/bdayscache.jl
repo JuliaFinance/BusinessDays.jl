@@ -2,7 +2,7 @@
 # Cache routines for Business Days precalculated days
 #
 
-doc"""
+"""
 Holds caches for Holiday Calendars.
 
 * Key = `HolidayCalendar` instance
@@ -42,7 +42,7 @@ function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
 end
 
 # Be sure to use this function on a syncronized code (not multithreaded).
-doc"""
+"""
 Creates cache for a given Holiday Calendar. After calling this function, any call to `isbday`
 function, or any function that uses `isbday`, will be optimized to use this cache.
 """
@@ -70,7 +70,7 @@ function cleancache()
 	end
 end
 
-doc"""
+"""
 Cleans cache for a given Holiday Calendar.
 """
 function cleancache(hc::HolidayCalendar)

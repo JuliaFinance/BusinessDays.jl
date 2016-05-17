@@ -21,7 +21,8 @@ export
 	tobday,
 	advancebdays,
 	bdays,
-	listholidays
+	listholidays,
+	listbdays
 
 include("dateutils.jl")
 include("types.jl")

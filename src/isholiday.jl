@@ -1,6 +1,6 @@
 
 # Fallback implementation for isholiday()
-doc"""
+"""
 Returns `true` if `dt` is a holiday.
 Returns `false` otherwise.
 """
