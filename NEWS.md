@@ -1,5 +1,5 @@
 
-## For the next release
+## Master branch
 
 * A `HolidayCalendar` can now be referenced using `Symbol` or `String`.
 
@@ -8,6 +8,16 @@ julia> using BusinessDays
 julia> bdays("Brazil", Date(2016,4,1), Date(2016,5,1))
 julia> bdays(:Brazil, Date(2016,4,1), Date(2016,5,1))
 ```
+
+* `Brazil` Holiday Calendar type was renamed to `BRSettlement`.
+
+* Added type aliases for *settlement* calendars:
+
+	* `BRSettlement` : `Brazil`
+	* `USSettlement` : `UnitedStates`
+	* `UKSettlement` : `UnitedKingdom`
+
+* Added utility functions `listholidays` and `listbdays`.
 
 ## v0.2.0 release notes
 
