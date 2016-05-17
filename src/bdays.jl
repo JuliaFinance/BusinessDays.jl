@@ -125,6 +125,9 @@ end
 
 listholidays(calendar, dt0::Date, dt1::Date) = listholidays(convert(HolidayCalendar,calendar), dt0, dt1)
 
+"""
+Returns a `Vector{Date}` with the list of business days between `dt0` and `dt1`.
+"""
 function listbdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 	d = tobday(hc,min(dt0,dt1))
 	const d1 = max(dt0, dt1)
