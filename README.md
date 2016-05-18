@@ -164,9 +164,13 @@ If `ascending` is true, searches from the beggining of the month. If false, sear
 
 If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 
-**isholiday(hc::HolidayCalendar, dt::Date)**
+**isholiday(calendar, dt)**
 
-Checks if `dt` is a holiday. Returns boolean values.
+Checks if `dt` is a holiday based on a given `calendar` of holidays.
+
+`calendar` can be an instance of `HolidayCalendar`,  a `Symbol` or an `AbstractString`.
+
+Returns boolean values.
 
 **isweekend(dt)**
 
