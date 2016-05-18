@@ -513,8 +513,8 @@ for usecache in [false, true]
 	@test isbday(hc_usnyse, Date(2015, 12, 25)) == false # Christmas - Friday
 	@test isbday(hc_usnyse, Date(2015, 12, 26)) == false
 
-	@test isbday(hc_usnyse, Date(2010, 12, 31)) == false # new years day observed
-	@test isbday(hc_usnyse, Date(2004, 12, 31)) == false # new years day observed
+	@test isbday(hc_usnyse, Date(2010, 12, 31)) == true # Friday before new years
+	@test isbday(hc_usnyse, Date(2004, 12, 31)) == true # Friday before new years
 
 	@test isbday(hc_usnyse, Date(2013, 03, 28)) == true # thursday
 	@test isbday(hc_usnyse, Date(2013, 03, 29)) == false # good friday
@@ -571,8 +571,8 @@ for usecache in [false, true]
 	@test isbday(hc_usgovbond, Date(2015, 12, 25)) == false # Christmas - Friday
 	@test isbday(hc_usgovbond, Date(2015, 12, 26)) == false
 
-	@test isbday(hc_usgovbond, Date(2010, 12, 31)) == false # new years day observed
-	@test isbday(hc_usgovbond, Date(2004, 12, 31)) == false # new years day observed
+	@test isbday(hc_usgovbond, Date(2010, 12, 31)) == true # Friday before new years
+	@test isbday(hc_usgovbond, Date(2004, 12, 31)) == true # Friday before new years
 
 	@test isbday(hc_usgovbond, Date(2013, 03, 28)) == true # thursday
 	@test isbday(hc_usgovbond, Date(2013, 03, 29)) == false # good friday

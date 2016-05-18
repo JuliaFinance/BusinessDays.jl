@@ -75,9 +75,6 @@ function isholiday(::USNYSE , dt::Date)
 			# New Year's Day
 			adjustweekendholidayUS(Date(yy, 1, 1)) == dt
 			||
-			# New Year's Day on the previous year when 1st Jan is Saturday
-			(mm == 12 &&  dd == 31 && dayofweek(dt) == Friday)
-			||
 			# Washington's Birthday
 			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 2, 3, true)) == dt
 			||
@@ -189,9 +186,6 @@ function isholiday(::USGovernmentBond , dt::Date)
 	if (
 			# New Year's Day
 			adjustweekendholidayUS(Date(yy, 1, 1)) == dt
-			||
-			# New Year's Day on the previous year when 1st Jan is Saturday
-			(mm == 12 &&  dd == 31 && dayofweek(dt) == Friday)
 			||
 			# Birthday of Martin Luther King, Jr.
 			yy >= 1983 && adjustweekendholidayUS(findweekday(Dates.Monday, yy, 1, 3, true)) == dt
