@@ -30,7 +30,7 @@ function isholiday(::USSettlement , dt::Date)
 			(mm == 12 &&  dd == 31 && dayofweek(dt) == Friday)
 			||
 			# Birthday of Martin Luther King, Jr.
-			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 1, 3, true)) == dt
+			(yy >= 1983 && adjustweekendholidayUS(findweekday(Dates.Monday, yy, 1, 3, true)) == dt)
 			||
 			# Washington's Birthday
 			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 2, 3, true)) == dt
@@ -75,6 +75,9 @@ function isholiday(::USNYSE , dt::Date)
 			# New Year's Day
 			adjustweekendholidayUS(Date(yy, 1, 1)) == dt
 			||
+			# Birthday of Martin Luther King, Jr.
+			(yy >= 1998 && adjustweekendholidayUS(findweekday(Dates.Monday, yy, 1, 3, true)) == dt)
+			||
 			# Washington's Birthday
 			adjustweekendholidayUS(findweekday(Dates.Monday, yy, 2, 3, true)) == dt
 			||
@@ -99,11 +102,6 @@ function isholiday(::USNYSE , dt::Date)
 		return true
 	end
 	
-	# Birthday of Martin Luther King, Jr.
-	if yy >= 1998 && adjustweekendholidayUS(findweekday(Dates.Monday, yy, 1, 3, true)) == dt
-		return true
-	end
-
 	# Presidential election days
 	if (yy <= 1968 || (yy <= 1980 && yy % 4 == 0)) && mm == 11 && dd <= 7 && Dates.istuesday(dt)
 		return true

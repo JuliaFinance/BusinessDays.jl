@@ -422,6 +422,8 @@ for usecache in [false, true]
 	@test isbday(hc_usa, Date(2015, 01, 19)) == false # Birthday of Martin Luther King, Jr. - Monday
 	@test isbday(hc_usa, Date(2015, 01, 20)) == true
 
+	@test isbday(hc_usa, Date(1982,01,18)) == true # not a holiday for Martin Luther King
+
 	@test isbday(hc_usa, Date(2015, 02, 15)) == false
 	@test isbday(hc_usa, Date(2015, 02, 16)) == false # Washington’s Birthday - Monday
 	@test isbday(hc_usa, Date(2015, 02, 17)) == true
