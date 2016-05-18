@@ -1,5 +1,5 @@
 
-## Master branch
+## v0.3.0 release notes
 
 * A `HolidayCalendar` can now be referenced using `Symbol` or `String`.
 
@@ -18,6 +18,10 @@ julia> bdays(:Brazil, Date(2016,4,1), Date(2016,5,1))
     * `UKSettlement` : `UnitedKingdom`
 
 * Added utility functions `listholidays` and `listbdays`.
+
+* Fix applied to USSettlement calendar for years before 1983.
+
+* Improved package documentation.
 
 ## v0.2.0 release notes
 
