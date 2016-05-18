@@ -2,9 +2,9 @@
 """
     easter_rata(y::Year) → Int
 
-Returns Easter date as a *Rata Die* `Int`. See *https://en.wikipedia.org/wiki/Rata_Die*.
+Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number.
 
-Based on Algo R, at *http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html*.
+Based on *[Algo R](http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html)*.
 """
 function easter_rata(y::Year)
 
@@ -51,10 +51,12 @@ end
 # See query.jl on Dates module
 # See also dayofweek(dt) function.
 """
+    findweekday(weekday_target::Int, yy::Int, mm::Int, occurrence::Int, ascending::Bool) → Date
+
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 
 `weekday_target` values are declared in module `Base.Dates`: 
-`Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
+`Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`.
 
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
 

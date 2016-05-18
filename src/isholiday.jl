@@ -1,8 +1,12 @@
 
-# Fallback implementation for isholiday()
 """
-Returns `true` if `dt` is a holiday.
-Returns `false` otherwise.
+	isholiday(calendar, dt)
+
+Checks if `dt` is a holiday based on a given `calendar` of holidays.
+
+`calendar` can be an instance of `HolidayCalendar`,  a `Symbol` or an `AbstractString`.
+
+Returns boolean values.
 """
 function isholiday(hc::HolidayCalendar, dt::Date)
     error("isholiday for $(hc) not yet implemented.")

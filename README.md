@@ -151,58 +151,72 @@ Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* nu
 
 **BusinessDays.easter_date(y::Year) → Date**
 
-Returns result of `easter_rata` as a `Base.Dates.Date` instance.
+Returns result of `easter_rata` as a `Date` instance.
 
-**isholiday(hc::HolidayCalendar, dt::Date) → Bool**
-
-Checks if `dt` is a holiday.
-
-**BusinessDays.findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date**
+**BusinessDays.findweekday(weekday_target::Int, yy::Int, mm::Int, occurrence::Int, ascending::Bool) → Date**
 
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 
 `weekday_target` values are declared in module `Base.Dates`: 
-`Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`
+`Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`.
 
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
 
 If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 
-**isweekend(x::Date) → Bool**
+**isholiday(hc::HolidayCalendar, dt::Date)**
 
-Checks if `x` is a weekend day. Check methods(isweekend) for vectorized alternative.
+Checks if `dt` is a holiday. Returns boolean values.
 
-**isbday(hc::HolidayCalendar, dt::Date) → Bool**
+**isweekend(dt)**
 
-Checks for a Business Day. Usually it checks two conditions: whether it's not a holiday, and not a weekend day.
-Check methods(isbday) for vectorized alternative.
+Returns `true` for Saturdays or Sundays.
+Returns `false` otherwise.
 
-**tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true) → Date**
+**isbday(calendar, dt)**
 
-Ajusts given date to next Business Day if `forward == true`.
-Ajusts to the last Business Day if `forward == false`.
-Check methods(tobday) for vectorized alternative.
+Returns `true` for weekends or holidays.
+Returns `false` otherwise.
 
-**advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int) → Date**
+**tobday(calendar, dt; [forward=true])**
 
-Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_count` is negative).
+Adjusts `dt` to next Business Day if it's not a Business Day.
+If `isbday(dt)`, returns `dt`.
 
-**bdays(hc::HolidayCalendar, dt0::Date, dt1::Date) → Int**
+**advancebdays(calendar, dt, bdays_count)**
 
-Counts number of Business Days between `dt0` and `dt1`.
-Check methods(bdays) for vectorized alternative.
+Increments given date `dt` by `bdays_count`.
+Decrements it if `bdays_count` is negative.
+`bdays_count` can be a `Int`, `Vector{Int}` or a `UnitRange`.
 
-**listholidays(hc::HolidayCalendar, dt0::Date, dt1::Date) → Vector{Date}**
+Computation starts by next Business Day if `dt` is not a Business Day.
 
-Returns a `Vector{Date}` with the list of holidays between `dt0` and `dt1`.
+**bdays(calendar, dt0, dt1)**
 
-**BusinessDays.initcache(hc::HolidayCalendar)**
+Counts the number of Business Days between `dt0` and `dt1`.
+Returns instances of `Dates.Day`.
 
-Creates cache for given calendar. Check `methods(BusinessDays.initcache)` for alternatives.
+Computation is always based on next Business Day if given dates are not Business Days.
 
-**BusinessDays.cleancache()** and **BusinessDays.cleancache(hc::HolidayCalendar)**
+**listholidays(calendar, dt0::Date, dt1::Date) → Vector{Date}**
 
-Removes calendars from cache.
+Returns the list of holidays between `dt0` and `dt1`.
+
+**listbdays(calendar, dt0::Date, dt1::Date) → Vector{Date}**
+
+Returns the list of business days between `dt0` and `dt1`.
+
+**BusinessDays.initcache(calendar, [d0], [d1])**
+
+Creates cache for a given Holiday Calendar. After calling this function, any call to `isbday`
+function, or any function that uses `isbday`, will be optimized to use this cache.
+
+You can pass `calendar` as an instance of `HolidayCalendar`, `Symbol` or `AbstractString`.
+You can also pass `calendar` as an `AbstractArray` of those types.
+
+**BusinessDays.cleancache([calendar])**
+
+Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `AbstractString`.
 
 ##Available Business Days Calendars
 - **BRSettlement** or **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
