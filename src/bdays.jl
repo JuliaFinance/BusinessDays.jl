@@ -1,13 +1,17 @@
 
 """
+    isweekend(dt)
+
 Returns `true` for Saturdays or Sundays.
 Returns `false` otherwise.
 """
-function isweekend(x::Date)
-    return dayofweek(x) in [6, 7]
+function isweekend(dt::Date)
+    return dayofweek(dt) in [6, 7]
 end
 
 """
+    isbday(calendar, dt)
+
 Returns `true` for weekends or holidays.
 Returns `false` otherwise.
 """
@@ -23,6 +27,8 @@ end
 isbday(calendar, dt) = isbday(convert(HolidayCalendar, calendar), dt)
 
 """
+    tobday(calendar, dt; [forward=true])
+
 Adjusts `dt` to next Business Day if it's not a Business Day.
 If `isbday(dt)`, returns `dt`.
 """
@@ -31,7 +37,7 @@ function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
         return dt
     else
         local next::Date
-        local increment::Int64 = forward ? 1 : -1
+        local increment::Int = forward ? 1 : -1
         next = dt + Dates.Day(increment)
 
         while !isbday(hc, next)
@@ -45,8 +51,11 @@ end
 tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar,calendar), dt; forward=forward)
 
 """
+    advancebdays(calendar, dt, bdays_count)
+
 Increments given date `dt` by `bdays_count`.
 Decrements it if `bdays_count` is negative.
+`bdays_count` can be a `Int`, `Vector{Int}` or a `UnitRange`.
 
 Computation starts by next Business Day if `dt` is not a Business Day.
 """
@@ -80,8 +89,10 @@ end
 advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar,calendar), dt, bdays_count)
 
 """
+    bdays(calendar, dt0, dt1)
+
 Counts the number of Business Days between `dt0` and `dt1`.
-Returns instance of `Dates.Day`.
+Returns instances of `Dates.Day`.
 
 Computation is always based on next Business Day if given dates are not Business Days.
 """

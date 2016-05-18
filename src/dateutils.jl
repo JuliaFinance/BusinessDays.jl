@@ -1,14 +1,16 @@
 
 """
-Returns Easter date as a *Rata Die* `Int64`. See *https://en.wikipedia.org/wiki/Rata_Die*.
+    easter_rata(y::Year) → Int
+
+Returns Easter date as a *Rata Die* `Int`. See *https://en.wikipedia.org/wiki/Rata_Die*.
 
 Based on Algo R, at *http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html*.
 """
 function easter_rata(y::Year)
 
-    local c::Int64
-    local e::Int64
-    local p::Int64
+    local c::Int
+    local e::Int
+    local p::Int
 
      # Algo R only works after 1582
      if y.value < 1582
@@ -17,7 +19,7 @@ function easter_rata(y::Year)
      end
 
     # Century
-     c = div( y.value , 100) + 1
+     c = div(y.value , 100) + 1
 
      # Shifted Epact
      e = mod(14 + 11*(mod(y.value, 19)) - div(3*c, 4) + div(5+8*c, 25), 30)
@@ -35,7 +37,9 @@ function easter_rata(y::Year)
 end
 
 """
-Returns result of `easter_rata` as a `Base.Dates.Date` instance.
+    easter_date(y::Year) → Date
+
+Returns result of `easter_rata` as a `Date` instance.
 """
 function easter_date(y::Year)
     # Compute the gregorian date for Rata Die number
@@ -56,7 +60,7 @@ If `ascending` is true, searches from the beggining of the month. If false, sear
 
 If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 """
-function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)
+function findweekday(weekday_target::Int, yy::Int, mm::Int, occurrence::Int, ascending::Bool)
     
     local dt::Date = Date(yy, mm, 1)
     local dt_dayofweek::Integer

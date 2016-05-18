@@ -145,7 +145,7 @@ See *runtests.jl* for more examples.
 
 *Abstract* type for Holiday Calendars.
 
-**BusinessDays.easter_rata(y::Year) → Int64**
+**BusinessDays.easter_rata(y::Year) → Int**
 
 Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number.
 
@@ -187,7 +187,7 @@ Check methods(tobday) for vectorized alternative.
 
 Ajusts given date `bdays_count` Business Days forward (or backwards if `bdays_count` is negative).
 
-**bdays(hc::HolidayCalendar, dt0::Date, dt1::Date) → Int64**
+**bdays(hc::HolidayCalendar, dt0::Date, dt1::Date) → Int**
 
 Counts number of Business Days between `dt0` and `dt1`.
 Check methods(bdays) for vectorized alternative.

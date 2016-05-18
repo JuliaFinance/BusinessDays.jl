@@ -38,13 +38,18 @@ function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
     dt0 = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
     dt1 = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
     
-    return Day(convert(Int64, hcc.bdayscounter_array[_linenumber(hcc, dt1)]) - convert(Int64, hcc.bdayscounter_array[_linenumber(hcc, dt0)]))
+    return Day(convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt1)]) - convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt0)]))
 end
 
 # Be sure to use this function on a syncronized code (not multithreaded).
 """
+    initcache(calendar, [d0], [d1])
+
 Creates cache for a given Holiday Calendar. After calling this function, any call to `isbday`
 function, or any function that uses `isbday`, will be optimized to use this cache.
+
+You can pass `calendar` as an instance of `HolidayCalendar`, `Symbol` or `AbstractString`.
+You can also pass `calendar` as an `AbstractArray` of those types.
 """
 function initcache(hc::HolidayCalendar, d0::Date, d1::Date)
     isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
@@ -71,7 +76,9 @@ function cleancache()
 end
 
 """
-Cleans cache for a given Holiday Calendar.
+    cleancache([calendar])
+
+Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `AbstractString`.
 """
 function cleancache(hc::HolidayCalendar)
     if haskey(_CACHE_DICT, hc)
@@ -101,11 +108,11 @@ function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
     const d1_rata = Dates.days(d1_)
     
     # length of the cache arrays
-    const len::Int64 = d1_rata - d0_rata + 1
+    const len::Int = d1_rata - d0_rata + 1
 
     # This function uses UInt32 to store bdayscounter array
     # We need to check if we'll exceed typemax(UInt32)
-    if len > convert(Int64, typemax(UInt32))
+    if len > convert(Int, typemax(UInt32))
         error("Maximum size allowed for bdays array is $(typemax(UInt32)). Required lenght of $(len).")
     end
 

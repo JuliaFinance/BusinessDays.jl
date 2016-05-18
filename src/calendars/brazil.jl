@@ -46,8 +46,8 @@ function isholiday(::Brazil, dt::Date)
 
         # Easter occurs up to April, so Corpus Christi will be up to July in the worst case, which is before August (mm < 8). See test/easter-min-max.jl .
         # Holidays based on easter date
-        const dt_rata::Int64 = Dates.days(dt)
-        const e_rata::Int64 = easter_rata(Dates.Year(yy))
+        const dt_rata::Int = Dates.days(dt)
+        const e_rata::Int = easter_rata(Dates.Year(yy))
 
         if (
                 # Segunda de Carnaval

@@ -68,8 +68,8 @@ function isholiday(::USNYSE , dt::Date)
     const mm = Dates.month(dt)
     const dd = Dates.day(dt)
 
-    const dt_rata::Int64 = Dates.days(dt)
-    const e_rata::Int64 = easter_rata(Dates.Year(yy))
+    const dt_rata::Int = Dates.days(dt)
+    const e_rata::Int = easter_rata(Dates.Year(yy))
 
     if (
             # New Year's Day
@@ -178,8 +178,8 @@ function isholiday(::USGovernmentBond , dt::Date)
     const mm = Dates.month(dt)
     const dd = Dates.day(dt)
 
-    const dt_rata::Int64 = Dates.days(dt)
-    const e_rata::Int64 = easter_rata(Dates.Year(yy))
+    const dt_rata::Int = Dates.days(dt)
+    const e_rata::Int = easter_rata(Dates.Year(yy))
 
     if (
             # New Year's Day

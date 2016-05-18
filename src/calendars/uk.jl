@@ -60,8 +60,8 @@ function isholiday(::UKSettlement, dt::Date)
 
         # Easter occurs up to April, which is before August (mm < 8). See test/easter-min-max.jl .
         # Holidays based on easter date
-        const dt_rata::Int64 = Dates.days(dt)
-        const e_rata::Int64 = easter_rata(Dates.Year(yy))
+        const dt_rata::Int = Dates.days(dt)
+        const e_rata::Int = easter_rata(Dates.Year(yy))
 
         if (
                 # Good Friday
