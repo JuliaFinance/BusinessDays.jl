@@ -7,22 +7,22 @@ using Base.Dates
 
 # types.jl
 export
-	HolidayCalendar,
-	CompositeHolidayCalendar
+    HolidayCalendar,
+    CompositeHolidayCalendar
 
 # isholiday.jl
 export
-	isholiday
+    isholiday
 
 # bdays.jl : main functions for BusinessDays module
 export
-	isweekend,
-	isbday,
-	tobday,
-	advancebdays,
-	bdays,
-	listholidays,
-	listbdays
+    isweekend,
+    isbday,
+    tobday,
+    advancebdays,
+    bdays,
+    listholidays,
+    listbdays
 
 include("dateutils.jl")
 include("types.jl")

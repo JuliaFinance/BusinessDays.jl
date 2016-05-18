@@ -5,7 +5,7 @@ Returns `true` if `dt` is a holiday.
 Returns `false` otherwise.
 """
 function isholiday(hc::HolidayCalendar, dt::Date)
-	error("isholiday for $(hc) not yet implemented.")
+    error("isholiday for $(hc) not yet implemented.")
 end
 
 isholiday(::NullHolidayCalendar, dt::Date) = false

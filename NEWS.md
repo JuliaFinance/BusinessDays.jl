@@ -13,9 +13,9 @@ julia> bdays(:Brazil, Date(2016,4,1), Date(2016,5,1))
 
 * Added type aliases for *settlement* calendars:
 
-	* `BRSettlement` : `Brazil`
-	* `USSettlement` : `UnitedStates`
-	* `UKSettlement` : `UnitedKingdom`
+    * `BRSettlement` : `Brazil`
+    * `USSettlement` : `UnitedStates`
+    * `UKSettlement` : `UnitedKingdom`
 
 * Added utility functions `listholidays` and `listbdays`.
 

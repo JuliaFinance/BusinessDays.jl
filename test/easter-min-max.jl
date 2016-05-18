@@ -14,20 +14,20 @@ month_max = month(easter_1582)
 date_max = easter_1582
 
 while y <= 2100
-	e_date = bd.easter_date(Year(y))
-	m_e_date = month(e_date)
-	month_min = min(month_min, m_e_date)
-	month_max = max(month_max, m_e_date)
+    e_date = bd.easter_date(Year(y))
+    m_e_date = month(e_date)
+    month_min = min(month_min, m_e_date)
+    month_max = max(month_max, m_e_date)
 
-	if month_min == m_e_date
-		date_min = e_date
-	end
+    if month_min == m_e_date
+        date_min = e_date
+    end
 
-	if month_max == m_e_date
-		date_max = e_date
-	end
+    if month_max == m_e_date
+        date_max = e_date
+    end
 
-	y += 1
+    y += 1
 end
 
 print("easter minimum month is $(month_min) on date $(date_min) \neaster maximum month is $(month_max) on date $(date_max)\n")

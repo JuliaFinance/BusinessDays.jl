@@ -6,9 +6,9 @@ Based on Algo R, at *http://www.linuxtopia.org/online_books/programming_books/py
 """
 function easter_rata(y::Year)
 
-	local c::Int64
-	local e::Int64
-	local p::Int64
+    local c::Int64
+    local e::Int64
+    local p::Int64
 
      # Algo R only works after 1582
      if y.value < 1582
@@ -16,7 +16,7 @@ function easter_rata(y::Year)
           error("Year cannot be less than 1582. Provided: $(y.value).")
      end
 
-	# Century
+    # Century
      c = div( y.value , 100) + 1
 
      # Shifted Epact
@@ -24,7 +24,7 @@ function easter_rata(y::Year)
 
      # Adjust Epact
      if (e == 0) || ((e == 1) && ( 10 < mod(y.value, 19) ))
-     	e += 1
+        e += 1
      end
 
      # Paschal Moon
@@ -38,7 +38,7 @@ end
 Returns result of `easter_rata` as a `Base.Dates.Date` instance.
 """
 function easter_date(y::Year)
-	# Compute the gregorian date for Rata Die number
+    # Compute the gregorian date for Rata Die number
      return Date(Dates.rata2datetime( easter_rata(y) ))
 end
 
@@ -57,31 +57,31 @@ If `ascending` is true, searches from the beggining of the month. If false, sear
 If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 """
 function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)
-	
-	local dt::Date = Date(yy, mm, 1)
-	local dt_dayofweek::Integer
-	local offset::Integer
+    
+    local dt::Date = Date(yy, mm, 1)
+    local dt_dayofweek::Integer
+    local offset::Integer
 
-	if occurrence <= 0
-		error("occurrence must be >= 1. Provided $(occurrence).")
-	end
+    if occurrence <= 0
+        error("occurrence must be >= 1. Provided $(occurrence).")
+    end
 
-	if ascending
-		dt_dayofweek = dayofweek(dt)
-		offset = rem(weekday_target + 7 - dt_dayofweek, 7) # rem = MOD function
-	else
-		dt = lastdayofmonth(dt)
-		dt_dayofweek = dayofweek(dt)
-		offset = rem(dt_dayofweek + 7 - weekday_target, 7)
-	end
+    if ascending
+        dt_dayofweek = dayofweek(dt)
+        offset = rem(weekday_target + 7 - dt_dayofweek, 7) # rem = MOD function
+    else
+        dt = lastdayofmonth(dt)
+        dt_dayofweek = dayofweek(dt)
+        offset = rem(dt_dayofweek + 7 - weekday_target, 7)
+    end
 
-	if occurrence > 1
-		offset += 7 * (occurrence - 1)
-	end
+    if occurrence > 1
+        offset += 7 * (occurrence - 1)
+    end
 
-	if ascending
-		return dt + Dates.Day(offset)
-	else
-		return dt - Dates.Day(offset)
-	end
+    if ascending
+        return dt + Dates.Day(offset)
+    else
+        return dt - Dates.Day(offset)
+    end
 end

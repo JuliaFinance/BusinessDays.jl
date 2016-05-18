@@ -20,10 +20,10 @@ dt1 = final_date
 holidays = vector_of_holidays
 bdays = 0
 while d0 <= d1
-	if d0 not in holidays
-		bdays = bdays + 1
-	end
-	d0 = d0 + 1
+    if d0 not in holidays
+        bdays = bdays + 1
+    end
+    d0 = d0 + 1
 end while
 ```
 

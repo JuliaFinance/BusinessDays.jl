@@ -8,11 +8,11 @@ abstract HolidayCalendar
 Data structure for calendar cache.
 """
 type HolidayCalendarCache
-	hc::HolidayCalendar
-	isbday_array::Vector{Bool}
-	bdayscounter_array::Vector{UInt32}
-	dtmin::Date
-	dtmax::Date
+    hc::HolidayCalendar
+    isbday_array::Vector{Bool}
+    bdayscounter_array::Vector{UInt32}
+    dtmin::Date
+    dtmax::Date
 end
 
 Base.string(hc::HolidayCalendar) = string(typeof(hc))
@@ -54,23 +54,23 @@ typealias UnitedKingdom UKSettlement
 type NullHolidayCalendar <: HolidayCalendar end
 
 HCDICT = Dict{Symbol, HolidayCalendar}(
-	:BRSettlement=>BRSettlement(),
-	:Brazil=>Brazil(),
-	:USSettlement=>USSettlement(),
-	:UnitedStates=>UnitedStates(),
-	:USNYSE=>USNYSE(),
-	:USGovernmentBond=>USGovernmentBond(),
-	:UKSettlement=>UKSettlement(),
-	:UnitedKingdom=>UnitedKingdom()
+    :BRSettlement=>BRSettlement(),
+    :Brazil=>Brazil(),
+    :USSettlement=>USSettlement(),
+    :UnitedStates=>UnitedStates(),
+    :USNYSE=>USNYSE(),
+    :USGovernmentBond=>USGovernmentBond(),
+    :UKSettlement=>UKSettlement(),
+    :UnitedKingdom=>UnitedKingdom()
 )
 
 function symtocalendar(sym::Symbol)
-	nc::HolidayCalendar = NullHolidayCalendar()
-	hc::HolidayCalendar = get(HCDICT, sym, nc)
-	if hc == nc
-		error("Invalid calendar: $sym")
-	end
-	return hc
+    nc::HolidayCalendar = NullHolidayCalendar()
+    hc::HolidayCalendar = get(HCDICT, sym, nc)
+    if hc == nc
+        error("Invalid calendar: $sym")
+    end
+    return hc
 end
 @vectorize_1arg Symbol symtocalendar
 
