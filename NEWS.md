@@ -6,7 +6,10 @@
 ```julia
 julia> using BusinessDays
 julia> bdays("Brazil", Date(2016,4,1), Date(2016,5,1))
+20 days
+
 julia> bdays(:Brazil, Date(2016,4,1), Date(2016,5,1))
+20 days
 ```
 
 * `Brazil` Holiday Calendar type was renamed to `BRSettlement`.
