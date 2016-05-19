@@ -12,6 +12,12 @@ julia> bdays(:Brazil, Date(2016,4,1), Date(2016,5,1))
 20 days
 ```
 
+* new Holiday Calendars:
+
+	- **USNYSE** : United States NYSE holidays.
+
+	- **USGovernmentBond** : United States Government Bond calendar.
+
 * `Brazil` Holiday Calendar type was renamed to `BRSettlement`.
 
 * Added type aliases for *settlement* calendars:
