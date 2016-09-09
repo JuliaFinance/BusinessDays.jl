@@ -1,5 +1,4 @@
 
-# BrazilBanking <: HolidayCalendar
 # Brazilian Banking Holidays
 function isholiday(::Brazil, dt::Date)
 
