@@ -9,7 +9,7 @@ Checks if `dt` is a holiday based on a given `calendar` of holidays.
 Returns boolean values.
 """
 function isholiday(hc::HolidayCalendar, dt::Date)
-    error("isholiday for $(hc) not yet implemented.")
+    error("isholiday for $(hc) not implemented.")
 end
 
 isholiday(::NullHolidayCalendar, dt::Date) = false
