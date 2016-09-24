@@ -1,6 +1,23 @@
 
 # United States calendars
 
+"""
+United States federal holidays.
+"""
+type USSettlement <: HolidayCalendar end
+
+typealias UnitedStates USSettlement
+
+"""
+United States NYSE holidays.
+"""
+type USNYSE <: HolidayCalendar end
+
+"""
+United States Government Bond calendar.
+"""
+type USGovernmentBond <: HolidayCalendar end
+
 # In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
 # If it falls on Sunday, it's observed on the next Monday.
 function adjustweekendholidayUS(dt::Date)

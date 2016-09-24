@@ -1,4 +1,11 @@
 
+"""
+Banking holidays for Brazil (federal holidays plus Carnival).
+"""
+type BRSettlement <: HolidayCalendar end
+
+typealias Brazil BRSettlement
+
 # Brazilian Banking Holidays
 function isholiday(::Brazil, dt::Date)
 

@@ -5,6 +5,11 @@
 abstract HolidayCalendar
 
 """
+A calendar with no holidays or weekends.
+"""
+type NullHolidayCalendar <: HolidayCalendar end
+
+"""
 Data structure for calendar cache.
 """
 type HolidayCalendarCache
@@ -16,42 +21,6 @@ type HolidayCalendarCache
 end
 
 Base.string(hc::HolidayCalendar) = string(typeof(hc))
-
-#####################################
-## CONCRETE CALENDAR IMPLEMENTATIONS
-#####################################
-"""
-Banking holidays for Brazil (federal holidays plus Carnival).
-"""
-type BRSettlement <: HolidayCalendar end
-
-typealias Brazil BRSettlement
-
-"""
-United States federal holidays.
-"""
-type USSettlement <: HolidayCalendar end
-
-typealias UnitedStates USSettlement
-
-"""
-United States NYSE holidays.
-"""
-type USNYSE <: HolidayCalendar end
-
-"""
-United States Government Bond calendar.
-"""
-type USGovernmentBond <: HolidayCalendar end
-
-"""
-Banking holidays for England and Wales.
-"""
-type UKSettlement <: HolidayCalendar end
-
-typealias UnitedKingdom UKSettlement
-
-type NullHolidayCalendar <: HolidayCalendar end
 
 HCDICT = Dict{Symbol, HolidayCalendar}(
     :BRSettlement=>BRSettlement(),
