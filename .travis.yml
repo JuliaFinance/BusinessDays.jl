@@ -7,9 +7,6 @@ julia:
     - nightly
 notifications:
     email: false
-#script:
-#  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-#  - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.test("BusinessDays"; coverage=true)'
 after_success:
   - julia -e 'Pkg.add("Coverage"); cd(Pkg.dir("BusinessDays")); using Coverage; Coveralls.submit(Coveralls.process_folder())'
   - julia -e 'cd(Pkg.dir("BusinessDays")); using Coverage; Codecov.submit(Codecov.process_folder())'
