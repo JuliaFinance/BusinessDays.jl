@@ -7,7 +7,6 @@ Also known as *Working Days* calculator.
 
 **Installation**: 
 ```julia
-julia> Pkg.update()
 julia> Pkg.add("BusinessDays")
 ```
 
@@ -232,7 +231,7 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 - **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales.
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 - **WeekendsOnly** : for this calendar, `isholiday` returns `false`, but `isbday` returns `false` for Saturdays and Sundays.
-- **NullHolidayCalendar** : both `isholiday` and `isbday` returns false for any date. `bdays` returns the actual days between dates.
+- **NullHolidayCalendar** : both `isholiday` and `isbday` returns `false` for any date. `bdays` returns the actual days between dates.
 
 ## Adding new Holiday Calendars
 You can add your custom Holiday Calendar by doing the following:
@@ -243,15 +242,29 @@ You can add your custom Holiday Calendar by doing the following:
 **Example Code**
 
 ```julia
-using BusinessDays
-import BusinessDays.isholiday
+julia> using BusinessDays
 
-type CustomCalendar <: HolidayCalendar end
-isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
+julia> import BusinessDays.isholiday
 
-cc = CustomCalendar()
-println("$(isholiday(cc, Date(2015,8,26)))")
-println("$(isholiday(cc, Date(2015,8,27)))")
+julia> type CustomCalendar <: HolidayCalendar end
+
+julia> isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
+isholiday (generic function with 11 methods)
+
+julia> cc = CustomCalendar()
+CustomCalendar()
+
+julia> isholiday(cc, Date(2015,8,26))
+false
+
+julia> isholiday(cc, Date(2015,8,27))
+true
+
+julia> isholiday(:CustomCalendar, Date(2015,8,27))
+true
+
+julia> isholiday("CustomCalendar", Date(2015,8,27))
+true
 ```
 
 ## Alternative Libraries
