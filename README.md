@@ -231,7 +231,7 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 - **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales.
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 - **WeekendsOnly** : for this calendar, `isholiday` returns `false`, but `isbday` returns `false` for Saturdays and Sundays.
-- **NullHolidayCalendar** : both `isholiday` and `isbday` returns `false` for any date. `bdays` returns the actual days between dates.
+- **NullHolidayCalendar** : `isholiday` returns `false` and `isbday` returns `true` for any date. `bdays` returns the actual days between dates.
 
 ## Adding new Holiday Calendars
 You can add your custom Holiday Calendar by doing the following:

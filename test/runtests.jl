@@ -222,7 +222,6 @@ include("easter-min-max.jl")
 # const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7
 # see query.jl on Dates module
 # See also dayofweek(dt) function.
-# this should go to Base.Dates
 # function findweekday(weekday_target :: Int, yy :: Int, mm:: Int, occurrence :: Int, ascending :: Bool )
 @test bd.findweekday(Dates.Monday, 2015, 07, 1, true) == Date(2015, 07, 06)
 @test bd.findweekday(Dates.Monday, 2015, 07, 2, true) == Date(2015, 07, 13)
