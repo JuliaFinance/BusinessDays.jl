@@ -358,7 +358,7 @@ for usecache in [false, true]
     @test isbday(bd.NullHolidayCalendar(), Date(2016,9,25)) == true
     @test isbday(:NullHolidayCalendar, Date(2016,9,25)) == true
     @test isbday("NullHolidayCalendar", Date(2016,9,25)) == true
-    @test bdays(:NullHolidayCalendar, Date(2016,9,25), Date(2016,9,28)) == 3
+    @test bdays(:NullHolidayCalendar, Date(2016,9,25), Date(2016,9,28)) == Dates.Day(3)
 
     @test isholiday(bd.WeekendsOnly(), Date(2016,9,25)) == false
     @test isholiday(:WeekendsOnly, Date(2016,9,25)) == false
@@ -366,7 +366,7 @@ for usecache in [false, true]
     @test isbday(bd.WeekendsOnly(), Date(2016,9,25)) == false
     @test isbday(:WeekendsOnly, Date(2016,9,25)) == false
     @test isbday("WeekendsOnly", Date(2016,9,25)) == false
-    @test bdays(:WeekendsOnly, Date(2016,9,25), Date(2016,9,28)) == 2
+    @test bdays(:WeekendsOnly, Date(2016,9,25), Date(2016,9,28)) == Dates.Day(2)
 
 
     # Brazil HolidayCalendar tests
