@@ -100,7 +100,13 @@ julia> using BusinessDays
 julia> BusinessDays.initcache(:USSettlement) # creates cache for US Federal holidays, allowing fast computations
 BusinessDays.HolidayCalendarCache(BusinessDays.USSettlement(),Bool[false,true,true,true,false,false,true,true,true,true  …  true,false,false,true,true,true,true,true,false,false],UInt32[0x00000000,0x00000001,0x00000002,0x00000003,0x00000003,0x00000003,0x00000004,0x00000005,0x00000006,0x00000007  …  0x0000a78d,0x0000a78d,0x0000a78d,0x0000a78e,0x0000a78f,0x0000a790,0x0000a791,0x0000a792,0x0000a792,0x0000a792],1980-01-01,2150-12-20)
 
-julia> isbday(:USSettlement, Date(2015, 01, 01)) # New Year's Day - Thursday
+julia> isbday(:USSettlement, Date(2015, 01, 01)) # Calendars can be referenced using symbols
+false
+
+julia> isbday("USSettlement", Date(2015, 01, 01)) # ... and also strings
+false
+
+julia> isbday(BusinessDays.USSettlement(), Date(2015, 01, 01)) # but the best performance is when the calendar is referenced by a singleton instance
 false
 
 julia> tobday(:USSettlement, Date(2015, 01, 01)) # Adjust to next business day
@@ -225,6 +231,8 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 - **USGovernmentBond** : United States Government Bond calendar.
 - **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales.
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
+- **WeekendsOnly** : for this calendar, `isholiday` returns `false`, but `isbday` returns `false` for Saturdays and Sundays.
+- **NullHolidayCalendar** : both `isholiday` and `isbday` returns false for any date. `bdays` returns the actual days between dates.
 
 ## Adding new Holiday Calendars
 You can add your custom Holiday Calendar by doing the following:

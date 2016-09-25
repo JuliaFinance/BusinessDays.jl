@@ -12,7 +12,7 @@ isholiday(::WeekendsOnly, dt::Date) = false
 
 """
 A calendar with no holidays and no weekends.
-Calling `bdays` on this calendar executes a simple date difference (`dt1 - d10`).
+`bdays` returns the actual days between dates (`dt1 - d10`).
 """
 type NullHolidayCalendar <: HolidayCalendar end
 
