@@ -352,7 +352,22 @@ for usecache in [false, true]
     @test isholiday("Brazil", dt_monday) == false
     @test isholiday("Brazil", dt_newyears) == true
 
-    @test isholiday(bd.NullHolidayCalendar(), Date(2000,10,1)) == false
+    @test isholiday(bd.NullHolidayCalendar(), Date(2016,9,25)) == false
+    @test isholiday(:NullHolidayCalendar, Date(2016,9,25)) == false
+    @test isholiday("NullHolidayCalendar", Date(2016,9,25)) == false
+    @test isbday(bd.NullHolidayCalendar(), Date(2016,9,25)) == true
+    @test isbday(:NullHolidayCalendar, Date(2016,9,25)) == true
+    @test isbday("NullHolidayCalendar", Date(2016,9,25)) == true
+    @test bdays(:NullHolidayCalendar, Date(2016,9,25), Date(2016,9,28)) == 3
+
+    @test isholiday(bd.WeekendsOnly(), Date(2016,9,25)) == false
+    @test isholiday(:WeekendsOnly, Date(2016,9,25)) == false
+    @test isholiday("WeekendsOnly", Date(2016,9,25)) == false
+    @test isbday(bd.WeekendsOnly(), Date(2016,9,25)) == false
+    @test isbday(:WeekendsOnly, Date(2016,9,25)) == false
+    @test isbday("WeekendsOnly", Date(2016,9,25)) == false
+    @test bdays(:WeekendsOnly, Date(2016,9,25), Date(2016,9,28)) == 2
+
 
     # Brazil HolidayCalendar tests
     @test isbday(hc_brazil, Date(2014, 12, 31)) == true # wednesday

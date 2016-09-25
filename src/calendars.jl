@@ -17,7 +17,7 @@ A calendar with no holidays and no weekends.
 type NullHolidayCalendar <: HolidayCalendar end
 
 isholiday(::NullHolidayCalendar, dt::Date) = false
-isbday(::NullHolidayCalendar, dt::Date) = false
+isbday(::NullHolidayCalendar, dt::Date) = true
 bdays(::NullHolidayCalendar, dt0::Date, dt1::Date) = dt1 - dt0
 
 
