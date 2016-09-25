@@ -840,6 +840,12 @@ bd.initcache(cc)
 @test isholiday(cc, Date(2015,8,26)) == false
 @test isholiday(cc, Date(2015,8,27)) == true
 bd.cleancache(cc)
+isholiday(:Brazil, Date(2016,2,1))
+isholiday(:CustomCalendar, Date(2016,2,1))
+isholiday("CustomCalendar", Date(2016,2,1))
+isbday(:Brazil, Date(2016,2,1))
+isbday(:CustomCalendar, Date(2016,2,1))
+isbday("CustomCalendar", Date(2016,2,1))
 
 sym_vec = [:Brazil, :UKSettlement]
 bd.initcache(sym_vec)

@@ -5,11 +5,6 @@
 abstract HolidayCalendar
 
 """
-A calendar with no holidays or weekends.
-"""
-type NullHolidayCalendar <: HolidayCalendar end
-
-"""
 Data structure for calendar cache.
 """
 type HolidayCalendarCache
@@ -22,24 +17,16 @@ end
 
 Base.string(hc::HolidayCalendar) = string(typeof(hc))
 
-HCDICT = Dict{Symbol, HolidayCalendar}(
-    :BRSettlement=>BRSettlement(),
-    :Brazil=>Brazil(),
-    :USSettlement=>USSettlement(),
-    :UnitedStates=>UnitedStates(),
-    :USNYSE=>USNYSE(),
-    :USGovernmentBond=>USGovernmentBond(),
-    :UKSettlement=>UKSettlement(),
-    :UnitedKingdom=>UnitedKingdom()
-)
-
 function symtocalendar(sym::Symbol)
-    nc::HolidayCalendar = NullHolidayCalendar()
-    hc::HolidayCalendar = get(HCDICT, sym, nc)
-    if hc == nc
-        error("Invalid calendar: $sym")
+    local result::HolidayCalendar
+    if isdefined(BusinessDays, sym) && eval(BusinessDays, sym) <: HolidayCalendar
+        result = eval(BusinessDays, sym)()
+    elseif isdefined(current_module(), sym) && eval(current_module(), sym) <: HolidayCalendar
+        result = eval(current_module(), sym)()
+    else
+        error("$sym is not a valid HolidayCalendar.")
     end
-    return hc
+    return result
 end
 @vectorize_1arg Symbol symtocalendar
 
@@ -50,3 +37,17 @@ Base.convert(::Type{HolidayCalendar}, sym::Symbol) = symtocalendar(sym)
 Base.convert(::Type{HolidayCalendar}, str::AbstractString) = strtocalendar(str)
 Base.convert{T<:HolidayCalendar}(::Type{Array{T,1}}, syms::Array{Symbol, 1}) = symtocalendar(syms)
 Base.convert{T<:HolidayCalendar, S<:AbstractString}(::Type{Array{T,1}}, strs::Array{S, 1}) = strtocalendar(strs)
+
+
+"""
+    isholiday(calendar, dt)
+
+Checks if `dt` is a holiday based on a given `calendar` of holidays.
+
+`calendar` can be an instance of `HolidayCalendar`,  a `Symbol` or an `AbstractString`.
+
+Returns boolean values.
+"""
+isholiday(hc::HolidayCalendar, dt::Date) = error("isholiday for $(hc) not implemented.")
+
+isholiday(calendar, dt::Date) = isholiday(convert(HolidayCalendar, calendar), dt)

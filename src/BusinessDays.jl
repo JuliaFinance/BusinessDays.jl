@@ -30,11 +30,11 @@ export
 
 include("dateutils.jl")
 include("types.jl")
-include("isholiday.jl")
 include("bdayscache.jl")
 include("bdays.jl")
 include("bdaysvecfun.jl")
 include("composite.jl")
 include("query.jl")
+include("calendars.jl")
 
 end # module BusinessDays
