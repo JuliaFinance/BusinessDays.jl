@@ -112,8 +112,8 @@ function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
 
     # This function uses UInt32 to store bdayscounter array
     # We need to check if we'll exceed typemax(UInt32)
-    if len > convert(Int, typemax(UInt32))
-        error("Maximum size allowed for bdays array is $(typemax(UInt32)). Required lenght of $(len).")
+    if len > typemax(UInt32)
+        error("Maximum size allowed for bdays cache array is $(typemax(UInt32)). The required lenght was $(len).")
     end
 
     isbday_array = zeros(Bool, len)
