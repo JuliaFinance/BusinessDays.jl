@@ -360,7 +360,7 @@ for usecache in [false, true]
     @test isbday(bd.NullHolidayCalendar(), Date(2016,9,25)) == true
     @test isbday(:NullHolidayCalendar, Date(2016,9,25)) == true
     @test isbday("NullHolidayCalendar", Date(2016,9,25)) == true
-    @test bdays(:NullHolidayCalendar, Date(2016,9,25), Date(2016,9,28)) == Dates.Day(3)
+    @test bdays(:NullHolidayCalendar, Date(2016,9,25), Date(2016,9,28)) == Day(3)
 
     @test isholiday(bd.WeekendsOnly(), Date(2016,9,25)) == false
     @test isholiday(:WeekendsOnly, Date(2016,9,25)) == false
@@ -368,7 +368,7 @@ for usecache in [false, true]
     @test isbday(bd.WeekendsOnly(), Date(2016,9,25)) == false
     @test isbday(:WeekendsOnly, Date(2016,9,25)) == false
     @test isbday("WeekendsOnly", Date(2016,9,25)) == false
-    @test bdays(:WeekendsOnly, Date(2016,9,25), Date(2016,9,28)) == Dates.Day(2)
+    @test bdays(:WeekendsOnly, Date(2016,9,25), Date(2016,9,28)) == Day(2)
 
 
     # Brazil HolidayCalendar tests
@@ -816,19 +816,19 @@ for usecache in [false, true]
     @test tobday(:Brazil, d2001; forward=true) == [ Date(2001,01,02), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,08), Date(2001,01,08), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,15), Date(2001,01,15), Date(2001,01,15)]
     @test tobday("Brazil", d2001; forward=false) == [ Date(2000,12,29), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,05), Date(2001,01,05), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,12), Date(2001,01,12), Date(2001,01,15)]
 
-    @test bdays([hc_brazil, hc_usa], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+    @test bdays([hc_brazil, hc_usa], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == Day[5, 5] # 1/sep labor day US, 7/sep Indep day BR
     @test isbday([hc_brazil, hc_usa], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
     @test advancebdays(hc_brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
     @test advancebdays(hc_brazil, Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
     @test listholidays(hc_brazil, Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
 
-    @test bdays([:Brazil, :USSettlement], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+    @test bdays([:Brazil, :USSettlement], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == Day[5, 5] # 1/sep labor day US, 7/sep Indep day BR
     @test isbday([:Brazil, :USSettlement], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
     @test advancebdays(:Brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
     @test advancebdays(:Brazil, Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
     @test listholidays(:Brazil, Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
 
-    @test bdays(["Brazil", "USSettlement"], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+    @test bdays(["Brazil", "USSettlement"], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == Day[5, 5] # 1/sep labor day US, 7/sep Indep day BR
     @test isbday(["Brazil", "USSettlement"], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
     @test advancebdays("Brazil", Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
     @test advancebdays("Brazil", Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
@@ -839,6 +839,8 @@ for usecache in [false, true]
     @test isempty(listbdays("Brazil", Date(2016,5,21), Date(2016,5,21)))
     @test isempty(listbdays("Brazil", Date(2016,5,21), Date(2016,5,22)))
     @test listbdays("Brazil", Date(2016,5,21), Date(2016,5,23)) == [Date(2016,5,23)]
+
+    @test bdays(:Brazil, Date(2016,11,1), [Date(2016,11,3), Date(2016,11,7), Date(2016,11,4)]) == Day[1, 3, 2]
 end
 
 include("perftests.jl")

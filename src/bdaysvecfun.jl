@@ -62,6 +62,18 @@ end
 tobday(calendar, dt::Vector{Date}; forward::Bool = true) = tobday(convert(HolidayCalendar, calendar), dt; forward=forward)
 tobday{A<:AbstractArray}(calendars::A, dt::Vector{Date}; forward::Bool = true) = tobday(convert(Vector{HolidayCalendar}, calendars), dt; forward=forward)
 
+function bdays(hc::HolidayCalendar, base_date::Date, dt_vec::Vector{Date})
+    const len = length(dt_vec)
+
+    result = Array(Day, len)
+
+    for i in 1:len
+        result[i] = bdays(hc, base_date, dt_vec[i])
+    end
+
+    return result
+end
+
 function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
     const l0 = length(dt0)
     const l1 = length(dt1)
@@ -97,7 +109,6 @@ function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date}
     return result
 end
 
-bdays(calendar, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 bdays{A<:AbstractArray}(calendars::A, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(Vector{HolidayCalendar}, calendars), dt0, dt1)
 
 function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count_vec::Vector{Int})
