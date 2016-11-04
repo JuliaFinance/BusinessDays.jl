@@ -51,7 +51,7 @@ end
 # See query.jl on Dates module
 # See also dayofweek(dt) function.
 """
-    findweekday(weekday_target::Int, yy::Int, mm::Int, occurrence::Int, ascending::Bool) → Date
+    findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date
 
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 
@@ -62,7 +62,7 @@ If `ascending` is true, searches from the beggining of the month. If false, sear
 
 If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 """
-function findweekday(weekday_target::Int, yy::Int, mm::Int, occurrence::Int, ascending::Bool)
+function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)
     
     local dt::Date = Date(yy, mm, 1)
     local dt_dayofweek::Integer

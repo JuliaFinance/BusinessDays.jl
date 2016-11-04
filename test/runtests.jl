@@ -266,10 +266,13 @@ include("easter-min-max.jl")
 @test_throws ErrorException bd.findweekday(Dates.Wednesday, 2015, 07, -1, false)
 @test_throws ErrorException bd.findweekday(Dates.Wednesday, 2015, 07, -1, true)
 
+# Test this only on 64bit or higher systems
 len = typemax(UInt32) + 1
-d0 = Date(1950, 2, 1)
-d1 = d0 + Day(len)
-@test_throws ErrorException bd._createbdayscache(bhc, d0, d1)
+if len > typemax(UInt32)
+    d0 = Date(1950, 2, 1)
+    d1 = d0 + Day(len)
+    @test_throws ErrorException bd._createbdayscache(bhc, d0, d1)
+end
 
 # Create HolidayCalendar instances
 hc_brazil = bd.Brazil()
