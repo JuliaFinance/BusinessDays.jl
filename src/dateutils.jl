@@ -8,32 +8,30 @@ Based on *[Algo R](http://www.linuxtopia.org/online_books/programming_books/pyth
 """
 function easter_rata(y::Year)
 
-    local c::Int
-    local e::Int
-    local p::Int
+    
 
-     # Algo R only works after 1582
-     if y.value < 1582
-          # Are you using this? Send me a postcard!
-          error("Year cannot be less than 1582. Provided: $(y.value).")
-     end
+    # Algo R only works after 1582
+    if y.value < 1582
+        # Are you using this? Send me a postcard!
+        error("Year cannot be less than 1582. Provided: $(y.value).")
+    end
 
     # Century
-     c = div(y.value , 100) + 1
+    const c = div(y.value , 100) + 1
 
-     # Shifted Epact
-     e = mod(14 + 11*(mod(y.value, 19)) - div(3*c, 4) + div(5+8*c, 25), 30)
+    # Shifted Epact
+    local e::Int = mod(14 + 11*(mod(y.value, 19)) - div(3*c, 4) + div(5+8*c, 25), 30)
 
-     # Adjust Epact
-     if (e == 0) || ((e == 1) && ( 10 < mod(y.value, 19) ))
-        e += 1
-     end
+    # Adjust Epact
+    if (e == 0) || ((e == 1) && ( 10 < mod(y.value, 19) ))
+       e += 1
+    end
 
-     # Paschal Moon
-     p = Date(y.value, 4, 19).instant.periods.value - e
+    # Paschal Moon
+    const p = Date(y.value, 4, 19).instant.periods.value - e
 
-     # Easter: locate the Sunday after the Paschal Moon
-     return p + 7 - mod(p, 7)
+    # Easter: locate the Sunday after the Paschal Moon
+    return p + 7 - mod(p, 7)
 end
 
 """
@@ -41,10 +39,7 @@ end
 
 Returns result of `easter_rata` as a `Date` instance.
 """
-function easter_date(y::Year)
-    # Compute the gregorian date for Rata Die number
-     return Date(Dates.rata2datetime( easter_rata(y) ))
-end
+easter_date(y::Year) = Date(Dates.rata2datetime(easter_rata(y)))
 
 # weekday_target values:
 # const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7
@@ -68,9 +63,7 @@ function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurren
     local dt_dayofweek::Integer
     local offset::Integer
 
-    if occurrence <= 0
-        error("occurrence must be >= 1. Provided $(occurrence).")
-    end
+    @assert occurrence > 0 "occurrence must be > 0. Provided $(occurrence)."
 
     if ascending
         dt_dayofweek = dayofweek(dt)

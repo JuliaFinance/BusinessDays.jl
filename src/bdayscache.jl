@@ -8,7 +8,7 @@ Holds caches for Holiday Calendars.
 * Key = `HolidayCalendar` instance
 * Value = instance of `HolidayCalendarCache`
 """
-global _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
+const _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
 
 function _getcachestate(hc::HolidayCalendar)
     return haskey(_CACHE_DICT, hc)
@@ -18,15 +18,9 @@ function _getholidaycalendarcache(hc::HolidayCalendar)
     return _CACHE_DICT[hc]
 end
 
-function checkbounds(hcc::HolidayCalendarCache, dt::Date)
-    if !((hcc.dtmin <= dt) && (dt <= hcc.dtmax))
-        error("Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt).")
-    end
-end
+checkbounds(hcc::HolidayCalendarCache, dt::Date) = @assert (hcc.dtmin <= dt) && (dt <= hcc.dtmax) "Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt)."
 
-function _linenumber(hcc::HolidayCalendarCache, dt::Date)
-    return Dates.days(dt) - Dates.days(hcc.dtmin) + 1
-end
+_linenumber(hcc::HolidayCalendarCache, dt::Date) = Dates.days(dt) - Dates.days(hcc.dtmin) + 1
 
 function isbday(hcc::HolidayCalendarCache, dt::Date)
     checkbounds(hcc, dt)
@@ -35,10 +29,10 @@ end
 
 function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
     # Computation is always based on next Business Days if given dates are not Business Days, inspired by Banking Account convention.
-    dt0 = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
-    dt1 = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
+    const dt0_tobday = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
+    const dt1_tobday = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
     
-    return Day(convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt1)]) - convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt0)]))
+    return Day(convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt1_tobday)]) - convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt0_tobday)]))
 end
 
 # Be sure to use this function on a syncronized code (not multithreaded).
@@ -59,9 +53,7 @@ end
 initcache(calendar, d0::Date, d1::Date) = initcache(convert(HolidayCalendar, calendar), d0, d1)
 
 # Defaults to d0 = 1st Jan 1980 , d1 = 20th dec 2150
-function initcache(hc::HolidayCalendar)
-    initcache(hc, Date(1980, 01, 01), Date(2150, 12, 20))
-end
+initcache(hc::HolidayCalendar) = initcache(hc, Date(1980, 01, 01), Date(2150, 12, 20))
 
 initcache(calendar) = initcache(convert(HolidayCalendar,calendar))
 initcache{A<:AbstractArray}(calendars::A) = initcache(convert(Vector{HolidayCalendar}, calendars))

@@ -263,8 +263,8 @@ include("easter-min-max.jl")
 @test bd.findweekday(Dates.Wednesday, 2015, 07, 5, false) == Date(2015, 07, 01)
 @test bd.findweekday(Dates.Wednesday, 2015, 07, 6, false) == Date(2015, 06, 24)
 
-@test_throws ErrorException bd.findweekday(Dates.Wednesday, 2015, 07, -1, false)
-@test_throws ErrorException bd.findweekday(Dates.Wednesday, 2015, 07, -1, true)
+@test_throws AssertionError bd.findweekday(Dates.Wednesday, 2015, 07, -1, false)
+@test_throws AssertionError bd.findweekday(Dates.Wednesday, 2015, 07, -1, true)
 
 # Test this only on 64bit or higher systems
 len = typemax(UInt32) + 1
@@ -315,10 +315,10 @@ for usecache in [false, true]
         bdays(hc_brazil, Date(3000,2,1), Date(3000, 2, 5))
     else
         #this should not work
-        @test_throws ErrorException isbday(hc_brazil, Date(1600,2,1))
-        @test_throws ErrorException isbday(hc_brazil, Date(3000,2,1))
-        @test_throws ErrorException bdays(hc_brazil, Date(1600,2,1), Date(1600, 2, 5))
-        @test_throws ErrorException bdays(hc_brazil, Date(3000,2,1), Date(3000, 2, 5))
+        @test_throws AssertionError isbday(hc_brazil, Date(1600,2,1))
+        @test_throws AssertionError isbday(hc_brazil, Date(3000,2,1))
+        @test_throws AssertionError bdays(hc_brazil, Date(1600,2,1), Date(1600, 2, 5))
+        @test_throws AssertionError bdays(hc_brazil, Date(3000,2,1), Date(3000, 2, 5))
     end
 
     @test_throws ErrorException isbday(:UnknownCalendar, Date(2016,1,1))
@@ -794,10 +794,10 @@ for usecache in [false, true]
     @test tobday(["Brazil", "USSettlement"], [Date(2015,11,11), Date(2015,11,11)]) == [Date(2015,11,11), Date(2015,11,12)]
 
     # Vector with different sizes
-    @test_throws ErrorException bdays(hc_brazil, fill(d0, length(d1vec)+1), d1vec)
-    @test_throws ErrorException bdays([hc_brazil, hc_usa], [Date(2015,11,11)], [Date(2015,11,11),Date(2015,11,11)])
-    @test_throws ErrorException tobday([hc_brazil, hc_usa], fill(d0, 3))
-    @test_throws ErrorException isbday( [hc_brazil, hc_usa, hc_uk], [Date(2015,01,01), Date(2015,01,01)])
+    @test_throws AssertionError bdays(hc_brazil, fill(d0, length(d1vec)+1), d1vec)
+    @test_throws AssertionError bdays([hc_brazil, hc_usa], [Date(2015,11,11)], [Date(2015,11,11),Date(2015,11,11)])
+    @test_throws AssertionError tobday([hc_brazil, hc_usa], fill(d0, 3))
+    @test_throws AssertionError isbday( [hc_brazil, hc_usa, hc_uk], [Date(2015,01,01), Date(2015,01,01)])
 
     println("Timing vectorized functions (vector length $(length(d0vec)))")
     @time bdays(hc_brazil, d0vec, d1vec)

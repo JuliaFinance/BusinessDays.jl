@@ -19,6 +19,7 @@ Base.string(hc::HolidayCalendar) = string(typeof(hc))
 
 function symtocalendar(sym::Symbol)
     local result::HolidayCalendar
+
     if isdefined(BusinessDays, sym) && eval(BusinessDays, sym) <: HolidayCalendar
         result = eval(BusinessDays, sym)()
     elseif isdefined(current_module(), sym) && eval(current_module(), sym) <: HolidayCalendar

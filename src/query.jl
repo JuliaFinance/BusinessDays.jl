@@ -35,7 +35,7 @@ function listbdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
     d = advancebdays(hc,d,1)
     while d <= d1
         raw_vec[i] = d
-        i+=1
+        i += 1
         d = advancebdays(hc,d,1)
     end
     return raw_vec[1:(i-1)]

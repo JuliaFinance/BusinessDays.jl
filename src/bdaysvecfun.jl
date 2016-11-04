@@ -16,9 +16,7 @@ function isbday(hc::Vector{HolidayCalendar}, dt::Vector{Date})
     const l_hc = length(hc)
     const l_dt = length(dt)
 
-    if l_hc != l_dt
-        error("Input vectors must have the same size. $(l_hc) != $(l_dt)")
-    end
+    @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
 
     result = Array(Bool, length(dt))
 
@@ -46,9 +44,7 @@ function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Date}; forward::Bool = t
     const l_hc = length(hc)
     const l_dt = length(dt)
 
-    if l_hc != l_dt
-        error("Input vectors must have the same size. $(l_hc) != $(l_dt)")
-    end
+    @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
 
     result = Array(Date, l_hc)
 
@@ -78,9 +74,7 @@ function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
     const l0 = length(dt0)
     const l1 = length(dt1)
 
-    if l0 != l1
-        error("Input vectors must have the same size. $(l0) != $(l1)")
-    end
+    @assert l0 == l1 "Input vectors must have the same size. $(l0) != $(l1)"
 
     result = Array(Day, l0)
 
@@ -96,9 +90,7 @@ function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date}
     const l0 = length(dt0)
     const l1 = length(dt1)
 
-    if l_hc != l0 || l0 != l1
-        error("Input vectors must have the same size. $(l_hc), $(l0), $(l1)")
-    end
+    @assert l_hc == l0 && l0 == l1 "Input vectors must have the same size. $(l_hc), $(l0), $(l1)"
 
     result = Array(Day, l0)
 
@@ -112,7 +104,7 @@ end
 bdays{A<:AbstractArray}(calendars::A, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(Vector{HolidayCalendar}, calendars), dt0, dt1)
 
 function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count_vec::Vector{Int})
-    l = length(bdays_count_vec)
+    const l = length(bdays_count_vec)
     result = Array(Date, l)
     for i in 1:l
         result[i] = advancebdays(hc, dt, bdays_count_vec[i])

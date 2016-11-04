@@ -6,7 +6,6 @@ type UKSettlement <: HolidayCalendar end
 
 typealias UnitedKingdom UKSettlement
 
-
 # In the UK, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
 # This function will adjust to the next Monday.
 function adjustweekendholidayUK(dt::Date)
