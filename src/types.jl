@@ -39,7 +39,6 @@ Base.convert(::Type{HolidayCalendar}, str::AbstractString) = strtocalendar(str)
 Base.convert{T<:HolidayCalendar}(::Type{Array{T,1}}, syms::Array{Symbol, 1}) = symtocalendar(syms)
 Base.convert{T<:HolidayCalendar, S<:AbstractString}(::Type{Array{T,1}}, strs::Array{S, 1}) = strtocalendar(strs)
 
-
 """
     isholiday(calendar, dt)
 

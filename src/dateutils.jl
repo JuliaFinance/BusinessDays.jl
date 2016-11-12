@@ -8,8 +8,6 @@ Based on *[Algo R](http://www.linuxtopia.org/online_books/programming_books/pyth
 """
 function easter_rata(y::Year)
 
-    
-
     # Algo R only works after 1582
     if y.value < 1582
         # Are you using this? Send me a postcard!
