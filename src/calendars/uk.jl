@@ -6,21 +6,6 @@ type UKSettlement <: HolidayCalendar end
 
 typealias UnitedKingdom UKSettlement
 
-# In the UK, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
-# This function will adjust to the next Monday.
-function adjustweekendholidayUK(dt::Date)
-
-    if dayofweek(dt) == Dates.Saturday
-        return dt + Dates.Day(2)
-    end
-
-    if dayofweek(dt) == Dates.Sunday
-        return dt + Dates.Day(1)
-    end
-
-    return dt
-end
-
 # England and Wales Banking Holidays
 function isholiday(::UKSettlement, dt::Date)
 
@@ -33,13 +18,13 @@ function isholiday(::UKSettlement, dt::Date)
         # Fixed holidays
         if (
                 # Late Summer Bank Holiday, August Bank Holiday
-                adjustweekendholidayUK(  findweekday(Dates.Monday, yy, 8, 1, false) ) == dt
+                adjustweekendholidayPost(  findweekday(Dates.Monday, yy, 8, 1, false) ) == dt
                 ||
                 # Christmas
-                adjustweekendholidayUK( Date(yy, 12, 25) ) == dt
+                adjustweekendholidayPost( Date(yy, 12, 25) ) == dt
                 ||
                 # Boxing
-                adjustweekendholidayUK(adjustweekendholidayUK( Date(yy, 12, 25) ) + Dates.Day(1)) == dt
+                adjustweekendholidayPost(adjustweekendholidayPost( Date(yy, 12, 25) ) + Dates.Day(1)) == dt
             )
             return true
         end
@@ -54,13 +39,13 @@ function isholiday(::UKSettlement, dt::Date)
         # Fixed holidays
         if (
                 # New Year's Day
-                adjustweekendholidayUK(  Date(yy, 01, 01) ) == dt
+                adjustweekendholidayPost(  Date(yy, 01, 01) ) == dt
                 ||
                 # May Day, Early May Bank Holiday
-                adjustweekendholidayUK(findweekday(Dates.Monday, yy, 5, 1, true)) == dt
+                adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, true)) == dt
                 ||
                 # Spring Bank Holiday
-                (adjustweekendholidayUK(findweekday(Dates.Monday, yy, 5, 1, false)) == dt && yy != 2012 && yy != 2002)
+                (adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, false)) == dt && yy != 2012 && yy != 2002)
             )
             return true
         end

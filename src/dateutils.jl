@@ -48,7 +48,7 @@ easter_date(y::Year) = Date(Dates.rata2datetime(easter_rata(y)))
 
 Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 
-`weekday_target` values are declared in module `Base.Dates`: 
+`weekday_target` values are declared in module `Base.Dates`:
 `Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`.
 
 If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
@@ -56,7 +56,7 @@ If `ascending` is true, searches from the beggining of the month. If false, sear
 If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 """
 function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)
-    
+
     local dt::Date = Date(yy, mm, 1)
     local dt_dayofweek::Integer
     local offset::Integer
@@ -81,4 +81,34 @@ function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurren
     else
         return dt - Dates.Day(offset)
     end
+end
+
+# In the UK and Canada, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
+# This function will adjust to the next Monday.
+function adjustweekendholidayPost(dt::Date)
+
+    if dayofweek(dt) == Dates.Saturday
+        return dt + Dates.Day(2)
+    end
+
+    if dayofweek(dt) == Dates.Sunday
+        return dt + Dates.Day(1)
+    end
+
+    return dt
+end
+
+# In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
+# If it falls on Sunday, it's observed on the next Monday.
+function adjustweekendholidayUS(dt::Date)
+
+    if dayofweek(dt) == Dates.Saturday
+        return dt - Dates.Day(1)
+    end
+
+    if dayofweek(dt) == Dates.Sunday
+        return dt + Dates.Day(1)
+    end
+
+    return dt
 end
