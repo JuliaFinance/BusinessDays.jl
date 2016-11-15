@@ -9,7 +9,7 @@ typealias UnitedKingdom UKSettlement
 # In the UK, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
 # This function will adjust to the next Monday.
 function adjustweekendholidayUK(dt::Date)
-    
+
     if dayofweek(dt) == Dates.Saturday
         return dt + Dates.Day(2)
     end
@@ -39,7 +39,7 @@ function isholiday(::UKSettlement, dt::Date)
                 adjustweekendholidayUK( Date(yy, 12, 25) ) == dt
                 ||
                 # Boxing
-                adjustweekendholidayUK(adjustweekendholidayUK( Date(yy, 12, 25) ) + Dates.Day(1)) == dt 
+                adjustweekendholidayUK(adjustweekendholidayUK( Date(yy, 12, 25) ) + Dates.Day(1)) == dt
             )
             return true
         end
@@ -81,7 +81,7 @@ function isholiday(::UKSettlement, dt::Date)
         end
 
         # Fixed date holidays with mm < 8
-        if ( 
+        if (
             # Substitute date for Spring Bank Holiday
             (dt == Date(2012, 06, 04))
             ||
