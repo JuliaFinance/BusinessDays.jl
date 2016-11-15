@@ -24,3 +24,4 @@ bdays(::NullHolidayCalendar, dt0::Date, dt1::Date) = dt1 - dt0
 include("calendars/brazil.jl")
 include("calendars/uk.jl")
 include("calendars/us.jl")
+include("calendars/canada.jl")

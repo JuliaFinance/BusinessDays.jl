@@ -280,6 +280,8 @@ hc_usa = bd.USSettlement()
 hc_uk = bd.UKSettlement()
 hc_usnyse = bd.USNYSE()
 hc_usgovbond = bd.USGovernmentBond()
+hc_canadatsx = bd.CanadaTSX()
+hc_canada = bd.CanadaSettlement()
 
 ################
 # bdayscache.jl
@@ -612,7 +614,7 @@ for usecache in [false, true]
     @test isbday(hc_uk, Date(2015, 01, 01)) == false # New Year's Day Thursday
     @test isbday(hc_uk, Date(2015, 01, 02)) == true
 
-    @test isbday(hc_uk, Date(2015, 08, 30)) == false 
+    @test isbday(hc_uk, Date(2015, 08, 30)) == false
     @test isbday(hc_uk, Date(2015, 08, 31)) == false # Monday   Summer bank holiday
     @test isbday(hc_uk, Date(2015, 09, 01)) == true
 
@@ -623,7 +625,7 @@ for usecache in [false, true]
     @test isbday(hc_uk, Date(2015, 12, 28)) == false # Monday   Boxing Day (substitute day)
     @test isbday(hc_uk, Date(2015, 12, 29)) == true
 
-    @test isbday(hc_uk, Date(2016, 03, 24)) == true 
+    @test isbday(hc_uk, Date(2016, 03, 24)) == true
     @test isbday(hc_uk, Date(2016, 03, 25)) == false # 25 March Friday  Good Friday
     @test isbday(hc_uk, Date(2016, 03, 26)) == false
     @test isbday(hc_uk, Date(2016, 03, 27)) == false
@@ -742,6 +744,51 @@ for usecache in [false, true]
     @test bdays(hc_brazil, Date(2013, 02, 06), Date(2013, 02, 14)).value == 4
     @test bdays(hc_brazil, Date(2013, 02, 14), Date(2013, 02, 06)).value == -4
 
+    tsxdates16 = [
+        Date(2016, 1, 1),
+        Date(2016, 2, 15),
+        Date(2016, 3, 25),
+        Date(2016, 5, 23),
+        Date(2016, 7, 1),
+        Date(2016, 8, 1),
+        Date(2016, 9, 5),
+        Date(2016, 10, 10),
+        Date(2016, 12, 26),
+        Date(2016, 12, 27)
+    ]
+
+    alldates16 = collect(Date(2016,1,1):Day(1):Date(2016, 12,31))
+    for i in alldates16
+        if contains(==, tsxdates16, i)
+            @test isholiday(hc_canadatsx, i) == true
+        else
+            @test isholiday(hc_canadatsx, i) == false
+        end
+    end
+
+    tsxdates17 = [
+        Date(2017, 1, 2),
+        Date(2017, 2, 20),
+        Date(2017, 4, 14),
+        Date(2017, 5, 22),
+        Date(2017, 7, 3),
+        Date(2017, 8, 7),
+        Date(2017, 9, 4),
+        Date(2017, 10, 9),
+        Date(2017, 12, 25),
+        Date(2017, 12, 26)
+    ]
+    alldates17 = collect(Date(2017,1,1):Day(1):Date(2017, 12,31))
+
+
+    for i in alldates17
+        if contains(==, tsxdates17, i)
+            @test isholiday(hc_canadatsx, i) == true
+        else
+            @test isholiday(hc_canadatsx, i) == false
+        end
+    end
+
     # dates are treated per value
     d0 = Date(2013, 02, 06)
     d1 = Date(2013, 02, 14)
@@ -762,17 +809,17 @@ for usecache in [false, true]
 
     println("Timing single bdays calculation")
     @time bdays(hc_brazil, d0, d2)
-    
+
     println("Timing 100 bdays calculations")
     @time for i in 1:100 bdays(hc_brazil, d0, d2) end
-    
+
     dInicio = Date(1950, 01, 01) ; dFim = Date(2100, 12, 20)
 
     if !usecache
         println("Timing cache creation")
         @time x = bd._createbdayscache(hc_brazil, dInicio, dFim)
     end
-    
+
     if usecache
         println("a million...")
         @time for i in 1:1000000 bdays(hc_brazil, d0, d2) end
@@ -879,7 +926,7 @@ bd.cleancache("UKSettlement")
 
 #=
 INFO: Testing BusinessDays
-easter minimum month is 3 on date 2100-03-28 
+easter minimum month is 3 on date 2100-03-28
 easter maximum month is 4 on date 2099-04-12
 ##########################
  Using cache: false

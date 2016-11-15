@@ -18,21 +18,6 @@ United States Government Bond calendar.
 """
 type USGovernmentBond <: HolidayCalendar end
 
-# In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
-# If it falls on Sunday, it's observed on the next Monday.
-function adjustweekendholidayUS(dt::Date)
-    
-    if dayofweek(dt) == Dates.Saturday
-        return dt - Dates.Day(1)
-    end
-
-    if dayofweek(dt) == Dates.Sunday
-        return dt + Dates.Day(1)
-    end
-
-    return dt
-end
-
 function isholiday(::USSettlement , dt::Date)
 
     const yy = Dates.year(dt)
@@ -75,7 +60,7 @@ function isholiday(::USSettlement , dt::Date)
         )
         return true
     end
-    
+
     return false
 end
 
@@ -118,11 +103,11 @@ function isholiday(::USNYSE , dt::Date)
         )
         return true
     end
-    
+
     # Presidential election days
     if (yy <= 1968 || (yy <= 1980 && yy % 4 == 0)) && mm == 11 && dd <= 7 && Dates.istuesday(dt)
         return true
-    end 
+    end
 
     # Special Closings
     if (
@@ -234,6 +219,6 @@ function isholiday(::USGovernmentBond , dt::Date)
         )
         return true
     end
-    
+
     return false
 end
