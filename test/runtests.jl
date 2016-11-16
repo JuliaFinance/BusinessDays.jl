@@ -780,12 +780,33 @@ for usecache in [false, true]
     ]
     alldates17 = collect(Date(2017,1,1):Day(1):Date(2017, 12,31))
 
-
     for i in alldates17
         if contains(==, tsxdates17, i)
             @test isholiday(hc_canadatsx, i) == true
         else
             @test isholiday(hc_canadatsx, i) == false
+        end
+    end
+
+    canadaDates16 = [
+        Date(2016, 1, 1),
+        Date(2016, 2, 15),
+        Date(2016, 3, 25),
+        Date(2016, 5, 23),
+        Date(2016, 7, 1),
+        Date(2016, 8, 1),
+        Date(2016, 9, 5),
+        Date(2016, 10, 10),
+        Date(2016, 11, 11),
+        Date(2016, 12, 26),
+        Date(2016, 12, 27)
+    ]
+
+    for i in alldates16
+        if contains(==, canadaDates16, i)
+            @test isholiday(hc_canada, i) == true
+        else
+            @test isholiday(hc_canada, i) == false
         end
     end
 
