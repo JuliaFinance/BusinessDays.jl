@@ -229,6 +229,8 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 - **USNYSE** : United States NYSE holidays.
 - **USGovernmentBond** : United States Government Bond calendar.
 - **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales.
+- **CanadaSettlement** or **Canada**: holidays for Canada.
+- **CanadaTSX**: holidays for Toronto Stock Exchange
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 - **WeekendsOnly** : for this calendar, `isholiday` returns `false`, but `isbday` returns `false` for Saturdays and Sundays.
 - **NullHolidayCalendar** : `isholiday` returns `false` and `isbday` returns `true` for any date. `bdays` returns the actual days between dates.
