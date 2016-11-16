@@ -922,6 +922,8 @@ bd.initcache(str_vec)
 bd.cleancache(str_vec)
 
 bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,5,2))
+bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,5,2)) # repeating initcache should work
+bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,1,1)) # single date cache should work
 bd.cleancache("UKSettlement")
 
 #=
