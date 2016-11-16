@@ -917,7 +917,7 @@ sym_vec = [:Brazil, :UKSettlement]
 bd.initcache(sym_vec)
 bd.cleancache(sym_vec)
 
-str_vec = ["Brazil", "UKSettlement", "Canada"]
+str_vec = ["Brazil", "UKSettlement", "Canada", "UnitedStates", "USNYSE", "USGovernmentBond", "CanadaTSX", "WeekendsOnly"]
 bd.initcache(str_vec)
 bd.cleancache(str_vec)
 
