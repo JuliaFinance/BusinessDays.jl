@@ -10,7 +10,6 @@ Holidays for Toronto Stock Exchange
 """
 type CanadaTSX <: HolidayCalendar end
 
-
 function isholiday(::CanadaSettlement, dt::Date)
 
     const yy = Dates.year(dt)
@@ -22,13 +21,13 @@ function isholiday(::CanadaSettlement, dt::Date)
     if mm >= 8
         # Fixed holidays
         if (
-                ##first Monday of August (Provincial Holiday)
+                # first Monday of August (Provincial Holiday)
                 findweekday(Dates.Monday, yy, 8, 1, true)  == dt
-                #first Monday of September (Labor Day)
+                # first Monday of September (Labor Day)
                 || findweekday(Dates.Monday, yy, 9, 1, true)  == dt
-                #second Monday of October (Thanksgiving Day)
+                # second Monday of October (Thanksgiving Day)
                 || findweekday(Dates.Monday, yy, 10, 2, true) == dt
-                #November 11th (possibly moved to Monday)
+                # November 11th (possibly moved to Monday)
                 || adjustweekendholidayPost(Date(yy, 11, 11)) == dt
                 # Christmas
                 || adjustweekendholidayPost( Date(yy, 12, 25) ) == dt
@@ -42,12 +41,12 @@ function isholiday(::CanadaSettlement, dt::Date)
         # Fixed holidays
         if (
                 # New Year's Day
-                adjustweekendholidayPost(  Date(yy, 01, 01) ) == dt
-                #Family Day (third Monday in February, since 2008)
+                adjustweekendholidayPost(Date(yy, 01, 01)) == dt
+                # Family Day (third Monday in February, since 2008)
                 || ( yy > 2008 && findweekday(Dates.Monday, yy, 2, 3, true) == dt )
-                #The Monday on or preceding 24 May (Victoria Day)
-                || (dd > 17 && dd <= 24 && ww == Dates.Monday && mn == Dates.May)
-                #July 1st, possibly moved to Monday (Canada Day)
+                # The Monday on or preceding 24 May (Victoria Day)
+                || (dd > 17 && dd <= 24 && ww == Dates.Monday && mm == Dates.May)
+                # July 1st, possibly moved to Monday (Canada Day)
                 || adjustweekendholidayPost(Date(yy, 07, 01)) == dt
 
           )
@@ -80,11 +79,11 @@ function isholiday(::CanadaTSX, dt::Date)
     if mm >= 8
         # Fixed holidays
         if (
-                ##first Monday of August (Provincial Holiday)
+                # first Monday of August (Provincial Holiday)
                 findweekday(Dates.Monday, yy, 8, 1, true)  == dt
-                #first Monday of September (Labor Day)
+                # first Monday of September (Labor Day)
                 || findweekday(Dates.Monday, yy, 9, 1, true)  == dt
-                #second Monday of October (Thanksgiving Day)
+                # second Monday of October (Thanksgiving Day)
                 || findweekday(Dates.Monday, yy, 10, 2, true) == dt
                 # Christmas
                 || adjustweekendholidayPost( Date(yy, 12, 25) ) == dt
@@ -99,11 +98,11 @@ function isholiday(::CanadaTSX, dt::Date)
         if (
                 # New Year's Day
                 adjustweekendholidayPost(  Date(yy, 01, 01) ) == dt
-                #Family Day (third Monday in February, since 2008)
+                # Family Day (third Monday in February, since 2008)
                 || ( yy > 2008 && findweekday(Dates.Monday, yy, 2, 3, true) == dt )
-                #The Monday on or preceding 24 May (Victoria Day)
+                # The Monday on or preceding 24 May (Victoria Day)
                 || (dd > 17 && dd <= 24 && ww == Dates.Monday && mm == Dates.May)
-                #July 1st, possibly moved to Monday (Canada Day)
+                # July 1st, possibly moved to Monday (Canada Day)
                 || adjustweekendholidayPost(Date(yy, 07, 01)) == dt
 
           )
