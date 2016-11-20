@@ -10,6 +10,9 @@ Holds caches for Holiday Calendars.
 """
 const _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
 
+const DEFAULT_CACHE_D0 = Date(1980, 01, 01)
+const DEFAULT_CACHE_D1 = Date(2150, 12, 20)
+
 function _getcachestate(hc::HolidayCalendar)
     return haskey(_CACHE_DICT, hc)
 end
@@ -45,20 +48,19 @@ function, or any function that uses `isbday`, will be optimized to use this cach
 You can pass `calendar` as an instance of `HolidayCalendar`, `Symbol` or `AbstractString`.
 You can also pass `calendar` as an `AbstractArray` of those types.
 """
-function initcache(hc::HolidayCalendar, d0::Date, d1::Date)
+function initcache(hc::HolidayCalendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
     isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
     _CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
 end
 
-initcache(calendar, d0::Date, d1::Date) = initcache(convert(HolidayCalendar, calendar), d0, d1)
+function initcache(hc_vec::Vector{HolidayCalendar}, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
+    for hc in hc_vec
+        initcache(hc, d0, d1)
+    end
+end
 
-# Defaults to d0 = 1st Jan 1980 , d1 = 20th dec 2150
-initcache(hc::HolidayCalendar) = initcache(hc, Date(1980, 01, 01), Date(2150, 12, 20))
-
-initcache(calendar) = initcache(convert(HolidayCalendar,calendar))
-initcache{A<:AbstractArray}(calendars::A) = initcache(convert(Vector{HolidayCalendar}, calendars))
-
-@vectorize_1arg HolidayCalendar initcache
+initcache{A<:AbstractArray}(calendars::A, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) = initcache(convert(Vector{HolidayCalendar}, calendars), d0, d1)
+initcache(calendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) = initcache(convert(HolidayCalendar, calendar), d0, d1)
 
 # remove all elements from cache
 function cleancache()
