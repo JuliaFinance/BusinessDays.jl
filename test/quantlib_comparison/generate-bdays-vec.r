@@ -13,10 +13,6 @@ cals = c( "Canada", "Canada/Settlement", "Canada/TSX", "Germany", "Germany/Frank
           "UnitedStates/NERC", "Brazil")
 
 for (cal in cals) {
-  #res <- businessDaysBetween(cal, d0, d1)
-  #df <- data.frame( d0=d0, d1=d1, bdays=res)
-  #write.csv(df, file=paste0( "csv/QuantLib-bdays-",   str_replace(cal, "/", "-")   , ".csv"), row.names=FALSE)
-  
   res <- isBusinessDay(cal, d1)
   df <- data.frame(d=d1, isbday=res)
   write.csv(df, file=paste0( "csv/QuantLib-isbday-",   str_replace(cal, "/", "-")   , ".csv"), row.names=FALSE)
