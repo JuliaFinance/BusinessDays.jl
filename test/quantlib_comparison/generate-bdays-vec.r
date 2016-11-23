@@ -1,3 +1,4 @@
+
 library(RQuantLib)
 library(stringr)
 
@@ -12,8 +13,11 @@ cals = c( "Canada", "Canada/Settlement", "Canada/TSX", "Germany", "Germany/Frank
           "UnitedStates", "UnitedStates/Settlement", "UnitedStates/NYSE", "UnitedStates/GovernmentBond", 
           "UnitedStates/NERC", "Brazil")
 
+dir.create('csv')
+
 for (cal in cals) {
   res <- isBusinessDay(cal, d1)
   df <- data.frame(d=d1, isbday=res)
   write.csv(df, file=paste0( "csv/QuantLib-isbday-",   str_replace(cal, "/", "-")   , ".csv"), row.names=FALSE)
 }
+
