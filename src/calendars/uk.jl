@@ -18,7 +18,7 @@ function isholiday(::UKSettlement, dt::Date)
         # Fixed holidays
         if (
                 # Late Summer Bank Holiday, August Bank Holiday
-                adjustweekendholidayPost(  findweekday(Dates.Monday, yy, 8, 1, false) ) == dt
+                adjustweekendholidayPost( findweekday(Dates.Monday, yy, 8, 1, false) ) == dt
                 ||
                 # Christmas
                 adjustweekendholidayPost( Date(yy, 12, 25) ) == dt
@@ -33,13 +33,12 @@ function isholiday(::UKSettlement, dt::Date)
         if dt == Date(1999, 12, 31)
             return true
         end
-
     else
         # mm < 8
         # Fixed holidays
         if (
                 # New Year's Day
-                adjustweekendholidayPost(  Date(yy, 01, 01) ) == dt
+                adjustweekendholidayPost( Date(yy, 01, 01) ) == dt
                 ||
                 # May Day, Early May Bank Holiday
                 adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, true)) == dt
@@ -60,7 +59,7 @@ function isholiday(::UKSettlement, dt::Date)
                 ( dt_rata == ( e_rata - 2 ) )
                 ||
                 # Easter Monday
-                ( dt_rata == ( e_rata + 1)  )
+                ( dt_rata == ( e_rata + 1 ) )
             )
             return true
         end
