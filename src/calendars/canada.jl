@@ -41,14 +41,13 @@ function isholiday(::CanadaSettlement, dt::Date)
         # Fixed holidays
         if (
                 # New Year's Day
-                adjustweekendholidayPost(Date(yy, 01, 01)) == dt
+                adjustweekendholidayPost(Date(yy, 01, 01); adjust_saturdays=false) == dt
                 # Family Day (third Monday in February, since 2008)
-                || ( yy > 2008 && findweekday(Dates.Monday, yy, 2, 3, true) == dt )
+                || ( yy >= 2008 && findweekday(Dates.Monday, yy, 2, 3, true) == dt )
                 # The Monday on or preceding 24 May (Victoria Day)
                 || (dd > 17 && dd <= 24 && ww == Dates.Monday && mm == Dates.May)
                 # July 1st, possibly moved to Monday (Canada Day)
                 || adjustweekendholidayPost(Date(yy, 07, 01)) == dt
-
           )
             return true
         end
