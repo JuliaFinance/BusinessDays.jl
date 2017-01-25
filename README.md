@@ -54,7 +54,7 @@ Unit: seconds
 
 ```
 
-While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R's performance, because *RQuantLib* is a simple wrapper to QuantLib *C++* library.
+While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R's performance, because *[RQuantLib](https://github.com/eddelbuettel/rquantlib)* is a simple wrapper to [QuantLib](https://github.com/lballabio/QuantLib) *C++* library.
 
 **BusinessDays.jl** uses a *tailor-made* cache to store Business Days results, reducing the time spent to the order of a few *microseconds* for a single computation. Also, the time spent to process the whole portfolio is reduced to **under a second**.
 
@@ -276,3 +276,5 @@ true
 * FinancialMarkets.jl: https://github.com/imanuelcostigan/FinancialMarkets.jl
 
 * QuantLib.jl : https://github.com/pazzo83/QuantLib.jl
+
+* QuantLib C++ Library: https://github.com/lballabio/QuantLib
