@@ -28,7 +28,7 @@ end while
 
 This works fine for general use. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50 000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1 000 000 times.
 
-For instance, let's try out this code using *R* and *QuantLib* (*RQuantLib* package):
+For instance, let's try out this code using *R* and *[QuantLib](https://github.com/lballabio/QuantLib)* ([RQuantLib](https://github.com/eddelbuettel/rquantlib)):
 ```R
 library(RQuantLib)
 library(microbenchmark)
