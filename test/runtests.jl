@@ -276,6 +276,7 @@ end
 
 # Create HolidayCalendar instances
 hc_brazil = bd.Brazil()
+hc_brazil_bmf = bd.BrazilBMF()
 hc_usa = bd.USSettlement()
 hc_uk = bd.UKSettlement()
 hc_usnyse = bd.USNYSE()
@@ -444,6 +445,15 @@ for usecache in [false, true]
     @test isbday("Brazil", Date(2013, 05, 29)) == true # wednesday
     @test isbday("Brazil", Date(2013, 05, 30)) == false # Corpus Christi
     @test isbday("Brazil", Date(2013, 05, 31)) == true # friday
+
+    # BrazilBMF holiday calendar tests
+    @test isbday(hc_brazil_bmf, Date(2017, 11, 19)) == false # sunday
+    @test isbday(hc_brazil_bmf, Date(2017, 11, 20)) == false # Conciência Negra (segunda)
+    @test isbday(hc_brazil_bmf, Date(2017, 11, 21)) == true # Terca
+
+    @test isbday(:BrazilBMF, Date(2013, 05, 29)) == true # wednesday
+    @test isbday(:BrazilBMF, Date(2013, 05, 30)) == false # Corpus Christi (National Holiday)
+    @test isbday(:BrazilBMF, Date(2013, 05, 31)) == true # friday
 
     # USSettlement HolidayCaledar tests
     # Federal Holidays listed on https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/#url=2015

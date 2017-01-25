@@ -6,6 +6,13 @@ type BRSettlement <: HolidayCalendar end
 
 const Brazil = BRSettlement
 
+"""
+BMF&BOVESPA Exchange holidays (http://www.bmfbovespa.com.br).
+"""
+type BrazilExchange <: HolidayCalendar end
+
+const BrazilBMF = BrazilExchange
+
 # Brazilian Banking Holidays
 function isholiday(::Brazil, dt::Date)
 
@@ -70,6 +77,36 @@ function isholiday(::Brazil, dt::Date)
             )
             return true
         end
+    end
+
+    return false
+end
+
+function isholiday(::BrazilExchange, dt::Date)
+    const yy = Dates.year(dt)
+    const mm = Dates.month(dt)
+    const dd = Dates.day(dt)
+    
+    if (
+        # Aniversário de São Paulo
+        ( mm == 1 && dd == 25 )
+        ||
+        # Revolucão
+        ( mm == 7 && dd == 9 )
+        ||
+        # Conciência Negra (a partir de 2007)
+        ( yy >= 2007 && mm == 11 && dd == 20 )
+        # Christmas Eve
+        ||
+        ( mm == 12 && dd == 24)
+        ||
+        # Último dia útil do ano
+        ( mm == 12 && (dd == 31 || (dd>=29 && dayofweek(dt) == Friday) ))
+        ||
+        # National holidays
+        isholiday(Brazil(), dt)
+        )
+        return true
     end
 
     return false
