@@ -85,9 +85,9 @@ end
 
 # In the UK and Canada, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
 # This function will adjust to the next Monday.
-function adjustweekendholidayPost(dt::Date)
+function adjustweekendholidayPost(dt::Date; adjust_saturdays::Bool = true)
 
-    if dayofweek(dt) == Dates.Saturday
+    if adjust_saturdays && (dayofweek(dt) == Dates.Saturday)
         return dt + Dates.Day(2)
     end
 

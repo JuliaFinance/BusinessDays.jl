@@ -20,4 +20,3 @@ for (cal in cals) {
   df <- data.frame(d=d1, isbday=res)
   write.csv(df, file=paste0( "csv/QuantLib-isbday-",   str_replace(cal, "/", "-")   , ".csv"), row.names=FALSE)
 }
-
