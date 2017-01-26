@@ -812,6 +812,7 @@ for usecache in [false, true]
 
     # Issue #8
     @test isbday(hc_canada, Date(2011,1,3)) == true
+    @test isbday(hc_canadatsx, Date(2008, 2, 18)) == false
 
     # dates are treated per value
     d0 = Date(2013, 02, 06)
