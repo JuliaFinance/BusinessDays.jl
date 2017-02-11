@@ -13,13 +13,9 @@ const _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
 const DEFAULT_CACHE_D0 = Date(1980, 01, 01)
 const DEFAULT_CACHE_D1 = Date(2150, 12, 20)
 
-function _getcachestate(hc::HolidayCalendar)
-    return haskey(_CACHE_DICT, hc)
-end
+_getcachestate(hc::HolidayCalendar) = haskey(_CACHE_DICT, hc)
 
-function _getholidaycalendarcache(hc::HolidayCalendar)
-    return _CACHE_DICT[hc]
-end
+_getholidaycalendarcache(hc::HolidayCalendar) = _CACHE_DICT[hc]
 
 checkbounds(hcc::HolidayCalendarCache, dt::Date) = @assert (hcc.dtmin <= dt) && (dt <= hcc.dtmax) "Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt)."
 
