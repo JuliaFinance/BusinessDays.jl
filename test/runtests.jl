@@ -302,6 +302,9 @@ for usecache in [false, true]
     #export
     #   isweekend, isbday, tobday, advancebdays, bdays
 
+    dt_tuesday = Date(2015,06,23)
+    dt_wednesday = Date(2015, 06, 24)
+    dt_thursday = Date(2015, 06, 25)
     dt_friday = Date(2015, 06, 26)
     dt_saturday = Date(2015, 06, 27)
     dt_sunday = Date(2015, 06, 28)
@@ -326,10 +329,21 @@ for usecache in [false, true]
     @test_throws ErrorException isbday(:UnknownCalendar, Date(2016,1,1))
     @test_throws ErrorException isbday("UnknownCalendar", Date(2016,1,1))
 
+    @test isweekend(dt_tuesday) == false
+    @test isweekend(dt_wednesday) == false
+    @test isweekend(dt_thursday) == false
     @test isweekend(dt_friday) == false
     @test isweekend(dt_saturday) == true
     @test isweekend(dt_sunday) == true
     @test isweekend(dt_monday) == false
+
+    @test isweekday(dt_tuesday) == true
+    @test isweekday(dt_wednesday) == true
+    @test isweekday(dt_thursday) == true
+    @test isweekday(dt_friday) == true
+    @test isweekday(dt_saturday) == false
+    @test isweekday(dt_sunday) == false
+    @test isweekday(dt_monday) == true
 
     @test isbday(hc_brazil, dt_friday) == true
     @test isbday(hc_brazil, dt_saturday) == false

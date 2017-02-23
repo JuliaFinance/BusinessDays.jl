@@ -5,9 +5,15 @@
 Returns `true` for Saturdays or Sundays.
 Returns `false` otherwise.
 """
-function isweekend(dt::Date)
-    return dayofweek(dt) in [6, 7]
-end
+isweekend(dt::Date) = signbit(5 - dayofweek(dt))
+
+"""
+    isweekday(dt)
+
+Returns `true` for Monday to Friday.
+Returns `false` otherwise.
+"""
+isweekday(dt::Date) = signbit(dayofweek(dt)  - 6)
 
 """
     isbday(calendar, dt)
@@ -20,7 +26,7 @@ function isbday(hc::HolidayCalendar, dt::Date)
         hcc :: HolidayCalendarCache = _getholidaycalendarcache(hc)
         return isbday(hcc, dt)
     else
-        return !(isweekend(dt) || isholiday(hc, dt))
+        return isweekday(dt) && (!isholiday(hc, dt))
     end
 end
 
