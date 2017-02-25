@@ -21,6 +21,7 @@ export
 
 # bdays.jl : main functions for BusinessDays module
 export
+    isweekday,
     isweekend,
     isbday,
     tobday,
