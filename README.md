@@ -76,19 +76,19 @@ bdays(cal, d0, d1) # force JIT compilation
 
 **Results**
 ```
-0.177943 seconds (245.69 k allocations: 12.450 MB)
-0.000007 seconds (9 allocations: 240 bytes)
-0.427177 seconds (5.00 M allocations: 76.294 MB, 2.23% gc time)
+0.216003 seconds (176.64 k allocations: 8.007 MB, 27.88% gc time)
+0.000003 seconds (9 allocations: 240 bytes)
+0.471220 seconds (5.00 M allocations: 76.294 MB, 21.49% gc time)
 ```
 
 **There's no magic**
 
-If we disable BusinessDays's cache, however, the performance is worse than QuantLib's implementation. It takes around 1 hour to process the same benchmark test.
+If we disable BusinessDays's cache, however, the performance is slightly worse than QuantLib's implementation. It takes around 38 minutes to process the same benchmark test.
 
 ```julia
 julia> BusinessDays.cleancache() # cleans existing cache
 julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
-# 4025.424090 seconds (31.22 G allocations: 2.272 TB, 8.14% gc time)
+# 2288.906548 seconds (5.00 M allocations: 76.294 MB, 0.00% gc time)
 ```
 
 It's important to point out that **cache is disabled by default**. So, in order to take advantage of high speed computation provided by this package, one must call `BusinessDays.initcache` function.

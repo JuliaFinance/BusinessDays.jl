@@ -302,6 +302,9 @@ for usecache in [false, true]
     #export
     #   isweekend, isbday, tobday, advancebdays, bdays
 
+    dt_tuesday = Date(2015,06,23)
+    dt_wednesday = Date(2015, 06, 24)
+    dt_thursday = Date(2015, 06, 25)
     dt_friday = Date(2015, 06, 26)
     dt_saturday = Date(2015, 06, 27)
     dt_sunday = Date(2015, 06, 28)
@@ -326,10 +329,21 @@ for usecache in [false, true]
     @test_throws ErrorException isbday(:UnknownCalendar, Date(2016,1,1))
     @test_throws ErrorException isbday("UnknownCalendar", Date(2016,1,1))
 
+    @test isweekend(dt_tuesday) == false
+    @test isweekend(dt_wednesday) == false
+    @test isweekend(dt_thursday) == false
     @test isweekend(dt_friday) == false
     @test isweekend(dt_saturday) == true
     @test isweekend(dt_sunday) == true
     @test isweekend(dt_monday) == false
+
+    @test isweekday(dt_tuesday) == true
+    @test isweekday(dt_wednesday) == true
+    @test isweekday(dt_thursday) == true
+    @test isweekday(dt_friday) == true
+    @test isweekday(dt_saturday) == false
+    @test isweekday(dt_sunday) == false
+    @test isweekday(dt_monday) == true
 
     @test isbday(hc_brazil, dt_friday) == true
     @test isbday(hc_brazil, dt_saturday) == false
@@ -953,67 +967,65 @@ bd.cleancache("UKSettlement")
 
 #=
 INFO: Testing BusinessDays
-easter minimum month is 3 on date 2100-03-28
-easter maximum month is 4 on date 2099-04-12
 ##########################
  Using cache: false
 ##########################
 Timing composite calendar bdays calculation
-  0.000013 seconds (34 allocations: 1.469 KB)
+  0.000020 seconds (22 allocations: 352 bytes)
 Timing single bdays calculation
-  0.003109 seconds (31.23 k allocations: 2.859 MB)
+  0.002131 seconds (6 allocations: 96 bytes)
 Timing 100 bdays calculations
-  0.311629 seconds (3.12 M allocations: 285.855 MB, 2.95% gc time)
+  0.236849 seconds (600 allocations: 9.375 KB)
 Timing cache creation
-  0.005554 seconds (55.15 k allocations: 5.312 MB)
+  0.004256 seconds (7 allocations: 269.531 KB)
 Timing vectorized functions (vector length 7306)
-  2.633144 seconds (26.74 M allocations: 2.388 GB, 2.36% gc time)
-  2.623787 seconds (26.74 M allocations: 2.388 GB, 2.26% gc time)
-  2.623913 seconds (26.74 M allocations: 2.388 GB, 2.25% gc time)
-  0.000892 seconds (7.31 k allocations: 692.250 KB)
-  0.000913 seconds (7.31 k allocations: 692.250 KB)
-  0.000894 seconds (7.31 k allocations: 692.250 KB)
+  2.052541 seconds (29.23 k allocations: 513.828 KB)
+  1.959702 seconds (29.24 k allocations: 514.484 KB)
+  1.994140 seconds (29.29 k allocations: 517.672 KB)
+  0.000760 seconds (1 allocation: 7.313 KB)
+  0.000790 seconds (1 allocation: 7.313 KB)
+  0.000769 seconds (1 allocation: 7.313 KB)
 ##########################
  Using cache: true
 ##########################
 Timing composite calendar bdays calculation
-  0.000003 seconds (7 allocations: 112 bytes)
+  0.000002 seconds (7 allocations: 112 bytes)
 Timing single bdays calculation
-  0.000019 seconds (6 allocations: 96 bytes)
+  0.000001 seconds (6 allocations: 96 bytes)
 Timing 100 bdays calculations
-  0.000062 seconds (600 allocations: 9.375 KB)
+  0.000046 seconds (600 allocations: 9.375 KB)
 a million...
-  0.480075 seconds (6.00 M allocations: 91.553 MB, 1.65% gc time)
+  0.428110 seconds (6.00 M allocations: 91.553 MB, 3.24% gc time)
 Timing vectorized functions (vector length 7306)
-  0.003788 seconds (29.23 k allocations: 513.828 KB)
-  0.004129 seconds (29.23 k allocations: 513.828 KB)
-  0.003823 seconds (29.23 k allocations: 513.828 KB)
-  0.000645 seconds (1 allocation: 7.313 KB)
-  0.000661 seconds (1 allocation: 7.313 KB)
-  0.000658 seconds (1 allocation: 7.313 KB)
+  0.002489 seconds (29.23 k allocations: 513.828 KB)
+  0.002555 seconds (29.23 k allocations: 513.828 KB)
+  0.002655 seconds (29.23 k allocations: 513.828 KB)
+  0.000403 seconds (1 allocation: 7.313 KB)
+  0.000382 seconds (1 allocation: 7.313 KB)
+  0.000382 seconds (1 allocation: 7.313 KB)
 Perftests
-  0.007357 seconds (241 allocations: 317.827 KB)
+  0.004073 seconds (156 allocations: 314.076 KB)
   0.000002 seconds (9 allocations: 240 bytes)
-  0.470066 seconds (5.00 M allocations: 76.294 MB, 1.24% gc time)
-  4.293082 seconds (8.00 M allocations: 122.070 MB, 0.25% gc time)
-  4.366643 seconds (8.00 M allocations: 122.070 MB, 0.23% gc time)
+  0.372908 seconds (5.00 M allocations: 76.294 MB, 3.18% gc time)
+  4.757944 seconds (8.00 M allocations: 122.070 MB, 0.30% gc time)
+  4.752445 seconds (8.00 M allocations: 122.070 MB, 0.34% gc time)
 type
-  0.000522 seconds (5.00 k allocations: 78.125 KB)
-  0.000454 seconds (4.00 k allocations: 70.594 KB)
-  0.000472 seconds (7.01 k allocations: 125.422 KB)
+  0.000364 seconds (5.00 k allocations: 78.125 KB)
+  0.000329 seconds (4.00 k allocations: 70.594 KB)
+  0.000392 seconds (7.01 k allocations: 125.422 KB)
 sym
-  0.005113 seconds (8.00 k allocations: 125.000 KB)
-  0.000525 seconds (4.00 k allocations: 70.594 KB)
-  0.004967 seconds (7.01 k allocations: 133.391 KB)
+  0.004608 seconds (8.00 k allocations: 125.000 KB)
+  0.000331 seconds (4.00 k allocations: 70.594 KB)
+  0.004891 seconds (7.05 k allocations: 134.469 KB)
 str
-  0.004471 seconds (8.00 k allocations: 125.000 KB)
-  0.000509 seconds (4.00 k allocations: 70.594 KB)
-  0.004225 seconds (7.01 k allocations: 133.391 KB)
+  0.004898 seconds (8.00 k allocations: 125.000 KB)
+  0.000345 seconds (4.00 k allocations: 70.594 KB)
+  0.004704 seconds (7.05 k allocations: 134.469 KB)
 initcache type
-  0.006720 seconds (62.46 k allocations: 6.015 MB)
+  0.005142 seconds (10 allocations: 305.328 KB)
 initcache sym
-  0.006422 seconds (62.46 k allocations: 6.015 MB)
+  0.005196 seconds (10 allocations: 305.328 KB)
 initcache str
-  0.008300 seconds (62.46 k allocations: 6.015 MB, 21.91% gc time)
+  0.005066 seconds (10 allocations: 305.328 KB)
 INFO: BusinessDays tests passed
 =#

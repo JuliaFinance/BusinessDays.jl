@@ -30,7 +30,5 @@ while y <= 2100
     y += 1
 end
 
-print("easter minimum month is $(month_min) on date $(date_min) \neaster maximum month is $(month_max) on date $(date_max)\n")
-
 @test month_min >= 3
 @test month_max <= 4

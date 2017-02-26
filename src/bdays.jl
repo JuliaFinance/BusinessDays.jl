@@ -5,15 +5,21 @@
 Returns `true` for Saturdays or Sundays.
 Returns `false` otherwise.
 """
-function isweekend(dt::Date)
-    return dayofweek(dt) in [6, 7]
-end
+isweekend(dt::Date) = signbit(5 - dayofweek(dt))
+
+"""
+    isweekday(dt)
+
+Returns `true` for Monday to Friday.
+Returns `false` otherwise.
+"""
+isweekday(dt::Date) = signbit(dayofweek(dt)  - 6)
 
 """
     isbday(calendar, dt)
 
-Returns `true` for weekends or holidays.
-Returns `false` otherwise.
+Returns `false` for weekends or holidays.
+Returns `true` otherwise.
 """
 function isbday(hc::HolidayCalendar, dt::Date)
     if _getcachestate(hc)
