@@ -18,15 +18,15 @@ isweekday(dt::Date) = signbit(dayofweek(dt)  - 6)
 """
     isbday(calendar, dt)
 
-Returns `true` for weekends or holidays.
-Returns `false` otherwise.
+Returns `false` for weekends or holidays.
+Returns `true` otherwise.
 """
 function isbday(hc::HolidayCalendar, dt::Date)
     if _getcachestate(hc)
         hcc :: HolidayCalendarCache = _getholidaycalendarcache(hc)
         return isbday(hcc, dt)
     else
-        return isweekday(dt) && (!isholiday(hc, dt))
+        return !(isweekend(dt) || isholiday(hc, dt))
     end
 end
 
