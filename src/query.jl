@@ -25,11 +25,11 @@ function listbdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
 
     # empty result
     if d > d1
-        return Array(Date,0)
+        return Array{Date}(0)
     end
 
-    const n = convert(Int, d1-d)+1
-    raw_vec::Array{Date, 1} = Array(Date, n)
+    const n = Dates.value(d1) - Dates.value(d) + 1
+    raw_vec = Array{Date}(n)
     raw_vec[1] = d
     i::Int = 2
     d = advancebdays(hc,d,1)

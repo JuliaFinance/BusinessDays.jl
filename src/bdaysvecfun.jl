@@ -1,9 +1,9 @@
 # helper functions for vector inputs
 
-@vectorize_1arg Date isweekend
+isweekend(dt::Vector{Date}) = isweekend.(dt)
 
 function isbday(hc::HolidayCalendar, dt::Vector{Date})
-    result = Array(Bool, length(dt))
+    result = Array{Bool}(length(dt))
     
     for i in eachindex(dt)
         result[i] = isbday(hc, dt[i])
@@ -18,7 +18,7 @@ function isbday(hc::Vector{HolidayCalendar}, dt::Vector{Date})
 
     @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
 
-    result = Array(Bool, length(dt))
+    result = Array{Bool}(length(dt))
 
     for i in 1:l_hc
         result[i] = isbday(hc[i], dt[i])
@@ -31,7 +31,7 @@ isbday(calendar, dt::Vector{Date}) = isbday(convert(HolidayCalendar, calendar), 
 isbday{A<:AbstractArray}(calendars::A, dt::Vector{Date}) = isbday(convert(Vector{HolidayCalendar}, calendars), dt)
 
 function tobday(hc::HolidayCalendar, dt::Vector{Date}; forward::Bool = true)
-    result = Array(Date, length(dt))
+    result = Array{Date}(length(dt))
 
     for i in eachindex(dt)
         result[i] = tobday(hc, dt[i]; forward=forward)
@@ -46,7 +46,7 @@ function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Date}; forward::Bool = t
 
     @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
 
-    result = Array(Date, l_hc)
+    result = Array{Date}(l_hc)
 
     for i in 1:l_hc
         result[i] = tobday(hc[i], dt[i]; forward=forward)
@@ -61,7 +61,7 @@ tobday{A<:AbstractArray}(calendars::A, dt::Vector{Date}; forward::Bool = true) =
 function bdays(hc::HolidayCalendar, base_date::Date, dt_vec::Vector{Date})
     const len = length(dt_vec)
 
-    result = Array(Day, len)
+    result = Array{Day}(len)
 
     for i in 1:len
         result[i] = bdays(hc, base_date, dt_vec[i])
@@ -76,7 +76,7 @@ function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
 
     @assert l0 == l1 "Input vectors must have the same size. $(l0) != $(l1)"
 
-    result = Array(Day, l0)
+    result = Array{Day}(l0)
 
     for i in 1:l0
         result[i] = bdays(hc, dt0[i], dt1[i])
@@ -92,7 +92,7 @@ function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date}
 
     @assert l_hc == l0 && l0 == l1 "Input vectors must have the same size. $(l_hc), $(l0), $(l1)"
 
-    result = Array(Day, l0)
+    result = Array{Day}(l0)
 
     for i in 1:l0
         result[i] = bdays(hc[i], dt0[i], dt1[i])
@@ -105,7 +105,7 @@ bdays{A<:AbstractArray}(calendars::A, dt0::Vector{Date}, dt1::Vector{Date}) = bd
 
 function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count_vec::Vector{Int})
     const l = length(bdays_count_vec)
-    result = Array(Date, l)
+    result = Array{Date}(l)
     for i in 1:l
         result[i] = advancebdays(hc, dt, bdays_count_vec[i])
     end

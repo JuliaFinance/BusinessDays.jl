@@ -4,7 +4,7 @@ Banking holidays for England and Wales.
 """
 type UKSettlement <: HolidayCalendar end
 
-typealias UnitedKingdom UKSettlement
+const UnitedKingdom = UKSettlement
 
 # England and Wales Banking Holidays
 function isholiday(::UKSettlement, dt::Date)

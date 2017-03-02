@@ -6,7 +6,7 @@ United States federal holidays.
 """
 type USSettlement <: HolidayCalendar end
 
-typealias UnitedStates USSettlement
+const UnitedStates = USSettlement
 
 """
 United States NYSE holidays.

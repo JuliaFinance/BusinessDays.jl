@@ -106,8 +106,8 @@ function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
         error("Maximum size allowed for bdays cache array is $(typemax(UInt32)). The required lenght was $(len).")
     end
 
-    isbday_array = Array(Bool, len)
-    bdayscounter_array = Array(UInt32, len)
+    isbday_array = Array{Bool}(len)
+    bdayscounter_array = Array{UInt32}(len)
 
     @inbounds isbday_array[1] = isbday(hc, d0_)
     @inbounds bdayscounter_array[1] = 0

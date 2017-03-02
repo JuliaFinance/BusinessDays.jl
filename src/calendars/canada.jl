@@ -3,7 +3,8 @@
 Holidays for Canada
 """
 type CanadaSettlement <: HolidayCalendar end
-typealias Canada CanadaSettlement
+
+const Canada = CanadaSettlement
 
 """
 Holidays for Toronto Stock Exchange
