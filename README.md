@@ -225,6 +225,7 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 
 ##Available Business Days Calendars
 - **BRSettlement** or **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
+- **BrazilBMF** or **BrazilExchange** : holidays for BM&FBOVESPA Stock Exchange.
 - **USSettlement** or **UnitedStates**: United States federal holidays.
 - **USNYSE** : United States NYSE holidays.
 - **USGovernmentBond** : United States Government Bond calendar.
