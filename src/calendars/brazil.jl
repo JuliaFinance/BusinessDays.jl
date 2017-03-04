@@ -86,7 +86,7 @@ function isholiday(::BrazilExchange, dt::Date)
     const yy = Dates.year(dt)
     const mm = Dates.month(dt)
     const dd = Dates.day(dt)
-    
+
     if (
         # Aniversário de São Paulo
         ( mm == 1 && dd == 25 )
@@ -105,7 +105,7 @@ function isholiday(::BrazilExchange, dt::Date)
         ||
         # National holidays
         isholiday(Brazil(), dt)
-        )
+       )
         return true
     end
 
