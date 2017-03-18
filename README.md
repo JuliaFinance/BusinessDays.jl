@@ -1,5 +1,5 @@
 
-#BusinessDays.jl
+# BusinessDays.jl
 [![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl) [![Coverage Status](https://coveralls.io/repos/felipenoris/BusinessDays.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/felipenoris/BusinessDays.jl?branch=master) [![codecov.io](http://codecov.io/github/felipenoris/BusinessDays.jl/coverage.svg?branch=master)](http://codecov.io/github/felipenoris/BusinessDays.jl?branch=master) [![BusinessDays](http://pkg.julialang.org/badges/BusinessDays_0.5.svg)](http://pkg.julialang.org/?pkg=BusinessDays&ver=0.5) [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 
 A highly optimized *Business Days* calculator written in Julia language.
@@ -10,7 +10,7 @@ Also known as *Working Days* calculator.
 julia> Pkg.add("BusinessDays")
 ```
 
-##Motivation
+## Motivation
 This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
 While there are many implementations of *Business Days* calculators out there, the usual implementation is based on this kind of algorithm:
 ```R
@@ -93,7 +93,7 @@ julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
 
 It's important to point out that **cache is disabled by default**. So, in order to take advantage of high speed computation provided by this package, one must call `BusinessDays.initcache` function.
 
-##Usage
+## Usage
 ```julia
 julia> using BusinessDays
 julia> BusinessDays.initcache(:USSettlement) # creates cache for US Federal holidays, allowing fast computations
@@ -140,7 +140,7 @@ julia> bdays(:USSettlement, [Date(2014,12,31),Date(2015,01,02)], [Date(2015,01,0
 
 See *runtests.jl* for more examples.
 
-##Package Documentation
+## Package Documentation
 
 **HolidayCalendar**
 
@@ -223,7 +223,7 @@ You can also pass `calendar` as an `AbstractArray` of those types.
 
 Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `AbstractString`.
 
-##Available Business Days Calendars
+## Available Business Days Calendars
 - **BRSettlement** or **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
 - **BrazilBMF** or **BrazilExchange** : holidays for BM&FBOVESPA Stock Exchange.
 - **USSettlement** or **UnitedStates**: United States federal holidays.
