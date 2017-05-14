@@ -74,6 +74,7 @@ You can also pass `calendar` as an `AbstractArray` of those types.
 function initcache(hc::HolidayCalendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
     isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
     _CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
+    nothing
 end
 
 function initcache(hc_vec::Vector{HolidayCalendar}, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
