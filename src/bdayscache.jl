@@ -9,16 +9,12 @@ Holds caches for Holiday Calendars.
 * Value = instance of `HolidayCalendarCache`
 """
 const _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
-
 const DEFAULT_CACHE_D0 = Date(1980, 01, 01)
 const DEFAULT_CACHE_D1 = Date(2150, 12, 20)
 
 _getcachestate(hc::HolidayCalendar) = haskey(_CACHE_DICT, hc)
-
 _getholidaycalendarcache(hc::HolidayCalendar) = _CACHE_DICT[hc]
-
 checkbounds(hcc::HolidayCalendarCache, dt::Date) = @assert (hcc.dtmin <= dt) && (dt <= hcc.dtmax) "Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt)."
-
 _linenumber(hcc::HolidayCalendarCache, dt::Date) = Dates.days(dt) - Dates.days(hcc.dtmin) + 1
 
 function isbday(hcc::HolidayCalendarCache, dt::Date)
@@ -32,6 +28,37 @@ function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
     const dt1_tobday = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
     
     return Day(convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt1_tobday)]) - convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt0_tobday)]))
+end
+
+# Returns tuple
+# tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
+function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
+
+    const d0_ = min(d0, d1)
+    const d1_ = max(d0, d1)
+
+    const d0_rata = Dates.days(d0_)
+    const d1_rata = Dates.days(d1_)
+
+    # length of the cache arrays
+    const len::Int = d1_rata - d0_rata + 1
+
+    # This function uses UInt32 to store bdayscounter array
+    # We need to check if we'll exceed typemax(UInt32)
+    @assert len <= typemax(UInt32) "Maximum size allowed for bdays cache array is $(typemax(UInt32)). The required lenght was $(len)."
+    
+    isbday_array = Array{Bool}(len)
+    bdayscounter_array = Array{UInt32}(len)
+
+    @inbounds isbday_array[1] = isbday(hc, d0_)
+    @inbounds bdayscounter_array[1] = 0
+
+    for i in 2:len
+        @inbounds isbday_array[i] = isbday(hc, d0_ + Dates.Day(i-1))
+        @inbounds bdayscounter_array[i] = bdayscounter_array[i-1] + isbday_array[i]
+    end
+
+    return isbday_array, bdayscounter_array
 end
 
 # Be sure to use this function on a syncronized code (not multithreaded).
@@ -86,36 +113,3 @@ end
 
 cleancache(calendar) = cleancache(convert(HolidayCalendar, calendar))
 cleancache{A<:AbstractArray}(calendars::A) = cleancache(convert(Vector{HolidayCalendar}, calendars))
-
-# Returns tuple
-# tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
-function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
-
-    const d0_ = min(d0, d1)
-    const d1_ = max(d0, d1)
-
-    const d0_rata = Dates.days(d0_)
-    const d1_rata = Dates.days(d1_)
-    
-    # length of the cache arrays
-    const len::Int = d1_rata - d0_rata + 1
-
-    # This function uses UInt32 to store bdayscounter array
-    # We need to check if we'll exceed typemax(UInt32)
-    if len > typemax(UInt32)
-        error("Maximum size allowed for bdays cache array is $(typemax(UInt32)). The required lenght was $(len).")
-    end
-
-    isbday_array = Array{Bool}(len)
-    bdayscounter_array = Array{UInt32}(len)
-
-    @inbounds isbday_array[1] = isbday(hc, d0_)
-    @inbounds bdayscounter_array[1] = 0
-
-    for i in 2:len
-        @inbounds isbday_array[i] = isbday(hc, d0_ + Dates.Day(i-1))
-        @inbounds bdayscounter_array[i] = bdayscounter_array[i-1] + isbday_array[i]
-    end
-
-    return isbday_array, bdayscounter_array
-end

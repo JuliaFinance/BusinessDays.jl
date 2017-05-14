@@ -8,6 +8,7 @@ bd = BusinessDays
 ###########
 # types.jl
 ###########
+
 bhc = bd.Brazil()
 ushc = bd.USSettlement()
 ukhc = bd.UKSettlement()
@@ -271,7 +272,7 @@ len = typemax(UInt32) + 1
 if len > typemax(UInt32)
     d0 = Date(1950, 2, 1)
     d1 = d0 + Day(len)
-    @test_throws ErrorException bd._createbdayscache(bhc, d0, d1)
+    @test_throws AssertionError bd._createbdayscache(bhc, d0, d1)
 end
 
 # Create HolidayCalendar instances

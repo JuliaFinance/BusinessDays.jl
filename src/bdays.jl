@@ -42,16 +42,16 @@ function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
     if isbday(hc, dt)
         return dt
     else
-        local next::Date
+        local next_date::Date
         local increment::Int = forward ? 1 : -1
-        next = dt + Dates.Day(increment)
+        next_date = dt + Dates.Day(increment)
 
-        while !isbday(hc, next)
-            next += Dates.Day(increment)
+        while !isbday(hc, next_date)
+            next_date += Dates.Day(increment)
         end
     end
     
-    return next
+    return next_date
 end
 
 tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar,calendar), dt; forward=forward)

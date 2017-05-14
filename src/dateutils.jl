@@ -18,15 +18,15 @@ function easter_rata(y::Year)
     const c = div(y.value , 100) + 1
 
     # Shifted Epact
-    local e::Int = mod(14 + 11*(mod(y.value, 19)) - div(3*c, 4) + div(5+8*c, 25), 30)
+    local se::Int = mod(14 + 11*(mod(y.value, 19)) - div(3*c, 4) + div(5+8*c, 25), 30)
 
     # Adjust Epact
-    if (e == 0) || ((e == 1) && ( 10 < mod(y.value, 19) ))
-       e += 1
+    if (se == 0) || ((se == 1) && ( 10 < mod(y.value, 19) ))
+       se += 1
     end
 
     # Paschal Moon
-    const p = Date(y.value, 4, 19).instant.periods.value - e
+    const p = Date(y.value, 4, 19).instant.periods.value - se
 
     # Easter: locate the Sunday after the Paschal Moon
     return p + 7 - mod(p, 7)
