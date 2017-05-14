@@ -62,23 +62,29 @@ It's also important to point out that the initialization of the memory cache, wh
 
 **Example Code**
 ```julia
-using BusinessDays
-bd = BusinessDays
+julia> using BusinessDays
 
-d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
+julia> bd = BusinessDays
+BusinessDays
 
-cal = bd.Brazil()
-@time bd.initcache(cal)
-bdays(cal, d0, d1) # force JIT compilation
-@time bdays(cal, d0, d1)
-@time for i in 1:1000000 bdays(cal, d0, d1) end
-```
+julia> d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
+2100-12-20
 
-**Results**
-```
-0.216003 seconds (176.64 k allocations: 8.007 MB, 27.88% gc time)
-0.000003 seconds (9 allocations: 240 bytes)
-0.471220 seconds (5.00 M allocations: 76.294 MB, 21.49% gc time)
+julia> cal = bd.Brazil()
+BusinessDays.BRSettlement()
+
+julia> @time bd.initcache(cal)
+  0.138267 seconds (154.84 k allocations: 7.123 MB)
+
+julia> bdays(cal, d0, d1) # force JIT compilation
+21471 days
+
+julia> @time bdays(cal, d0, d1)
+  0.000003 seconds (9 allocations: 240 bytes)
+21471 days
+
+julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
+  0.379739 seconds (5.00 M allocations: 76.294 MB, 26.27% gc time)
 ```
 
 **There's no magic**
@@ -97,7 +103,6 @@ It's important to point out that **cache is disabled by default**. So, in order 
 ```julia
 julia> using BusinessDays
 julia> BusinessDays.initcache(:USSettlement) # creates cache for US Federal holidays, allowing fast computations
-BusinessDays.HolidayCalendarCache(BusinessDays.USSettlement(),Bool[false,true,true,true,false,false,true,true,true,true  …  true,false,false,true,true,true,true,true,false,false],UInt32[0x00000000,0x00000001,0x00000002,0x00000003,0x00000003,0x00000003,0x00000004,0x00000005,0x00000006,0x00000007  …  0x0000a78d,0x0000a78d,0x0000a78d,0x0000a78e,0x0000a78f,0x0000a790,0x0000a791,0x0000a792,0x0000a792,0x0000a792],1980-01-01,2150-12-20)
 
 julia> isbday(:USSettlement, Date(2015, 01, 01)) # Calendars can be referenced using symbols
 false
