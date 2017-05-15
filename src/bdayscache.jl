@@ -8,12 +8,12 @@ Holds caches for Holiday Calendars.
 * Key = `HolidayCalendar` instance
 * Value = instance of `HolidayCalendarCache`
 """
-const _CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
+const CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
 const DEFAULT_CACHE_D0 = Date(1980, 01, 01)
 const DEFAULT_CACHE_D1 = Date(2150, 12, 20)
 
-_getcachestate(hc::HolidayCalendar) = haskey(_CACHE_DICT, hc)
-_getholidaycalendarcache(hc::HolidayCalendar) = _CACHE_DICT[hc]
+_getcachestate(hc::HolidayCalendar) = haskey(CACHE_DICT, hc)
+_getholidaycalendarcache(hc::HolidayCalendar) = CACHE_DICT[hc]
 checkbounds(hcc::HolidayCalendarCache, dt::Date) = @assert (hcc.dtmin <= dt) && (dt <= hcc.dtmax) "Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt)."
 _linenumber(hcc::HolidayCalendarCache, dt::Date) = Dates.days(dt) - Dates.days(hcc.dtmin) + 1
 
@@ -73,7 +73,7 @@ You can also pass `calendar` as an `AbstractArray` of those types.
 """
 function initcache(hc::HolidayCalendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
     isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
-    _CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
+    CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
     nothing
 end
 
@@ -88,8 +88,8 @@ initcache(calendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) = init
 
 # remove all elements from cache
 function cleancache()
-    for k in keys(_CACHE_DICT)
-        delete!(_CACHE_DICT, k)
+    for k in keys(CACHE_DICT)
+        delete!(CACHE_DICT, k)
     end
 end
 
@@ -99,15 +99,15 @@ end
 Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `AbstractString`.
 """
 function cleancache(hc::HolidayCalendar)
-    if haskey(_CACHE_DICT, hc)
-        delete!(_CACHE_DICT, hc)
+    if haskey(CACHE_DICT, hc)
+        delete!(CACHE_DICT, hc)
     end
 end
 
 function cleancache(hc_vec::Vector{HolidayCalendar})
     for k in hc_vec
-        if k in keys(_CACHE_DICT)
-            delete!(_CACHE_DICT, k)
+        if k in keys(CACHE_DICT)
+            delete!(CACHE_DICT, k)
         end
     end
 end

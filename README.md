@@ -61,7 +61,7 @@ While one computation takes up to 2 milliseconds, we're in trouble if we have to
 
 It's also important to point out that the initialization of the memory cache, which is done only once for each Julia runtime session, takes less than *half a second*, including JIT compilation time. Also, the *memory footprint* required for each cached calendar should take around 0.7 MB.
 
-**Example Code**
+**Benchmark Code**
 
 ```julia
 julia> using BusinessDays
@@ -94,7 +94,8 @@ julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
 If we disable BusinessDays's cache, however, the performance is slightly worse than QuantLib's implementation. It takes around 38 minutes to process the same benchmark test.
 
 ```julia
-julia> BusinessDays.cleancache() # cleans existing cache
+julia> BusinessDays.cleancache() # cleans existing cache, if any
+
 julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
 # 2288.906548 seconds (5.00 M allocations: 76.294 MB, 0.00% gc time)
 ```
