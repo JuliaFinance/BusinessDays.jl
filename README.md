@@ -11,6 +11,7 @@ julia> Pkg.add("BusinessDays")
 ```
 
 ## Motivation
+
 This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
 While there are many implementations of *Business Days* calculators out there, the usual implementation is based on this kind of algorithm:
 ```R
@@ -61,6 +62,7 @@ While one computation takes up to 2 milliseconds, we're in trouble if we have to
 It's also important to point out that the initialization of the memory cache, which is done only once for each Julia runtime session, takes less than *half a second*, including JIT compilation time. Also, the *memory footprint* required for each cached calendar should take around 0.7 MB.
 
 **Example Code**
+
 ```julia
 julia> using BusinessDays
 
@@ -100,8 +102,10 @@ julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
 It's important to point out that **cache is disabled by default**. So, in order to take advantage of high speed computation provided by this package, one must call `BusinessDays.initcache` function.
 
 ## Usage
+
 ```julia
 julia> using BusinessDays
+
 julia> BusinessDays.initcache(:USSettlement) # creates cache for US Federal holidays, allowing fast computations
 
 julia> isbday(:USSettlement, Date(2015, 01, 01)) # Calendars can be referenced using symbols
@@ -229,6 +233,7 @@ You can also pass `calendar` as an `AbstractArray` of those types.
 Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `AbstractString`.
 
 ## Available Business Days Calendars
+
 - **BRSettlement** or **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
 - **BrazilBMF** or **BrazilExchange** : holidays for BM&FBOVESPA Stock Exchange.
 - **USSettlement** or **UnitedStates**: United States federal holidays.
@@ -242,6 +247,7 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 - **NullHolidayCalendar** : `isholiday` returns `false` and `isbday` returns `true` for any date. `bdays` returns the actual days between dates.
 
 ## Adding new Holiday Calendars
+
 You can add your custom Holiday Calendar by doing the following:
 
 1. Define a subtype of `HolidayCalendar`.
