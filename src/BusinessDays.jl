@@ -37,6 +37,6 @@ include("bdays.jl")
 include("bdaysvecfun.jl")
 include("composite.jl")
 include("query.jl")
-include("calendars.jl")
+include("calendars/calendars.jl")
 
 end # module BusinessDays

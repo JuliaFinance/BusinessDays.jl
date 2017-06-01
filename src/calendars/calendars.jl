@@ -19,7 +19,8 @@ isholiday(::NullHolidayCalendar, dt::Date) = false
 isbday(::NullHolidayCalendar, dt::Date) = true
 bdays(::NullHolidayCalendar, dt0::Date, dt1::Date) = dt1 - dt0
 
-include("calendars/brazil.jl")
-include("calendars/uk.jl")
-include("calendars/us.jl")
-include("calendars/canada.jl")
+include("brazil.jl")
+include("canada.jl")
+include("target.jl")
+include("uk.jl")
+include("us.jl")

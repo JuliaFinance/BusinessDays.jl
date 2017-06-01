@@ -14,6 +14,7 @@ ushc = bd.USSettlement()
 ukhc = bd.UKSettlement()
 usnysehc = bd.USNYSE()
 usgovbondhc = bd.USGovernmentBond()
+targethc = bd.TARGET()
 hc_composite_BR_USA = CompositeHolidayCalendar([bd.Brazil(), bd.USSettlement()])
 all_calendars_vec = [bhc, ushc, ukhc, hc_composite_BR_USA, usnysehc, usgovbondhc]
 
@@ -633,6 +634,29 @@ for usecache in [false, true]
     @test isbday("USGovernmentBond", Date(2015, 12, 24)) == true
     @test isbday("USGovernmentBond", Date(2015, 12, 25)) == false # Christmas - Friday
     @test isbday("USGovernmentBond", Date(2015, 12, 26)) == false
+
+    # TARGET HolidayCalendar tests
+    @test isbday(targethc, Date(2017, 12, 24)) == false # Sunday
+    @test isbday(targethc, Date(2017, 12, 25)) == false # Christmas - Monday
+    @test isbday(targethc, Date(2017, 12, 26)) == false # Day of Goodwill - Tuesday
+    @test isbday(targethc, Date(2017, 12, 27)) == true  # Wednesday
+
+    @test isbday(targethc, Date(2017, 04, 16)) == false # Easter Sunday
+    @test isbday(targethc, Date(2017, 04, 17)) == false # Easter Monday
+    @test isbday(targethc, Date(2017, 04, 18)) == true # Tuesday
+
+    @test isbday(targethc, Date(2001, 12, 31)) == false # End of year
+    @test isbday(targethc, Date(2002, 12, 31)) == true # End of year
+
+    # Symbol
+    @test isbday(:TARGET, Date(2017, 04, 16)) == false # Easter Sunday
+    @test isbday(:TARGET, Date(2017, 04, 17)) == false # Easter Monday
+    @test isbday(:TARGET, Date(2017, 04, 18)) == true # Tuesday
+
+    # String
+    @test isbday("TARGET", Date(2017, 04, 16)) == false # Easter Sunday
+    @test isbday("TARGET", Date(2017, 04, 17)) == false # Easter Monday
+    @test isbday("TARGET", Date(2017, 04, 18)) == true # Tuesday
 
     ## UKSettlement HolidayCalendar tests
     @test isbday(hc_uk, Date(2014, 12, 31)) == true
