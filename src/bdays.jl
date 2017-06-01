@@ -5,7 +5,7 @@
 Returns `true` for Saturdays or Sundays.
 Returns `false` otherwise.
 """
-isweekend(dt::Date) = signbit(5 - dayofweek(dt))
+@inline isweekend(dt::Date) = signbit(5 - dayofweek(dt))
 
 """
     isweekday(dt)
@@ -13,7 +13,7 @@ isweekend(dt::Date) = signbit(5 - dayofweek(dt))
 Returns `true` for Monday to Friday.
 Returns `false` otherwise.
 """
-isweekday(dt::Date) = signbit(dayofweek(dt)  - 6)
+@inline isweekday(dt::Date) = signbit(dayofweek(dt)  - 6)
 
 """
     isbday(calendar, dt)
