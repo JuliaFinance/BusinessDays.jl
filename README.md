@@ -237,15 +237,16 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 
 - **BRSettlement** or **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
 - **BrazilBMF** or **BrazilExchange** : holidays for BM&FBOVESPA Stock Exchange.
+- **CanadaSettlement** or **Canada**: holidays for Canada.
+- **CanadaTSX**: holidays for Toronto Stock Exchange
+- **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
+- **NullHolidayCalendar** : `isholiday` returns `false` and `isbday` returns `true` for any date. `bdays` returns the actual days between dates.
+- **TARGET** : [TARGET / TARGET2 Euro Zone](https://en.wikipedia.org/wiki/TARGET2) holiday calendar. 
 - **USSettlement** or **UnitedStates**: United States federal holidays.
 - **USNYSE** : United States NYSE holidays.
 - **USGovernmentBond** : United States Government Bond calendar.
 - **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales.
-- **CanadaSettlement** or **Canada**: holidays for Canada.
-- **CanadaTSX**: holidays for Toronto Stock Exchange
-- **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 - **WeekendsOnly** : for this calendar, `isholiday` returns `false`, but `isbday` returns `false` for Saturdays and Sundays.
-- **NullHolidayCalendar** : `isholiday` returns `false` and `isbday` returns `true` for any date. `bdays` returns the actual days between dates.
 
 ## Adding new Holiday Calendars
 
