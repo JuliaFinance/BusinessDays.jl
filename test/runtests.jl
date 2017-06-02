@@ -648,6 +648,10 @@ for usecache in [false, true]
     @test isbday(targethc, Date(2001, 12, 31)) == false # End of year
     @test isbday(targethc, Date(2002, 12, 31)) == true # End of year
 
+    @test isbday(targethc, Date(2016, 1, 1)) == false # New Year's Day
+    @test isbday(targethc, Date(2017, 5, 1)) == false # Labour Day
+    @test isbday(targethc, Date(1998, 5, 1)) == true # Labour Day before 2000
+
     # Symbol
     @test isbday(:TARGET, Date(2017, 04, 16)) == false # Easter Sunday
     @test isbday(:TARGET, Date(2017, 04, 17)) == false # Easter Monday
