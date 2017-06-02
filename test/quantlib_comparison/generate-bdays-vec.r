@@ -11,7 +11,7 @@ cals = c( "Canada", "Canada/Settlement", "Canada/TSX", "Germany", "Germany/Frank
           "Germany/Settlement", "Germany/Xetra", "Germany/Eurex", "Italy", "Italy/Settlement", "Italy/Exchange",
           "Japan", "UnitedKingdom", "UnitedKingdom/Settlement", "UnitedKingdom/Exchange", "UnitedKingdom/Metals",
           "UnitedStates", "UnitedStates/Settlement", "UnitedStates/NYSE", "UnitedStates/GovernmentBond", 
-          "UnitedStates/NERC", "Brazil")
+          "UnitedStates/NERC", "Brazil", "TARGET")
 
 dir.create('csv')
 

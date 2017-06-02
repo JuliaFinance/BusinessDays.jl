@@ -5,7 +5,7 @@ using DataFrames
 
 bd = BusinessDays
 
-hc_vec = [:BRSettlement, :USSettlement, :USNYSE, :USGovernmentBond, :UKSettlement, :CanadaSettlement, :CanadaTSX]
+hc_vec = [:BRSettlement, :USSettlement, :USNYSE, :USGovernmentBond, :UKSettlement, :CanadaSettlement, :CanadaTSX, :TARGET]
 
 d0 = Date(1960,01,04)
 d1 = Date(2100,01,04)
