@@ -1,6 +1,6 @@
 # helper functions for vector inputs
 
-isweekend(dt::Vector{Date}) = isweekend.(dt)
+@inline isweekend(dt::Vector{Date}) = isweekend.(dt)
 
 function isbday(hc::HolidayCalendar, dt::Vector{Date})
     result = Array{Bool}(length(dt))

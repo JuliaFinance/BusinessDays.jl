@@ -30,7 +30,7 @@ function symtocalendar(sym::Symbol)
     return result
 end
 
-strtocalendar(str::AbstractString) = symtocalendar(Symbol(str))
+@inline strtocalendar(str::AbstractString) = symtocalendar(Symbol(str))
 
 Base.convert(::Type{HolidayCalendar}, sym::Symbol) = symtocalendar(sym)
 Base.convert(::Type{HolidayCalendar}, str::AbstractString) = strtocalendar(str)

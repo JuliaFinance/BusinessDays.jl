@@ -12,12 +12,12 @@ const CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
 const DEFAULT_CACHE_D0 = Date(1980, 01, 01)
 const DEFAULT_CACHE_D1 = Date(2150, 12, 20)
 
-_getcachestate(hc::HolidayCalendar) = haskey(CACHE_DICT, hc)
-_getholidaycalendarcache(hc::HolidayCalendar) = CACHE_DICT[hc]
-checkbounds(hcc::HolidayCalendarCache, dt::Date) = @assert (hcc.dtmin <= dt) && (dt <= hcc.dtmax) "Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt)."
-_linenumber(hcc::HolidayCalendarCache, dt::Date) = Dates.days(dt) - Dates.days(hcc.dtmin) + 1
+@inline _getcachestate(hc::HolidayCalendar) = haskey(CACHE_DICT, hc)
+@inline _getholidaycalendarcache(hc::HolidayCalendar) = CACHE_DICT[hc]
+@inline checkbounds(hcc::HolidayCalendarCache, dt::Date) = @assert (hcc.dtmin <= dt) && (dt <= hcc.dtmax) "Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt)."
+@inline _linenumber(hcc::HolidayCalendarCache, dt::Date) = Dates.days(dt) - Dates.days(hcc.dtmin) + 1
 
-function isbday(hcc::HolidayCalendarCache, dt::Date)
+@inline function isbday(hcc::HolidayCalendarCache, dt::Date)
     checkbounds(hcc, dt)
     return hcc.isbday_array[ _linenumber(hcc, dt) ]
 end

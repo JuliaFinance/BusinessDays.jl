@@ -37,7 +37,7 @@ end
 
 Returns result of `easter_rata` as a `Date` instance.
 """
-easter_date(y::Year) = Date(Dates.rata2datetime(easter_rata(y)))
+@inline easter_date(y::Year) = Date(Dates.rata2datetime(easter_rata(y)))
 
 # weekday_target values:
 # const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7
