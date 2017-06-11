@@ -3,7 +3,6 @@
 Holidays for Canada
 """
 type CanadaSettlement <: HolidayCalendar end
-
 const Canada = CanadaSettlement
 
 """

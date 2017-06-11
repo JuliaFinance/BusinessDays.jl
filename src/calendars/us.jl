@@ -5,7 +5,6 @@
 United States federal holidays.
 """
 type USSettlement <: HolidayCalendar end
-
 const UnitedStates = USSettlement
 
 """

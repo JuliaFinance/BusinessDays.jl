@@ -3,7 +3,6 @@
 Banking holidays for England and Wales.
 """
 type UKSettlement <: HolidayCalendar end
-
 const UnitedKingdom = UKSettlement
 
 # England and Wales Banking Holidays

@@ -662,6 +662,10 @@ for usecache in [false, true]
     @test isbday("TARGET", Date(2017, 04, 17)) == false # Easter Monday
     @test isbday("TARGET", Date(2017, 04, 18)) == true # Tuesday
 
+    # TARGET synonyms
+    @test isbday("TARGET2", Date(2017, 04, 18)) == isbday("TARGET", Date(2017, 04, 18))
+    @test isbday("EuroZone", Date(2017, 04, 18)) == isbday("TARGET", Date(2017, 04, 18))
+
     ## UKSettlement HolidayCalendar tests
     @test isbday(hc_uk, Date(2014, 12, 31)) == true
     @test isbday(hc_uk, Date(2015, 01, 01)) == false # New Year's Day Thursday
