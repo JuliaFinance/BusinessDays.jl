@@ -51,7 +51,7 @@ Given a year `yy` and month `mm`, finds a date where a choosen weekday occurs.
 `weekday_target` values are declared in module `Base.Dates`:
 `Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7`.
 
-If `ascending` is true, searches from the beggining of the month. If false, searches from the end of the month.
+If `ascending` is true, searches from the beginning of the month. If false, searches from the end of the month.
 
 If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 """
