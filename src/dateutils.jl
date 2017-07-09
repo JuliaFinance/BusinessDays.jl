@@ -65,11 +65,11 @@ function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurren
 
     if ascending
         dt_dayofweek = dayofweek(dt)
-        offset = rem(weekday_target + 7 - dt_dayofweek, 7) # rem = MOD function
+        offset = mod(weekday_target + 7 - dt_dayofweek, 7)
     else
         dt = lastdayofmonth(dt)
         dt_dayofweek = dayofweek(dt)
-        offset = rem(dt_dayofweek + 7 - weekday_target, 7)
+        offset = mod(dt_dayofweek + 7 - weekday_target, 7)
     end
 
     if occurrence > 1
