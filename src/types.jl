@@ -2,7 +2,7 @@
 """
 *Abstract* type for Holiday Calendars.
 """
-abstract HolidayCalendar
+@compat abstract type HolidayCalendar; end
 
 """
 Data structure for calendar cache.

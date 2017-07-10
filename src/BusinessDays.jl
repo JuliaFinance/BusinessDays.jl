@@ -9,6 +9,7 @@ Website: https://github.com/felipenoris/BusinessDays.jl
 module BusinessDays
 
 using Base.Dates
+using Compat
 
 # types.jl
 export
