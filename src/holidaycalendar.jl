@@ -4,17 +4,6 @@
 """
 @compat abstract type HolidayCalendar; end
 
-"""
-Data structure for calendar cache.
-"""
-type HolidayCalendarCache
-    hc::HolidayCalendar
-    isbday_array::Vector{Bool}
-    bdayscounter_array::Vector{UInt32}
-    dtmin::Date
-    dtmax::Date
-end
-
 Base.string(hc::HolidayCalendar) = string(typeof(hc))
 
 function symtocalendar(sym::Symbol)

@@ -32,7 +32,7 @@ export
     listbdays
 
 include("dateutils.jl")
-include("types.jl")
+include("holidaycalendar.jl")
 include("bdayscache.jl")
 include("bdays.jl")
 include("bdaysvecfun.jl")

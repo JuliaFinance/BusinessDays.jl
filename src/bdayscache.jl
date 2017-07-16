@@ -3,6 +3,17 @@
 #
 
 """
+Data structure for calendar cache.
+"""
+type HolidayCalendarCache
+    hc::HolidayCalendar
+    isbday_array::Vector{Bool}
+    bdayscounter_array::Vector{UInt32}
+    dtmin::Date
+    dtmax::Date
+end
+
+"""
 Holds caches for Holiday Calendars.
 
 * Key = `HolidayCalendar` instance
