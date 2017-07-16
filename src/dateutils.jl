@@ -39,10 +39,6 @@ Returns result of `easter_rata` as a `Date` instance.
 """
 @inline easter_date(y::Year) = Date(Dates.rata2datetime(easter_rata(y)))
 
-# weekday_target values:
-# const Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday = 1,2,3,4,5,6,7
-# See query.jl on Dates module
-# See also dayofweek(dt) function.
 """
     findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date
 
@@ -83,8 +79,15 @@ function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurren
     end
 end
 
-# In the UK and Canada, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
-# This function will adjust to the next Monday.
+"""
+
+   adjustweekendholidayPost(dt, [adjust_saturdays]) → Date
+
+In the UK and Canada, if a holiday falls on Saturday or Sunday, it's observed on the next business day.
+This function will adjust to the next Monday.
+
+`adjust_saturdays` kwarg defaults to `true`.
+"""
 function adjustweekendholidayPost(dt::Date; adjust_saturdays::Bool = true)
 
     if adjust_saturdays && (dayofweek(dt) == Dates.Saturday)
@@ -98,8 +101,12 @@ function adjustweekendholidayPost(dt::Date; adjust_saturdays::Bool = true)
     return dt
 end
 
-# In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
-# If it falls on Sunday, it's observed on the next Monday.
+"""
+    adjustweekendholidayUS(dt) → Date
+
+In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
+If it falls on Sunday, it's observed on the next Monday.
+"""
 function adjustweekendholidayUS(dt::Date)
 
     if dayofweek(dt) == Dates.Saturday
