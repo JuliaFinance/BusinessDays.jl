@@ -5,6 +5,10 @@ using Base.Test
 
 bd = BusinessDays
 
+# Issue #18
+
+Dict(Any[])
+
 ###########
 # types.jl
 ###########
