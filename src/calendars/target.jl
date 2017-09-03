@@ -7,9 +7,9 @@ const TARGET2 = TARGET
 const EuroZone = TARGET
 
 function isholiday(::TARGET, dt::Date)
-    const yy = Dates.year(dt)
-    const mm = Dates.month(dt)
-    const dd = Dates.day(dt)
+    yy = Dates.year(dt)
+    mm = Dates.month(dt)
+    dd = Dates.day(dt)
 
     # Bisection
     if mm < 8
@@ -26,8 +26,8 @@ function isholiday(::TARGET, dt::Date)
 
         if yy >= 2000
 
-            const dt_rata::Int = Dates.days(dt)
-            const e_rata::Int = easter_rata(Dates.Year(yy))
+            dt_rata::Int = Dates.days(dt)
+            e_rata::Int = easter_rata(Dates.Year(yy))
             
             if (
                 # Good Friday

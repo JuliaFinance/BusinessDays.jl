@@ -12,10 +12,10 @@ type CanadaTSX <: HolidayCalendar end
 
 function isholiday(::CanadaSettlement, dt::Date)
 
-    const yy = Dates.year(dt)
-    const mm = Dates.month(dt)
-    const dd = Dates.day(dt)
-    const ww = Dates.dayofweek(dt)
+    yy = Dates.year(dt)
+    mm = Dates.month(dt)
+    dd = Dates.day(dt)
+    ww = Dates.dayofweek(dt)
 
     # Bisection
     if mm >= 8
@@ -54,8 +54,8 @@ function isholiday(::CanadaSettlement, dt::Date)
 
         # Easter occurs up to April, which is before August (mm < 8). See test/easter-min-max.jl .
         # Holidays based on easter date
-        const dt_rata::Int = Dates.days(dt)
-        const e_rata::Int = easter_rata(Dates.Year(yy))
+        dt_rata::Int = Dates.days(dt)
+        e_rata::Int = easter_rata(Dates.Year(yy))
 
         if (
                 # Good Friday
@@ -64,15 +64,16 @@ function isholiday(::CanadaSettlement, dt::Date)
             return true
         end
     end
+
     return false
 end
 
 function isholiday(::CanadaTSX, dt::Date)
 
-    const yy = Dates.year(dt)
-    const mm = Dates.month(dt)
-    const dd = Dates.day(dt)
-    const ww = Dates.dayofweek(dt)
+    yy = Dates.year(dt)
+    mm = Dates.month(dt)
+    dd = Dates.day(dt)
+    ww = Dates.dayofweek(dt)
 
     # Bisection
     if mm >= 8
@@ -110,8 +111,8 @@ function isholiday(::CanadaTSX, dt::Date)
 
         # Easter occurs up to April, which is before August (mm < 8). See test/easter-min-max.jl .
         # Holidays based on easter date
-        const dt_rata::Int = Dates.days(dt)
-        const e_rata::Int = easter_rata(Dates.Year(yy))
+        dt_rata::Int = Dates.days(dt)
+        e_rata::Int = easter_rata(Dates.Year(yy))
 
         if (
                 # Good Friday
@@ -120,5 +121,6 @@ function isholiday(::CanadaTSX, dt::Date)
             return true
         end
     end
+
     return false
 end

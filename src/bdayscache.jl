@@ -35,8 +35,8 @@ end
 
 function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
     # Computation is always based on next Business Days if given dates are not Business Days, inspired by Banking Account convention.
-    const dt0_tobday = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
-    const dt1_tobday = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
+    dt0_tobday = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
+    dt1_tobday = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
     
     return Day(convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt1_tobday)]) - convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt0_tobday)]))
 end
@@ -45,14 +45,14 @@ end
 # tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
 function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
 
-    const d0_ = min(d0, d1)
-    const d1_ = max(d0, d1)
+    d0_ = min(d0, d1)
+    d1_ = max(d0, d1)
 
-    const d0_rata = Dates.days(d0_)
-    const d1_rata = Dates.days(d1_)
+    d0_rata = Dates.days(d0_)
+    d1_rata = Dates.days(d1_)
 
     # length of the cache arrays
-    const len::Int = d1_rata - d0_rata + 1
+    len::Int = d1_rata - d0_rata + 1
 
     # This function uses UInt32 to store bdayscounter array
     # We need to check if we'll exceed typemax(UInt32)

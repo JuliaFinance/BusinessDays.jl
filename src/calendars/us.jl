@@ -19,9 +19,9 @@ type USGovernmentBond <: HolidayCalendar end
 
 function isholiday(::USSettlement , dt::Date)
 
-    const yy = Dates.year(dt)
-    const mm = Dates.month(dt)
-    const dd = Dates.day(dt)
+    yy = Dates.year(dt)
+    mm = Dates.month(dt)
+    dd = Dates.day(dt)
 
     if (
             # New Year's Day
@@ -65,12 +65,12 @@ end
 
 function isholiday(::USNYSE , dt::Date)
 
-    const yy = Dates.year(dt)
-    const mm = Dates.month(dt)
-    const dd = Dates.day(dt)
+    yy = Dates.year(dt)
+    mm = Dates.month(dt)
+    dd = Dates.day(dt)
 
-    const dt_rata::Int = Dates.days(dt)
-    const e_rata::Int = easter_rata(Dates.Year(yy))
+    dt_rata::Int = Dates.days(dt)
+    e_rata::Int = easter_rata(Dates.Year(yy))
 
     if (
             # New Year's Day
@@ -175,12 +175,12 @@ end
 
 function isholiday(::USGovernmentBond , dt::Date)
 
-    const yy = Dates.year(dt)
-    const mm = Dates.month(dt)
-    const dd = Dates.day(dt)
+    yy = Dates.year(dt)
+    mm = Dates.month(dt)
+    dd = Dates.day(dt)
 
-    const dt_rata::Int = Dates.days(dt)
-    const e_rata::Int = easter_rata(Dates.Year(yy))
+    dt_rata::Int = Dates.days(dt)
+    e_rata::Int = easter_rata(Dates.Year(yy))
 
     if (
             # New Year's Day

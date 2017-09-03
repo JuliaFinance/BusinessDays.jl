@@ -13,8 +13,8 @@ function isbday(hc::HolidayCalendar, dt::Vector{Date})
 end
 
 function isbday(hc::Vector{HolidayCalendar}, dt::Vector{Date})
-    const l_hc = length(hc)
-    const l_dt = length(dt)
+    l_hc = length(hc)
+    l_dt = length(dt)
 
     @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
 
@@ -41,8 +41,8 @@ function tobday(hc::HolidayCalendar, dt::Vector{Date}; forward::Bool = true)
 end
 
 function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Date}; forward::Bool = true)
-    const l_hc = length(hc)
-    const l_dt = length(dt)
+    l_hc = length(hc)
+    l_dt = length(dt)
 
     @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
 
@@ -59,7 +59,7 @@ tobday(calendar, dt::Vector{Date}; forward::Bool = true) = tobday(convert(Holida
 tobday{A<:AbstractArray}(calendars::A, dt::Vector{Date}; forward::Bool = true) = tobday(convert(Vector{HolidayCalendar}, calendars), dt; forward=forward)
 
 function bdays(hc::HolidayCalendar, base_date::Date, dt_vec::Vector{Date})
-    const len = length(dt_vec)
+    len = length(dt_vec)
 
     result = Array{Day}(len)
 
@@ -71,8 +71,8 @@ function bdays(hc::HolidayCalendar, base_date::Date, dt_vec::Vector{Date})
 end
 
 function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
-    const l0 = length(dt0)
-    const l1 = length(dt1)
+    l0 = length(dt0)
+    l1 = length(dt1)
 
     @assert l0 == l1 "Input vectors must have the same size. $(l0) != $(l1)"
 
@@ -86,9 +86,9 @@ function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
 end
 
 function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date})
-    const l_hc = length(hc)
-    const l0 = length(dt0)
-    const l1 = length(dt1)
+    l_hc = length(hc)
+    l0 = length(dt0)
+    l1 = length(dt1)
 
     @assert l_hc == l0 && l0 == l1 "Input vectors must have the same size. $(l_hc), $(l0), $(l1)"
 
@@ -104,7 +104,7 @@ end
 bdays{A<:AbstractArray}(calendars::A, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(Vector{HolidayCalendar}, calendars), dt0, dt1)
 
 function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count_vec::Vector{Int})
-    const l = length(bdays_count_vec)
+    l = length(bdays_count_vec)
     result = Array{Date}(l)
     for i in 1:l
         result[i] = advancebdays(hc, dt, bdays_count_vec[i])

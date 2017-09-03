@@ -16,6 +16,7 @@ function symtocalendar(sym::Symbol)
     else
         error("$sym is not a valid HolidayCalendar.")
     end
+
     return result
 end
 

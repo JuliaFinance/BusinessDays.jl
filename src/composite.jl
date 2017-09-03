@@ -12,5 +12,6 @@ function isholiday(hc::CompositeHolidayCalendar, dt::Date)
             return true
         end
     end
+
     return false
 end
