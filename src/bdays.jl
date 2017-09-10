@@ -92,7 +92,7 @@ function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)
     return result
 end
 
-advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar,calendar), dt, bdays_count)
+advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar,calendar), convert(Data,dt), bdays_count)
 
 """
     bdays(calendar, dt0, dt1)
