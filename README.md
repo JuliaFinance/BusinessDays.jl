@@ -66,16 +66,12 @@ It's also important to point out that the initialization of the memory cache, wh
 ```julia
 julia> using BusinessDays
 
-julia> bd = BusinessDays
-BusinessDays
+julia> d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20) ;
 
-julia> d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
-2100-12-20
-
-julia> cal = bd.Brazil()
+julia> cal = BusinessDays.Brazil()
 BusinessDays.BRSettlement()
 
-julia> @time bd.initcache(cal)
+julia> @time BusinessDays.initcache(cal)
   0.138267 seconds (154.84 k allocations: 7.123 MB)
 
 julia> bdays(cal, d0, d1) # force JIT compilation
