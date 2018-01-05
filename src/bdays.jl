@@ -127,5 +127,5 @@ function bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
     end
 end
 
-bdays{T<:Union{Date,Vector{Date}}}(calendar, dt0::Date, dt1::T) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
+bdays(calendar, dt0::Date, dt1::T) where {T<:Union{Date,Vector{Date}}} = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 bdays(calendar, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)

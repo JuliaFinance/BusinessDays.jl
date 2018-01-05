@@ -4,18 +4,18 @@
 """
 United States federal holidays.
 """
-type USSettlement <: HolidayCalendar end
+struct USSettlement <: HolidayCalendar end
 const UnitedStates = USSettlement
 
 """
 United States NYSE holidays.
 """
-type USNYSE <: HolidayCalendar end
+struct USNYSE <: HolidayCalendar end
 
 """
 United States Government Bond calendar.
 """
-type USGovernmentBond <: HolidayCalendar end
+struct USGovernmentBond <: HolidayCalendar end
 
 function isholiday(::USSettlement , dt::Date)
 

@@ -1,5 +1,5 @@
 
-__precompile__(true)
+__precompile__(false)
 
 """
 A highly optimized Business Days calculator written in Julia language. Also known as Working Days calculator.
@@ -9,7 +9,6 @@ Website: https://github.com/felipenoris/BusinessDays.jl
 module BusinessDays
 
 using Base.Dates
-using Compat
 
 # types.jl
 export

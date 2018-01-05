@@ -5,7 +5,7 @@
 """
 Data structure for calendar cache.
 """
-type HolidayCalendarCache
+mutable struct HolidayCalendarCache
     hc::HolidayCalendar
     isbday_array::Vector{Bool}
     bdayscounter_array::Vector{UInt32}
@@ -94,7 +94,7 @@ function initcache(hc_vec::Vector{HolidayCalendar}, d0::Date=DEFAULT_CACHE_D0, d
     end
 end
 
-initcache{A<:AbstractArray}(calendars::A, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) = initcache(convert(Vector{HolidayCalendar}, calendars), d0, d1)
+initcache(calendars::A, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) where {A<:AbstractArray} = initcache(convert(Vector{HolidayCalendar}, calendars), d0, d1)
 initcache(calendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) = initcache(convert(HolidayCalendar, calendar), d0, d1)
 
 # remove all elements from cache
@@ -124,4 +124,4 @@ function cleancache(hc_vec::Vector{HolidayCalendar})
 end
 
 cleancache(calendar) = cleancache(convert(HolidayCalendar, calendar))
-cleancache{A<:AbstractArray}(calendars::A) = cleancache(convert(Vector{HolidayCalendar}, calendars))
+cleancache(calendars::A) where {A<:AbstractArray} = cleancache(convert(Vector{HolidayCalendar}, calendars))

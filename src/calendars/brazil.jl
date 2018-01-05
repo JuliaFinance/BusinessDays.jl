@@ -2,13 +2,13 @@
 """
 Banking holidays for Brazil (federal holidays plus Carnival).
 """
-type BRSettlement <: HolidayCalendar end
+struct BRSettlement <: HolidayCalendar end
 const Brazil = BRSettlement
 
 """
 BMF&BOVESPA Exchange holidays (http://www.bmfbovespa.com.br).
 """
-type BrazilExchange <: HolidayCalendar end
+struct BrazilExchange <: HolidayCalendar end
 const BrazilBMF = BrazilExchange
 
 # Brazilian Banking Holidays

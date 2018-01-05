@@ -2,7 +2,7 @@
 """
 Allows for combination of several Holiday Calendars.
 """
-immutable CompositeHolidayCalendar <: HolidayCalendar
+struct CompositeHolidayCalendar <: HolidayCalendar
     calendars::Vector{HolidayCalendar}
 end
 
