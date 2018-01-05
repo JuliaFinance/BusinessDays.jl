@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)
 [![Coverage Status](https://coveralls.io/repos/felipenoris/BusinessDays.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/felipenoris/BusinessDays.jl?branch=master)
 [![codecov.io](http://codecov.io/github/felipenoris/BusinessDays.jl/coverage.svg?branch=master)](http://codecov.io/github/felipenoris/BusinessDays.jl?branch=master)
-[![BusinessDays](http://pkg.julialang.org/badges/BusinessDays_0.5.svg)](http://pkg.julialang.org/?pkg=BusinessDays&ver=0.5)
 [![BusinessDays](http://pkg.julialang.org/badges/BusinessDays_0.6.svg)](http://pkg.julialang.org/?pkg=BusinessDays&ver=0.6)
 
 A highly optimized *Business Days* calculator written in Julia language.
