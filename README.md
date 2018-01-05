@@ -260,12 +260,9 @@ You can add your custom Holiday Calendar by doing the following:
 ```julia
 julia> using BusinessDays
 
-julia> import BusinessDays.isholiday
+julia> struct CustomCalendar <: HolidayCalendar end
 
-julia> type CustomCalendar <: HolidayCalendar end
-
-julia> isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
-isholiday (generic function with 11 methods)
+julia> BusinessDays.isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
 
 julia> cc = CustomCalendar()
 CustomCalendar()
