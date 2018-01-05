@@ -2,13 +2,13 @@
 """
 Holidays for Canada
 """
-type CanadaSettlement <: HolidayCalendar end
+struct CanadaSettlement <: HolidayCalendar end
 const Canada = CanadaSettlement
 
 """
 Holidays for Toronto Stock Exchange
 """
-type CanadaTSX <: HolidayCalendar end
+struct CanadaTSX <: HolidayCalendar end
 
 function isholiday(::CanadaSettlement, dt::Date)
 

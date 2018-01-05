@@ -2,7 +2,7 @@
 """
 Banking holidays for England and Wales.
 """
-type UKSettlement <: HolidayCalendar end
+struct UKSettlement <: HolidayCalendar end
 const UnitedKingdom = UKSettlement
 
 # England and Wales Banking Holidays

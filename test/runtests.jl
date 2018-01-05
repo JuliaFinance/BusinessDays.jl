@@ -6,13 +6,9 @@ using Base.Test
 bd = BusinessDays
 
 # Issue #18
-
 Dict(Any[])
 
-###########
-# types.jl
-###########
-
+# Types
 bhc = bd.Brazil()
 ushc = bd.USSettlement()
 ukhc = bd.UKSettlement()
@@ -981,11 +977,11 @@ include("perftests.jl")
 bd.cleancache(hc_brazil)
 bd.cleancache()
 
-type CustomCalendar <: HolidayCalendar end
-cc = CustomCalendar()
+struct TestCalendar <: HolidayCalendar end
+cc = TestCalendar()
 @test_throws ErrorException isholiday(cc, Date(2015,1,1))
 import BusinessDays.isholiday
-isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
+isholiday(::TestCalendar, dt::Date) = dt == Date(2015,8,27)
 @test isholiday(cc, Date(2015,8,26)) == false
 @test isholiday(cc, Date(2015,8,27)) == true
 bd.initcache(cc)
@@ -993,11 +989,11 @@ bd.initcache(cc)
 @test isholiday(cc, Date(2015,8,27)) == true
 bd.cleancache(cc)
 isholiday(:Brazil, Date(2016,2,1))
-isholiday(:CustomCalendar, Date(2016,2,1))
-isholiday("CustomCalendar", Date(2016,2,1))
+isholiday(:TestCalendar, Date(2016,2,1))
+isholiday("TestCalendar", Date(2016,2,1))
 isbday(:Brazil, Date(2016,2,1))
-isbday(:CustomCalendar, Date(2016,2,1))
-isbday("CustomCalendar", Date(2016,2,1))
+isbday(:TestCalendar, Date(2016,2,1))
+isbday("TestCalendar", Date(2016,2,1))
 
 sym_vec = [:Brazil, :UKSettlement]
 bd.initcache(sym_vec)
@@ -1011,6 +1007,8 @@ bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,5,2))
 bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,5,2)) # repeating initcache should work
 bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,1,1)) # single date cache should work
 bd.cleancache("UKSettlement")
+
+include("customcalendar-example.jl")
 
 #=
 INFO: Testing BusinessDays

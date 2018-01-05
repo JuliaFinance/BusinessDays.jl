@@ -2,7 +2,7 @@
 """
 Holidays for TARGET Eurozone (Trans-European Automated Real-time Gross Settlement Express Transfer System)
 """
-type TARGET <: HolidayCalendar end
+struct TARGET <: HolidayCalendar end
 const TARGET2 = TARGET
 const EuroZone = TARGET
 
