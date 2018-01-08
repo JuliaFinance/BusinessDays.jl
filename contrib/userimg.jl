@@ -6,12 +6,13 @@
 #=
 using SnoopCompile
 compiles_csv = "compiles.csv"
-SnoopCompile.@snoop images_csv begin
+SnoopCompile.@snoop compiles_csv begin
     include(Pkg.dir("BusinessDays", "test", "runtests.jl"))
 end
 data = SnoopCompile.read(compiles_csv)
 pc = SnoopCompile.format_userimg(reverse!(data[2]))
 SnoopCompile.write("userimg.jl", pc)
+rm(compiles_csv)
 =#
 
 # After running the script, the lines that matched the following keywords were removed:
