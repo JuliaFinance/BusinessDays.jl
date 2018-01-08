@@ -338,4 +338,6 @@ bd.cleancache("UKSettlement")
 include("customcalendar-example.jl")
 
 # Tests precompile script
-include(joinpath("..", "contrib", "userimg.jl"))
+if VERSION < v"0.6.99"
+	include(joinpath("..", "contrib", "userimg.jl"))
+end
