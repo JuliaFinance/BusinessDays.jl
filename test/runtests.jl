@@ -336,3 +336,6 @@ bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,1,1)) # single date cache
 bd.cleancache("UKSettlement")
 
 include("customcalendar-example.jl")
+
+# Tests precompile script
+include(joinpath("..", "contrib", "userimg.jl"))
