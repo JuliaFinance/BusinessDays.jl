@@ -16,6 +16,7 @@ rm(compiles_csv)
 =#
 
 # After running the script, the lines that matched the following keywords were removed:
+# Base.Test
 # "yyyy-mm-dd"
 # "CustomCalendar"
 # "TestCalendar"
