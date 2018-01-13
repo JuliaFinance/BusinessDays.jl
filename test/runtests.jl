@@ -273,7 +273,7 @@ len = typemax(UInt32) + 1
 if len > typemax(UInt32)
     d0 = Date(1950, 2, 1)
     d1 = d0 + Day(len)
-    @test_throws AssertionError bd._createbdayscache(bhc, d0, d1)
+    @test_throws AssertionError bd._create_bdays_cache_arrays(bhc, d0, d1)
 end
 
 # Create HolidayCalendar instances
@@ -336,6 +336,33 @@ bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,1,1)) # single date cache
 bd.cleancache("UKSettlement")
 
 include("customcalendar-example.jl")
+
+#########################
+# GenericHolidayCalendar
+#########################
+
+d0 = Date(1980,1,1)
+d1 = Date(2050,1,1)
+gen_brazil = GenericHolidayCalendar(listholidays(hc_brazil, d0, d1))
+@test isbday(gen_brazil, Date(2014, 12, 31)) == true # wednesday
+@test isbday(gen_brazil, Date(2015, 01, 01)) == false # new year
+@test isbday(gen_brazil, Date(2015, 01, 02)) == true # friday
+
+@test advancebdays(gen_brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == advancebdays(hc_brazil, Date(2015,9,1), [0, 1, 3, 4, 5])
+@test advancebdays(gen_brazil, Date(2015,9,1), 0:5) == advancebdays(hc_brazil, Date(2015,9,1), 0:5)
+@test listholidays(gen_brazil, Date(2016,1,1), Date(2016,5,30)) == listholidays(hc_brazil, Date(2016,1,1), Date(2016,5,30))
+
+@test tobday(gen_brazil, Date(2013, 02, 08)) == tobday(hc_brazil, Date(2013, 02, 08))
+@test tobday(gen_brazil, Date(2013, 02, 09)) == tobday(hc_brazil, Date(2013, 02, 09))
+@test_throws AssertionError bdays(gen_brazil, Date(1900,2,1), Date(2000,2,1))
+@test_throws AssertionError bdays(gen_brazil, Date(2000,2,1), Date(2100,2,1))
+
+d0_test = Date(1980,1,2)
+d1_test = Date(2049,12,28)
+@test bdays(hc_brazil, d0_test, d1_test) == bdays(gen_brazil, d0_test, d1_test)
+println("a million with GenericHolidayCalendar...")
+@time for i in 1:1000000 bdays(gen_brazil, d0_test, d1_test) end
+bd.cleancache(gen_brazil)
 
 # Tests precompile script
 if VERSION < v"0.6.99"

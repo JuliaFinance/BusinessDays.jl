@@ -607,7 +607,7 @@ dInicio = Date(1950, 01, 01) ; dFim = Date(2100, 12, 20)
 
 if !usecache
     println("Timing cache creation")
-    @time x = bd._createbdayscache(hc_brazil, dInicio, dFim)
+    @time x = bd._create_bdays_cache_arrays(hc_brazil, dInicio, dFim)
 end
 
 if usecache

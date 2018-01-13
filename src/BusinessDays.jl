@@ -13,7 +13,8 @@ using Base.Dates
 # types.jl
 export
     HolidayCalendar,
-    CompositeHolidayCalendar
+    CompositeHolidayCalendar,
+    GenericHolidayCalendar
 
 # isholiday.jl
 export
@@ -38,5 +39,6 @@ include("bdaysvecfun.jl")
 include("composite.jl")
 include("query.jl")
 include("calendars/calendars.jl")
+include("generic.jl")
 
 end # module BusinessDays
