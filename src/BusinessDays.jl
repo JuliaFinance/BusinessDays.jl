@@ -13,7 +13,8 @@ using Base.Dates
 # types.jl
 export
     HolidayCalendar,
-    CompositeHolidayCalendar
+    CompositeHolidayCalendar,
+    GenericHolidayCalendar
 
 # isholiday.jl
 export

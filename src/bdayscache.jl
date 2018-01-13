@@ -79,7 +79,7 @@ function _create_bdays_cache_arrays(hc::HolidayCalendar, d0::Date, d1::Date)
     return isbday_array, bdayscounter_array
 end
 
-@inline needs_cache_update(c::HolidayCalendarCache, d0::Date, d1::Date) = _getcachestate(cache) && cache.dtmin == d0 && cache.dtmax == d1
+@inline needs_cache_update(cache::HolidayCalendarCache, d0::Date, d1::Date) = _getcachestate(cache) && cache.dtmin == d0 && cache.dtmax == d1
 @inline needs_cache_update(hc::HolidayCalendar, d0::Date, d1::Date) = _getcachestate(hc) && CACHE_DICT[hc].dtmin == d0 && CACHE_DICT[hc].dtmax == d1
 
 # Be sure to use this function on a syncronized code (not multithreaded).
@@ -113,7 +113,7 @@ end
 initcache(calendars::A, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) where {A<:AbstractArray} = initcache(convert(Vector{HolidayCalendar}, calendars), d0, d1)
 initcache(calendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) = initcache(convert(HolidayCalendar, calendar), d0, d1)
 
-function initcache!(cache::HolidayCalendarCache, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
+function initcache!(cache::HolidayCalendarCache, hc::HolidayCalendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
     if needs_cache_update(cache, d0, d1)
         # will not repeat initcache for this already initialized cache
         return
@@ -122,16 +122,18 @@ function initcache!(cache::HolidayCalendarCache, d0::Date=DEFAULT_CACHE_D0, d1::
         cache.dtmax = d1
         isbday_array , bdayscounter_array = _create_bdays_cache_arrays(hc, d0, d1)
         cache.isbday_array = isbday_array
-        cahce.bdayscounter_array = bdayscounter_array
+        cache.bdayscounter_array = bdayscounter_array
         cache.is_initialized = true
     end
     nothing
 end
 
 function cleancache!(cache::HolidayCalendarCache)
-    empty!(cache.isbday_array)
-    empty!(cache.bdayscounter_array)
-    cache.is_initialized = false
+    if cache.is_initialized
+        empty!(cache.isbday_array)
+        empty!(cache.bdayscounter_array)
+        cache.is_initialized = false
+    end
     nothing
 end
 

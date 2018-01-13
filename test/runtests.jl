@@ -337,6 +337,23 @@ bd.cleancache("UKSettlement")
 
 include("customcalendar-example.jl")
 
+#########################
+# GenericHolidayCalendar
+#########################
+
+d0 = Date(1980,1,1)
+d1 = Date(2050,1,1)
+gen_brazil = GenericHolidayCalendar(listholidays(hc_brazil, d0, d1))
+@test isbday(gen_brazil, Date(2014, 12, 31)) == true # wednesday
+@test isbday(gen_brazil, Date(2015, 01, 01)) == false # new year
+@test isbday(gen_brazil, Date(2015, 01, 02)) == true # friday
+
+d0_test = Date(1980,1,2)
+d1_test = Date(2049,12,28)
+@test bdays(hc_brazil, d0_test, d1_test) == bdays(gen_brazil, d0_test, d1_test)
+println("a million with GenericHolidayCalendar...")
+@time for i in 1:1000000 bdays(gen_brazil, d0_test, d1_test) end
+
 # Tests precompile script
 if VERSION < v"0.6.99"
 	include(joinpath("..", "contrib", "userimg.jl"))
