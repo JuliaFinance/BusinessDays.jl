@@ -356,6 +356,6 @@ println("a million with GenericHolidayCalendar...")
 bd.cleancache(gen_brazil)
 
 # Tests precompile script
-if VERSION < v"0.6.99"
-	include(joinpath("..", "contrib", "userimg.jl"))
-end
+#if VERSION < v"0.6.99"
+#	include(joinpath("..", "contrib", "userimg.jl"))
+#end
