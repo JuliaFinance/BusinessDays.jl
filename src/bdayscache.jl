@@ -11,6 +11,7 @@ mutable struct HolidayCalendarCache
     bdayscounter_array::Vector{UInt32}
     dtmin::Date
     dtmax::Date
+    is_initialized::Bool # indicated wether isbday_array and bdayscounter_array is empty for this cache
 end
 
 """
@@ -83,8 +84,14 @@ You can pass `calendar` as an instance of `HolidayCalendar`, `Symbol` or `Abstra
 You can also pass `calendar` as an `AbstractArray` of those types.
 """
 function initcache(hc::HolidayCalendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
-    isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
-    CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, min(d0, d1), max(d0, d1))
+    @assert d0 <= d1 "d1 < d0 not allowed."
+    if haskey(CACHE_DICT, hc) && CACHE_DICT[hc].is_initialized && CACHE_DICT[hc].dtmin == d0 && CACHE_DICT[hc].dtmax == d1
+        # will not repeat initcache for this already initialized cache
+        return
+    else
+        isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
+        CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, d0, d1, true)
+    end
     nothing
 end
 
