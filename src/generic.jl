@@ -17,4 +17,6 @@ function GenericCalendar(holidays::Set{Date}, _initcache_::Bool=true)
 	end
 end
 
-isholiday(cal::GenericCalendar, dt::Date) = in(dt, cal.holidays)
+@inline isholiday(cal::GenericCalendar, dt::Date) = in(dt, cal.holidays)
+@inline _getcachestate(hc::GenericCalendar) = _getcachestate(hc.cache)
+@inline _getholidaycalendarcache(hc::GenericCalendar) = hc.cache

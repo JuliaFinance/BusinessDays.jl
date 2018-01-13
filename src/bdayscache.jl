@@ -1,3 +1,4 @@
+
 #
 # Cache routines for Business Days precalculated days
 #
@@ -31,7 +32,8 @@ const CACHE_DICT = Dict{HolidayCalendar, HolidayCalendarCache}()
 const DEFAULT_CACHE_D0 = Date(1980, 01, 01)
 const DEFAULT_CACHE_D1 = Date(2150, 12, 20)
 
-@inline _getcachestate(hc::HolidayCalendar) = haskey(CACHE_DICT, hc)
+@inline _getcachestate(hcc::HolidayCalendarCache) = hcc.is_initialized
+@inline _getcachestate(hc::HolidayCalendar) = haskey(CACHE_DICT, hc) && _getcachestate(CACHE_DICT[hc])
 @inline _getholidaycalendarcache(hc::HolidayCalendar) = CACHE_DICT[hc]
 @inline checkbounds(hcc::HolidayCalendarCache, dt::Date) = @assert (hcc.dtmin <= dt) && (dt <= hcc.dtmax) "Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt)."
 @inline _linenumber(hcc::HolidayCalendarCache, dt::Date) = Dates.days(dt) - Dates.days(hcc.dtmin) + 1
@@ -77,6 +79,9 @@ function _create_bdays_cache_arrays(hc::HolidayCalendar, d0::Date, d1::Date)
     return isbday_array, bdayscounter_array
 end
 
+@inline needs_cache_update(c::HolidayCalendarCache, d0::Date, d1::Date) = _getcachestate(cache) && cache.dtmin == d0 && cache.dtmax == d1
+@inline needs_cache_update(hc::HolidayCalendar, d0::Date, d1::Date) = _getcachestate(hc) && CACHE_DICT[hc].dtmin == d0 && CACHE_DICT[hc].dtmax == d1
+
 # Be sure to use this function on a syncronized code (not multithreaded).
 """
     initcache(calendar, [d0], [d1])
@@ -89,7 +94,7 @@ You can also pass `calendar` as an `AbstractArray` of those types.
 """
 function initcache(hc::HolidayCalendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
     @assert d0 <= d1 "d1 < d0 not allowed."
-    if haskey(CACHE_DICT, hc) && CACHE_DICT[hc].is_initialized && CACHE_DICT[hc].dtmin == d0 && CACHE_DICT[hc].dtmax == d1
+    if needs_cache_update(hc, d0, d1)
         # will not repeat initcache for this already initialized cache
         return
     else
@@ -109,7 +114,7 @@ initcache(calendars::A, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) wh
 initcache(calendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) = initcache(convert(HolidayCalendar, calendar), d0, d1)
 
 function initcache!(cache::HolidayCalendarCache, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
-    if cache.is_initialized && cache.dtmin == d0 && cache.dtmax == d1
+    if needs_cache_update(cache, d0, d1)
         # will not repeat initcache for this already initialized cache
         return
     else
