@@ -128,6 +128,13 @@ function initcache!(cache::HolidayCalendarCache, d0::Date=DEFAULT_CACHE_D0, d1::
     nothing
 end
 
+function cleancache!(cache::HolidayCalendarCache)
+    empty!(cache.isbday_array)
+    empty!(cache.bdayscounter_array)
+    cache.is_initialized = false
+    nothing
+end
+
 # remove all elements from cache
 function cleancache()
     for k in keys(CACHE_DICT)
