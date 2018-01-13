@@ -15,6 +15,13 @@ mutable struct HolidayCalendarCache
 end
 
 """
+    HolidayCalendarCache()
+
+creates an empty instance of HolidayCalendarCache
+"""
+HolidayCalendarCache() = HolidayCalendarCache(NullHolidayCalendar(), Vector{Bool}(), Vector{UInt32}(), Date(1900,1,1), Date(1900,1,1), false)
+
+"""
 Holds caches for Holiday Calendars.
 
 * Key = `HolidayCalendar` instance
@@ -44,7 +51,7 @@ end
 
 # Returns tuple
 # tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
-function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
+function _create_bdays_cache_arrays(hc::HolidayCalendar, d0::Date, d1::Date)
 
     d0_rata = Dates.days(d0)
     d1_rata = Dates.days(d1)
@@ -86,7 +93,7 @@ function initcache(hc::HolidayCalendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFA
         # will not repeat initcache for this already initialized cache
         return
     else
-        isbday_array , bdayscounter_array = _createbdayscache(hc, d0, d1)
+        isbday_array , bdayscounter_array = _create_bdays_cache_arrays(hc, d0, d1)
         CACHE_DICT[hc] = HolidayCalendarCache(hc, isbday_array, bdayscounter_array, d0, d1, true)
     end
     nothing
@@ -100,6 +107,21 @@ end
 
 initcache(calendars::A, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) where {A<:AbstractArray} = initcache(convert(Vector{HolidayCalendar}, calendars), d0, d1)
 initcache(calendar, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1) = initcache(convert(HolidayCalendar, calendar), d0, d1)
+
+function initcache!(cache::HolidayCalendarCache, d0::Date=DEFAULT_CACHE_D0, d1::Date=DEFAULT_CACHE_D1)
+    if cache.is_initialized && cache.dtmin == d0 && cache.dtmax == d1
+        # will not repeat initcache for this already initialized cache
+        return
+    else
+        cache.dtmin = d0
+        cache.dtmax = d1
+        isbday_array , bdayscounter_array = _create_bdays_cache_arrays(hc, d0, d1)
+        cache.isbday_array = isbday_array
+        cahce.bdayscounter_array = bdayscounter_array
+        cache.is_initialized = true
+    end
+    nothing
+end
 
 # remove all elements from cache
 function cleancache()

@@ -273,7 +273,7 @@ len = typemax(UInt32) + 1
 if len > typemax(UInt32)
     d0 = Date(1950, 2, 1)
     d1 = d0 + Day(len)
-    @test_throws AssertionError bd._createbdayscache(bhc, d0, d1)
+    @test_throws AssertionError bd._create_bdays_cache_arrays(bhc, d0, d1)
 end
 
 # Create HolidayCalendar instances
