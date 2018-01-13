@@ -46,11 +46,8 @@ end
 # tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
 function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
 
-    d0_ = min(d0, d1)
-    d1_ = max(d0, d1)
-
-    d0_rata = Dates.days(d0_)
-    d1_rata = Dates.days(d1_)
+    d0_rata = Dates.days(d0)
+    d1_rata = Dates.days(d1)
 
     # length of the cache arrays
     len::Int = d1_rata - d0_rata + 1
@@ -62,11 +59,11 @@ function _createbdayscache(hc::HolidayCalendar, d0::Date, d1::Date)
     isbday_array = Array{Bool}(len)
     bdayscounter_array = Array{UInt32}(len)
 
-    @inbounds isbday_array[1] = isbday(hc, d0_)
+    @inbounds isbday_array[1] = isbday(hc, d0)
     @inbounds bdayscounter_array[1] = 0
 
     for i in 2:len
-        @inbounds isbday_array[i] = isbday(hc, d0_ + Dates.Day(i-1))
+        @inbounds isbday_array[i] = isbday(hc, d0 + Dates.Day(i-1))
         @inbounds bdayscounter_array[i] = bdayscounter_array[i-1] + isbday_array[i]
     end
 
