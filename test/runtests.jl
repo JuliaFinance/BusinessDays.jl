@@ -353,6 +353,7 @@ d1_test = Date(2049,12,28)
 @test bdays(hc_brazil, d0_test, d1_test) == bdays(gen_brazil, d0_test, d1_test)
 println("a million with GenericHolidayCalendar...")
 @time for i in 1:1000000 bdays(gen_brazil, d0_test, d1_test) end
+bd.cleancache(gen_brazil)
 
 # Tests precompile script
 if VERSION < v"0.6.99"
