@@ -14,7 +14,8 @@ mutable struct GenericHolidayCalendar <: HolidayCalendar
 	cache::HolidayCalendarCache
 end
 
-Base.hash(g::GenericHolidayCalendar) = Base.hash(g.holidays)
+Base.(:==)(g1::GenericHolidayCalendar, g2::GenericHolidayCalendar) = g1.holidays == g2.holidays && g1.dtmin == g2.dtmin && g1.dtmax == g2.dtmax
+Base.hash(g::GenericHolidayCalendar) = hash(g.holidays) + hash(g.dtmin) + hash(g.dtmax)
 
 """
 	GenericHolidayCalendar(holidays, [d0], [d1], [_initcache_])
