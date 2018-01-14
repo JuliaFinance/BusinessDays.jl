@@ -364,6 +364,32 @@ println("a million with GenericHolidayCalendar...")
 @time for i in 1:1000000 bdays(gen_brazil, d0_test, d1_test) end
 bd.cleancache(gen_brazil)
 
+# Start all over, but without cache
+gen_brazil = GenericHolidayCalendar(listholidays(hc_brazil, d0, d1), d0, d1, false)
+
+@test isbday(gen_brazil, Date(2014, 12, 31)) == true # wednesday
+@test isbday(gen_brazil, Date(2015, 01, 01)) == false # new year
+@test isbday(gen_brazil, Date(2015, 01, 02)) == true # friday
+
+@test advancebdays(gen_brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == advancebdays(hc_brazil, Date(2015,9,1), [0, 1, 3, 4, 5])
+@test advancebdays(gen_brazil, Date(2015,9,1), 0:5) == advancebdays(hc_brazil, Date(2015,9,1), 0:5)
+@test listholidays(gen_brazil, Date(2016,1,1), Date(2016,5,30)) == listholidays(hc_brazil, Date(2016,1,1), Date(2016,5,30))
+
+@test tobday(gen_brazil, Date(2013, 02, 08)) == tobday(hc_brazil, Date(2013, 02, 08))
+@test tobday(gen_brazil, Date(2013, 02, 09)) == tobday(hc_brazil, Date(2013, 02, 09))
+@test_throws AssertionError bdays(gen_brazil, Date(1900,2,1), Date(2000,2,1))
+@test_throws AssertionError bdays(gen_brazil, Date(2000,2,1), Date(2100,2,1))
+
+@test BusinessDays.needs_cache_update(gen_brazil, d0, d1) == false
+BusinessDays.initcache(gen_brazil)
+@test BusinessDays.needs_cache_update(gen_brazil, d0, d1) == true
+@test isbday(gen_brazil, Date(2014, 12, 31)) == true # wednesday
+@test isbday(gen_brazil, Date(2015, 01, 01)) == false # new year
+@test isbday(gen_brazil, Date(2015, 01, 02)) == true # friday
+
+# does nothing, because cache is already there
+BusinessDays.initcache(gen_brazil)
+
 # Tests precompile script
 if VERSION < v"0.6.99"
 	include(joinpath("..", "contrib", "userimg.jl"))
