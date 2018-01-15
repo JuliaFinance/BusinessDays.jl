@@ -18,19 +18,19 @@ Base.:(==)(g1::GenericHolidayCalendar, g2::GenericHolidayCalendar) = g1.holidays
 Base.hash(g::GenericHolidayCalendar) = hash(g.holidays) + hash(g.dtmin) + hash(g.dtmax)
 
 """
-	GenericHolidayCalendar(holidays, [d0], [d1], [_initcache_])
+	GenericHolidayCalendar(holidays, [dtmin], [dtmax], [_initcache_])
 
 * `holidays`: a set of holiday dates
 * `dtmin`: minimum date allowed to check for holidays in holidays set. Defaults to `min(holidays...)`.
 * `dtmax`: maximum date allowed to check for holidays in holidays set. Defaults to `max(holidays...)`.
 * `_initcache_`: initializes the cache for this calendar. Defaults to `true`.
 """
-function GenericHolidayCalendar(holidays::Set{Date}, d0::Date=min(holidays...), d1::Date=max(holidays...), _initcache_::Bool=true)
-	generic_calendar = GenericHolidayCalendar(holidays, d0, d1, HolidayCalendarCache())
+function GenericHolidayCalendar(holidays::Set{Date}, dtmin::Date=min(holidays...), dtmax::Date=max(holidays...), _initcache_::Bool=true)
+	generic_calendar = GenericHolidayCalendar(holidays, dtmin, dtmax, HolidayCalendarCache())
 	generic_calendar.cache.hc = generic_calendar
 	
 	if _initcache_
-		initcache!(generic_calendar.cache, generic_calendar, d0, d1)
+		initcache!(generic_calendar.cache, generic_calendar, dtmin, dtmax)
 	end
 	return generic_calendar
 end
