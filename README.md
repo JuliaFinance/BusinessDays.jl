@@ -297,6 +297,16 @@ julia> bdays(gen_calendar, Date(2018,1,15), Date(2018,1,17))
 1 day
 ```
 
+The constructor is given by: `GenericHolidayCalendar(holidays, [d0], [d1], [_initcache_])`, where
+
+* `holidays`: a set of holiday dates
+
+* `dtmin`: minimum date allowed to check for holidays in holidays set. Defaults to `min(holidays...)`.
+
+* `dtmax`: maximum date allowed to check for holidays in holidays set. Defaults to `max(holidays...)`.
+
+* `_initcache_`: initializes the cache for this calendar. Defaults to `true`.
+
 ## Alternative Libraries
 
 * Ito.jl: http://aviks.github.io/Ito.jl/time.html
