@@ -390,6 +390,21 @@ BusinessDays.initcache(gen_brazil)
 # does nothing, because cache is already there
 BusinessDays.initcache(gen_brazil)
 
+# A GenericHolidayCalendar is defined by its set of holidays, dtmin, dtmax
+dtmin = Date(2018,1,15)
+dtmax = Date(2018,1,19)
+gen_1 = GenericHolidayCalendar(Set([Date(2018,1,16), Date(2018,1,18)]), dtmin, dtmax)
+gen_2 = GenericHolidayCalendar(Set([Date(2018,1,16), Date(2018,1,18)]), dtmin, dtmax)
+@test gen_1 == gen_2
+
+# On a set, they are the same element
+cal_set = Set([gen_1, gen_2])
+@test length(cal_set) == 1
+
+# On a dict, they represent the same key
+cal_dict = Dict(gen_1 => "hey")
+@test cal_dict[gen_2] == "hey"
+
 # Tests precompile script
 if VERSION < v"0.6.99"
 	include(joinpath("..", "contrib", "userimg.jl"))
