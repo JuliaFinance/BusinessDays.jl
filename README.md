@@ -280,6 +280,23 @@ julia> isholiday("CustomCalendar", Date(2015,8,27))
 true
 ```
 
+## Generic Holiday Calendar
+
+You can use a fixed set of holidays to define a new Holiday Calendar using `GenericHolidayCalendar` type.
+
+```julia
+julia> using BusinessDays
+
+julia> holidays = Set([Date(2018,1,16), Date(2018,1,18)])
+
+julia> dtmin = Date(2018,1,15); dtmax = Date(2018,1,19)
+
+julia> gen_calendar = GenericHolidayCalendar(holidays, dtmin, dtmax)
+
+julia> bdays(gen_calendar, Date(2018,1,15), Date(2018,1,17))
+1 day
+```
+
 ## Alternative Libraries
 
 * Ito.jl: http://aviks.github.io/Ito.jl/time.html
