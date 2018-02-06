@@ -278,6 +278,13 @@ end
 
 # Create HolidayCalendar instances
 hc_australiaasx = bd.AustraliaASX()
+hc_australiaact = bd.Australia(:ACT)
+hc_australiansw = bd.Australia(:NSW)
+hc_australiant  = bd.Australia(:NT)
+hc_australiaqld = bd.Australia(:QLD)
+hc_australiasa  = bd.Australia(:SA)
+hc_australiatas = bd.Australia(:TAS)
+hc_australiawa  = bd.Australia(:WA)
 hc_australiavic = bd.Australia(:VIC)
 hc_brazil       = bd.Brazil()
 hc_brazil_bmf   = bd.BrazilBMF()

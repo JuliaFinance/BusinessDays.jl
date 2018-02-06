@@ -606,19 +606,180 @@ for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
     end
 end
 
+# Australian states and territories
+@test_throws MethodError bd.Australia()         # State/territory not specified
+@test_throws ErrorException bd.Australia(:XXX)  # Invalid state/territory
+
+# The Australian Capital Territory (ACT)
+actdates18 = Set([
+    Date(2018,  1,  1),  # New year's day
+    Date(2018,  1, 26),  # Australia Day
+    Date(2018,  3, 12),  # Canberra Day
+    Date(2018,  3, 30),  # Good Friday
+    Date(2018,  3, 31),  # Easter Saturday
+    Date(2018,  4,  1),  # Easter Sunday 
+    Date(2018,  4,  2),  # Easter Monday
+    Date(2018,  4, 25),  # ANZAC Day
+    Date(2018,  5, 28),  # Reconciliation Day
+    Date(2018,  6, 11),  # Queen's Birthday holiday
+    Date(2018, 10,  1),  # Labour Day
+    christmasday,
+    boxingday
+])
+for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+    if in(dt, actdates18)
+        @test isholiday(hc_australiaact, dt) == true
+    else
+        @test isholiday(hc_australiaact, dt) == false
+    end
+end
+
+# The state of New South Wales (NSW), Australia
+nswdates18 = Set([
+    Date(2018,  1,  1),  # New year's day
+    Date(2018,  1, 26),  # Australia Day
+    Date(2018,  3, 30),  # Good Friday
+    Date(2018,  3, 31),  # Easter Saturday
+    Date(2018,  4,  1),  # Easter Sunday 
+    Date(2018,  4,  2),  # Easter Monday
+    Date(2018,  4, 25),  # ANZAC Day
+    Date(2018,  6, 11),  # Queen's Birthday holiday
+    Date(2018,  8,  6),  # Bank Holiday
+    Date(2018, 10,  1),  # Labour Day
+    christmasday,
+    boxingday
+])
+for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+    if in(dt, nswdates18)
+        @test isholiday(hc_australiansw, dt) == true
+    else
+        @test isholiday(hc_australiansw, dt) == false
+    end
+end
+
+# The Northern Territory (NT), Australia
+ntdates18 = Set([
+    Date(2018,  1,  1),  # New year's day
+    Date(2018,  1, 26),  # Australia Day
+    Date(2018,  3, 30),  # Good Friday
+    Date(2018,  3, 31),  # Easter Saturday
+    Date(2018,  4,  2),  # Easter Monday
+    Date(2018,  4, 25),  # ANZAC Day
+    Date(2018,  5,  7),  # May Day
+    Date(2018,  6, 11),  # Queen's Birthday holiday
+    Date(2018,  8,  6),  # Picnic Day
+    christmasday,
+    boxingday
+])
+for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+    if in(dt, ntdates18)
+        @test isholiday(hc_australiant, dt) == true
+    else
+        @test isholiday(hc_australiant, dt) == false
+    end
+end
+
+# The state of Queensland (QLD), Australia
+qlddates18 = Set([
+    Date(2018,  1,  1),  # New year's day
+    Date(2018,  1, 26),  # Australia Day
+    Date(2018,  3, 30),  # Good Friday
+    Date(2018,  3, 31),  # Easter Saturday
+    Date(2018,  4,  1),  # Easter Sunday 
+    Date(2018,  4,  2),  # Easter Monday
+    Date(2018,  4, 25),  # ANZAC Day
+    Date(2018,  5,  7),  # Labour Day
+    Date(2018,  8, 15),  # Royal Brisbane Show (brisbane area only)
+    Date(2018, 10,  1),  # Queen's Birthday holiday
+    christmasday,
+    boxingday
+])
+for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+    if in(dt, qlddates18)
+        @test isholiday(hc_australiaqld, dt) == true
+    else
+        @test isholiday(hc_australiaqld, dt) == false
+    end
+end
+
+# The state of South Australia (SA)
+sadates18 = Set([
+    Date(2018,  1,  1),  # New year's day
+    Date(2018,  1, 26),  # Australia Day
+    Date(2018,  3, 12),  # March public Holiday
+    Date(2018,  3, 30),  # Good Friday
+    Date(2018,  3, 31),  # Easter Saturday
+    Date(2018,  4,  2),  # Easter Monday
+    Date(2018,  4, 25),  # ANZAC Day
+    Date(2018,  6, 11),  # Queen's Birthday holiday
+    Date(2018, 10,  1),  # Labour Day
+    christmasday,
+    boxingday
+])
+for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+    if in(dt, sadates18)
+        @test isholiday(hc_australiasa, dt) == true
+    else
+        @test isholiday(hc_australiasa, dt) == false
+    end
+end
+
+# The state of Tasmania (TAS), Australia
+tasdates18 = Set([
+    Date(2018,  1,  1),  # New year's day
+    Date(2018,  1, 26),  # Australia Day
+    Date(2018,  2, 12),  # Royal Hobart Regatta
+    Date(2018,  3, 12),  # Labour Day
+    Date(2018,  3, 30),  # Good Friday
+    Date(2018,  4,  2),  # Easter Monday
+    Date(2018,  4, 25),  # ANZAC Day
+    Date(2018,  6, 11),  # Queen's Birthday holiday
+    Date(2018, 11,  5),  # Recreation Day
+    christmasday,
+    boxingday
+])
+for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+    if in(dt, tasdates18)
+        @test isholiday(hc_australiatas, dt) == true
+    else
+        @test isholiday(hc_australiatas, dt) == false
+    end
+end
+
+# The state of Western Australia (WA)
+wadates18 = Set([
+    Date(2018,  1,  1),  # New year's day
+    Date(2018,  1, 26),  # Australia Day
+    Date(2018,  3,  5),  # Labour Day
+    Date(2018,  3, 30),  # Good Friday
+    Date(2018,  4,  2),  # Easter Monday
+    Date(2018,  4, 25),  # ANZAC Day
+    Date(2018,  6,  4),  # Western Australia Day
+    Date(2018,  9, 24),  # Queen's Birthday holiday
+    christmasday,
+    boxingday
+])
+for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+    if in(dt, wadates18)
+        @test isholiday(hc_australiawa, dt) == true
+    else
+        @test isholiday(hc_australiawa, dt) == false
+    end
+end
+
 # The state of Victoria (VIC), Australia
 vicdates18 = Set([
-    Date(2018, 1,  1),  # New year's day
-    Date(2018, 1, 26),  # Australia Day
-    Date(2018, 3, 12),  # Labour Day
-    Date(2018, 3, 30),  # Good Friday
-    Date(2018, 3, 31),  # Easter Saturday
-    Date(2018, 4,  1),  # Easter Sunday 
-    Date(2018, 4,  2),  # Easter Monday
-    Date(2018, 4, 25),  # ANZAC Day
-    Date(2018, 6, 11),  # Queen's Birthday holiday
-    Date(2018, 9, 28),  # AFL Grand Final Eve holiday
-    Date(2018, 11, 6),  # Melbourne Cup holiday
+    Date(2018,  1,  1),  # New year's day
+    Date(2018,  1, 26),  # Australia Day
+    Date(2018,  3, 12),  # Labour Day
+    Date(2018,  3, 30),  # Good Friday
+    Date(2018,  3, 31),  # Easter Saturday
+    Date(2018,  4,  1),  # Easter Sunday 
+    Date(2018,  4,  2),  # Easter Monday
+    Date(2018,  4, 25),  # ANZAC Day
+    Date(2018,  6, 11),  # Queen's Birthday holiday
+    Date(2018,  9, 28),  # AFL Grand Final Eve holiday
+    Date(2018, 11,  6),  # Melbourne Cup holiday
     christmasday,
     boxingday
 ])
