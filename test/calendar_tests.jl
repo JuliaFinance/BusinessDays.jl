@@ -701,6 +701,7 @@ for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
         @test isholiday(hc_australiaqld, dt) == false
     end
 end
+@test isholiday(hc_australiaqld, Date(2013, 6, 10)) == true
 
 # The state of South Australia (SA)
 sadates18 = Set([
@@ -766,6 +767,8 @@ for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
         @test isholiday(hc_australiawa, dt) == false
     end
 end
+@test isholiday(hc_australiawa, Date(2011, 10, 28)) == true
+@test isholiday(hc_australiawa, Date(2012, 10,  1)) == true
 
 # The state of Victoria (VIC), Australia
 vicdates18 = Set([
