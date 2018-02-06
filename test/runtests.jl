@@ -277,14 +277,16 @@ if len > typemax(UInt32)
 end
 
 # Create HolidayCalendar instances
-hc_brazil = bd.Brazil()
-hc_brazil_bmf = bd.BrazilBMF()
-hc_usa = bd.USSettlement()
-hc_uk = bd.UKSettlement()
-hc_usnyse = bd.USNYSE()
-hc_usgovbond = bd.USGovernmentBond()
-hc_canadatsx = bd.CanadaTSX()
-hc_canada = bd.CanadaSettlement()
+hc_australiaasx = bd.AustraliaASX()
+hc_australiavic = bd.Australia(:VIC)
+hc_brazil       = bd.Brazil()
+hc_brazil_bmf   = bd.BrazilBMF()
+hc_usa          = bd.USSettlement()
+hc_uk           = bd.UKSettlement()
+hc_usnyse       = bd.USNYSE()
+hc_usgovbond    = bd.USGovernmentBond()
+hc_canadatsx    = bd.CanadaTSX()
+hc_canada       = bd.CanadaSettlement()
 
 ####################
 # Calendar Tests
