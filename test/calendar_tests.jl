@@ -608,7 +608,7 @@ end
 
 # Australian states and territories
 @test_throws MethodError bd.Australia()         # State/territory not specified
-@test_throws ErrorException bd.Australia(:XXX)  # Invalid state/territory
+@test_throws AssertionError bd.Australia(:XXX)  # Invalid state/territory
 
 # The Australian Capital Territory (ACT)
 actdates18 = Set([
