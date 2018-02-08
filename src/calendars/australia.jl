@@ -1,3 +1,4 @@
+
 """
 Public holidays for the Australian Stock Exchange (ASX).
 """
@@ -25,7 +26,7 @@ struct Australia <: HolidayCalendar
     state::Symbol
     function Australia(state::Symbol)
         states = Set([:ACT, :NSW, :NT, :QLD, :SA, :TAS, :WA, :VIC])
-        !in(state, states) && error("$(state) is not a valid Australian state or territory. Must be one of :ACT, :NSW, :NT, :QLD, :SA, :TAS, :WA, :VIC.")
+        @assert state ∈ states "$(state) is not a valid Australian state or territory. Must be one of :ACT, :NSW, :NT, :QLD, :SA, :TAS, :WA, :VIC."
         new(state)
     end
 end
@@ -48,7 +49,7 @@ function isholiday(cal::Australia, dt::Date)
     dd = day(dt)
     easter_sunday = BusinessDays.easter_date(Year(yy))
     is_australian_national_holiday(dt, yy, mm, dd, easter_sunday) && return true
-    isholiday(Val{cal.state}, dt, yy, mm, dd, easter_sunday)
+    is_australian_state_holiday(Val{cal.state}, dt, yy, mm, dd, easter_sunday)
 end
 
 
@@ -65,7 +66,7 @@ function is_australian_national_holiday(dt::Date, yy::Int, mm::Int, dd::Int, eas
 end
 
 
-function isholiday(::Type{Val{:ACT}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
+function is_australian_state_holiday(::Type{Val{:ACT}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
     dt == easter_sunday - Day(1) && return true  # Easter Saturday
     dt == easter_sunday          && return true  # Easter Sunday
     mm == 3  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 2 && return true # Canberra Day (2nd Monday of March)
@@ -80,7 +81,7 @@ function isholiday(::Type{Val{:ACT}}, dt::Date, yy::Int, mm::Int, dd::Int, easte
 end
 
 
-function isholiday(::Type{Val{:NSW}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
+function is_australian_state_holiday(::Type{Val{:NSW}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
     dt == easter_sunday - Day(1) && return true  # Easter Saturday
     dt == easter_sunday          && return true  # Easter Sunday
     mm == 6  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 2 && return true # Queen's Birthday holiday (2nd Monday of June)
@@ -90,7 +91,7 @@ function isholiday(::Type{Val{:NSW}}, dt::Date, yy::Int, mm::Int, dd::Int, easte
 end
 
 
-function isholiday(::Type{Val{:NT}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
+function is_australian_state_holiday(::Type{Val{:NT}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
     dt == easter_sunday - Day(1) && return true  # Easter Saturday (Easter Sunday is not a public holiday in the Northern Territory)
     mm == 5  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 1 && return true # May Day (1st Monday of May)
     mm == 6  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 2 && return true # Queen's Birthday holiday (2nd Monday of June)
@@ -99,7 +100,7 @@ function isholiday(::Type{Val{:NT}}, dt::Date, yy::Int, mm::Int, dd::Int, easter
 end
 
 
-function isholiday(::Type{Val{:QLD}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
+function is_australian_state_holiday(::Type{Val{:QLD}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
     dt == easter_sunday - Day(1) && return true  # Easter Saturday
     dt == easter_sunday          && return true  # Easter Sunday
     mm == 5  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 1 && return true # Labour Day (1st Monday of May)
@@ -123,7 +124,7 @@ function isholiday(::Type{Val{:QLD}}, dt::Date, yy::Int, mm::Int, dd::Int, easte
 end
 
 
-function isholiday(::Type{Val{:SA}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
+function is_australian_state_holiday(::Type{Val{:SA}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
     dt == easter_sunday - Day(1) && return true  # Easter Saturday (Easter Sunday is not a public holiday in South Australia)
     mm == 3  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 2 && return true # March public holiday (2nd Monday of March)
     mm == 6  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 2 && return true # Queen's Birthday holiday (2nd Monday of June)
@@ -132,7 +133,7 @@ function isholiday(::Type{Val{:SA}}, dt::Date, yy::Int, mm::Int, dd::Int, easter
 end
 
 
-function isholiday(::Type{Val{:TAS}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
+function is_australian_state_holiday(::Type{Val{:TAS}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
     # Neither Easter Saturday nor Easter Sunday are public holidays in Tasmania
     mm == 2  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 2 && return true # Royal Hobart Regatta (2nd Monday of February)
     mm == 3  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 2 && return true # Labour Day (2nd Monday of March)
@@ -142,7 +143,7 @@ function isholiday(::Type{Val{:TAS}}, dt::Date, yy::Int, mm::Int, dd::Int, easte
 end
 
 
-function isholiday(::Type{Val{:WA}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
+function is_australian_state_holiday(::Type{Val{:WA}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
     # Neither Easter Saturday nor Easter Sunday are public holidays in Western Australia
     mm == 3  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 1 && return true # Labour Day (1st Monday of March)
     mm == 6  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 1 && return true # Western Australia Day (1st Monday of June)
@@ -161,7 +162,7 @@ function isholiday(::Type{Val{:WA}}, dt::Date, yy::Int, mm::Int, dd::Int, easter
 end
 
 
-function isholiday(::Type{Val{:VIC}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
+function is_australian_state_holiday(::Type{Val{:VIC}}, dt::Date, yy::Int, mm::Int, dd::Int, easter_sunday::Date)
     dt == easter_sunday - Day(1) && return true  # Easter Saturday
     dt == easter_sunday          && return true  # Easter Sunday
     mm == 3  && dayofweek(dt) == Mon && dayofweekofmonth(dt) == 2 && return true # Labour Day (2nd Monday of March)
@@ -175,4 +176,3 @@ function isholiday(::Type{Val{:VIC}}, dt::Date, yy::Int, mm::Int, dd::Int, easte
     end
     false
 end
-
