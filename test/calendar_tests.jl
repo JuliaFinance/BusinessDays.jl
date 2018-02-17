@@ -894,3 +894,12 @@ d2001 = collect(Date(2001,01,01):Date(2001,01,15))
 @test listbdays("Brazil", Date(2016,5,21), Date(2016,5,23)) == [Date(2016,5,23)]
 
 @test bdays(:Brazil, Date(2016,11,1), [Date(2016,11,3), Date(2016,11,7), Date(2016,11,4)]) == [Day(1), Day(3), Day(2)]
+
+# first/last businessdayofmonth
+@test firstbdayofmonth(:Brazil, Date(2017,12,10)) == Date(2017,12,1)
+@test firstbdayofmonth(:Brazil, Date(2018,1,10)) == Date(2018,1,2)
+@test lastbdayofmonth(:Brazil, Date(2017,12,10)) == Date(2017,12,29)
+
+@test firstbdayofmonth(:Brazil, 2017, 12) == Date(2017,12,1)
+@test firstbdayofmonth(:Brazil, 2018, 1) == Date(2018,1,2)
+@test lastbdayofmonth(:Brazil, 2017, 12) == Date(2017,12,29)

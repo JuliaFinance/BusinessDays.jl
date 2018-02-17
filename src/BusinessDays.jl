@@ -28,6 +28,8 @@ export
     tobday,
     advancebdays,
     bdays,
+    firstbdayofmonth,
+    lastbdayofmonth,
     listholidays,
     listbdays
 

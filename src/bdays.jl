@@ -129,3 +129,23 @@ end
 
 bdays(calendar, dt0::Date, dt1::T) where {T<:Union{Date,Vector{Date}}} = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 bdays(calendar, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
+
+"""
+    firstbdayofmonth(calendar, dt)
+    firstbdayofmonth(calendar, yy, mm)
+
+Returns the first business day of month.
+"""
+firstbdayofmonth(calendar, dt::Date) = tobday(calendar, firstdayofmonth(dt))
+
+"""
+    lastbdayofmonth(calendar, dt)
+    lastbdayofmonth(calendar, yy, mm)
+
+Returns the last business day of month.
+"""
+lastbdayofmonth(calendar, dt::Date) = tobday(calendar, lastdayofmonth(dt), forward=false)
+firstbdayofmonth(calendar, yy::T, mm::T) where {T<:Integer} = firstbdayofmonth(calendar, Date(yy,mm,1))
+firstbdayofmonth(calendar, yy::Year, mm::Month) = firstbdayofmonth(calendar, Date(yy,mm,1))
+lastbdayofmonth(calendar, yy::T, mm::T) where {T<:Integer} = lastbdayofmonth(calendar, Date(yy,mm,1))
+lastbdayofmonth(calendar, yy::Year, mm::Month) = lastbdayofmonth(calendar, Date(yy,mm,1))
