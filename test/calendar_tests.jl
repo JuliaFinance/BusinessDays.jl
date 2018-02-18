@@ -903,3 +903,7 @@ d2001 = collect(Date(2001,01,01):Date(2001,01,15))
 @test firstbdayofmonth(:Brazil, 2017, 12) == Date(2017,12,1)
 @test firstbdayofmonth(:Brazil, 2018, 1) == Date(2018,1,2)
 @test lastbdayofmonth(:Brazil, 2017, 12) == Date(2017,12,29)
+
+@test firstbdayofmonth(:Brazil, Year(2017), Month(12)) == Date(2017,12,1)
+@test firstbdayofmonth(:Brazil, Year(2018), Month(1)) == Date(2018,1,2)
+@test lastbdayofmonth(:Brazil, Year(2017), Month(12)) == Date(2017,12,29)

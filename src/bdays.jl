@@ -145,7 +145,7 @@ firstbdayofmonth(calendar, dt::Date) = tobday(calendar, firstdayofmonth(dt))
 Returns the last business day of month.
 """
 lastbdayofmonth(calendar, dt::Date) = tobday(calendar, lastdayofmonth(dt), forward=false)
-firstbdayofmonth(calendar, yy::T, mm::T) where {T<:Integer} = firstbdayofmonth(calendar, Date(yy,mm,1))
-firstbdayofmonth(calendar, yy::Year, mm::Month) = firstbdayofmonth(calendar, Date(yy,mm,1))
-lastbdayofmonth(calendar, yy::T, mm::T) where {T<:Integer} = lastbdayofmonth(calendar, Date(yy,mm,1))
-lastbdayofmonth(calendar, yy::Year, mm::Month) = lastbdayofmonth(calendar, Date(yy,mm,1))
+firstbdayofmonth(calendar, yy::T, mm::T) where {T<:Integer} = firstbdayofmonth(calendar, Date(yy, mm, 1))
+firstbdayofmonth(calendar, yy::Year, mm::Month) = firstbdayofmonth(calendar, Date(yy, mm, Day(1)))
+lastbdayofmonth(calendar, yy::T, mm::T) where {T<:Integer} = lastbdayofmonth(calendar, Date(yy, mm, 1))
+lastbdayofmonth(calendar, yy::Year, mm::Month) = lastbdayofmonth(calendar, Date(yy, mm, Day(1)))
