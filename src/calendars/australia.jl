@@ -24,12 +24,16 @@ For example: cal = Australia(:QLD)
 """
 struct Australia <: HolidayCalendar
     state::Symbol
+
     function Australia(state::Symbol)
         states = Set([:ACT, :NSW, :NT, :QLD, :SA, :TAS, :WA, :VIC])
         @assert state ∈ states "$(state) is not a valid Australian state or territory. Must be one of :ACT, :NSW, :NT, :QLD, :SA, :TAS, :WA, :VIC."
         new(state)
     end
 end
+
+Base.:(==)(a1::Australia, a2::Australia) = a1.state == a2.state
+Base.hash(a::Australia) = hash(a.state)
 
 
 function isholiday(::AustraliaASX, dt::Date)

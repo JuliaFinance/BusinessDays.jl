@@ -794,7 +794,6 @@ for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
     end
 end
 
-
 # dates are treated per value
 d0 = Date(2013, 02, 06)
 d1 = Date(2013, 02, 14)

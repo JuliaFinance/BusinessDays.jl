@@ -344,6 +344,17 @@ bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,5,2)) # repeating initcac
 bd.initcache("UKSettlement", Date(2000,1,1), Date(2000,1,1)) # single date cache should work
 bd.cleancache("UKSettlement")
 
+# equality and hash function for Australia
+@test bd.Australia(:ACT) == bd.Australia(:ACT)
+@test bd.Australia(:ACT) != bd.Australia(:NSW)
+@test hash(bd.Australia(:ACT)) == hash(bd.Australia(:ACT))
+@test hash(bd.Australia(:ACT)) != hash(bd.Australia(:NSW))
+
+bd.initcache(bd.Australia(:ACT))
+@test haskey(bd.CACHE_DICT, bd.Australia(:ACT))
+@test !haskey(bd.CACHE_DICT, bd.Australia(:NSW))
+bd.cleancache(bd.Australia(:ACT))
+
 include("customcalendar-example.jl")
 
 #########################
@@ -389,15 +400,15 @@ gen_brazil = GenericHolidayCalendar(listholidays(hc_brazil, d0, d1), d0, d1, fal
 @test_throws AssertionError bdays(gen_brazil, Date(1900,2,1), Date(2000,2,1))
 @test_throws AssertionError bdays(gen_brazil, Date(2000,2,1), Date(2100,2,1))
 
-@test BusinessDays.needs_cache_update(gen_brazil, d0, d1) == false
-BusinessDays.initcache(gen_brazil)
-@test BusinessDays.needs_cache_update(gen_brazil, d0, d1) == true
+@test bd.needs_cache_update(gen_brazil, d0, d1) == false
+bd.initcache(gen_brazil)
+@test bd.needs_cache_update(gen_brazil, d0, d1) == true
 @test isbday(gen_brazil, Date(2014, 12, 31)) == true # wednesday
 @test isbday(gen_brazil, Date(2015, 01, 01)) == false # new year
 @test isbday(gen_brazil, Date(2015, 01, 02)) == true # friday
 
 # does nothing, because cache is already there
-BusinessDays.initcache(gen_brazil)
+bd.initcache(gen_brazil)
 
 # A GenericHolidayCalendar is defined by its set of holidays, dtmin, dtmax
 dtmin = Date(2018,1,15)
