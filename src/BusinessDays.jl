@@ -25,6 +25,7 @@ export
     isbday,
     tobday,
     advancebdays,
+    bdayscount,
     bdays,
     firstbdayofmonth,
     lastbdayofmonth,
