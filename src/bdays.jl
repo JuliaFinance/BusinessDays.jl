@@ -42,8 +42,7 @@ function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true) :: Date
     if isbday(hc, dt)
         return dt
     else
-        local next_date::Date
-        local increment::Int = forward ? 1 : -1
+        increment = forward ? 1 : -1
         next_date = dt + Dates.Day(increment)
 
         while !isbday(hc, next_date)
@@ -66,7 +65,7 @@ Decrements it if `bdays_count` is negative.
 Computation starts by next Business Day if `dt` is not a Business Day.
 """
 function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int) :: Date
-    local result::Date = tobday(hc, dt)
+    result = tobday(hc, dt)
 
     # does nothing
     if bdays_count == 0
@@ -74,9 +73,9 @@ function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int) :: Date
     end
 
     # if bdays_count is positive, goes forward. Otherwise, goes backwards.
-    local increment::Int = bdays_count > 0 ? +1 : -1
+    increment = bdays_count > 0 ? +1 : -1
 
-    local num_iterations::Int = abs(bdays_count)
+    num_iterations = abs(bdays_count)
     
     while num_iterations > 0
         result += Dates.Day(increment)
@@ -109,9 +108,9 @@ function bdayscount(hc::HolidayCalendar, dt0::Date, dt1::Date) :: Int
     else
         dt0 = tobday(hc, dt0)
         dt1 = tobday(hc, dt1)
-        inc::Int = dt0 <= dt1 ? +1 : -1
+        inc = dt0 <= dt1 ? +1 : -1
 
-        local result::Int = 0
+        result = 0
         while dt0 != dt1
             dt0 += Dates.Day(inc)
 
