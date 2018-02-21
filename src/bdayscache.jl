@@ -38,18 +38,20 @@ const DEFAULT_CACHE_D1 = Date(2150, 12, 20)
 @inline checkbounds(hcc::HolidayCalendarCache, dt::Date) = @assert (hcc.dtmin <= dt) && (dt <= hcc.dtmax) "Date out of cache bounds. Use initcache function with a wider time spread. Provided date: $(dt)."
 @inline _linenumber(hcc::HolidayCalendarCache, dt::Date) = Dates.days(dt) - Dates.days(hcc.dtmin) + 1
 
-@inline function isbday(hcc::HolidayCalendarCache, dt::Date)
+@inline function isbday(hcc::HolidayCalendarCache, dt::Date) :: Bool
     checkbounds(hcc, dt)
     return hcc.isbday_array[ _linenumber(hcc, dt) ]
 end
 
-function bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date)
+function bdayscount(hcc::HolidayCalendarCache, dt0::Date, dt1::Date) :: Int
     # Computation is always based on next Business Days if given dates are not Business Days, inspired by Banking Account convention.
     dt0_tobday = tobday(hcc.hc, dt0) # cache bounds are checked inside tobday -> isbday
     dt1_tobday = tobday(hcc.hc, dt1) # cache bounds are checked inside tobday -> isbday
-    
-    return Day(convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt1_tobday)]) - convert(Int, hcc.bdayscounter_array[_linenumber(hcc, dt0_tobday)]))
+
+    return Int(hcc.bdayscounter_array[_linenumber(hcc, dt1_tobday)]) - Int(hcc.bdayscounter_array[_linenumber(hcc, dt0_tobday)])
 end
+
+@inline bdays(hcc::HolidayCalendarCache, dt0::Date, dt1::Date) :: Day = Day(bdayscount(hcc, dt0, dt1))
 
 # Returns tuple
 # tuple[1] = Array of Bool (isBday) , tuple[2] = Array of UInt32 (bdaycounter)
@@ -79,8 +81,8 @@ function _create_bdays_cache_arrays(hc::HolidayCalendar, d0::Date, d1::Date)
     return isbday_array, bdayscounter_array
 end
 
-@inline needs_cache_update(cache::HolidayCalendarCache, d0::Date, d1::Date) = _getcachestate(cache) && cache.dtmin == d0 && cache.dtmax == d1
-@inline needs_cache_update(hc::HolidayCalendar, d0::Date, d1::Date) = _getcachestate(hc) && CACHE_DICT[hc].dtmin == d0 && CACHE_DICT[hc].dtmax == d1
+@inline needs_cache_update(cache::HolidayCalendarCache, d0::Date, d1::Date) :: Bool = _getcachestate(cache) && cache.dtmin == d0 && cache.dtmax == d1
+@inline needs_cache_update(hc::HolidayCalendar, d0::Date, d1::Date) :: Bool = _getcachestate(hc) && CACHE_DICT[hc].dtmin == d0 && CACHE_DICT[hc].dtmax == d1
 
 # Be sure to use this function on a syncronized code (not multithreaded).
 """

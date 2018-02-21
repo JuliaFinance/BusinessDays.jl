@@ -1,12 +1,12 @@
 
 """
-    easter_rata(y::Year) → Int
+    easter_rata(y::Dates.Year) → Int
 
 Returns Easter date as a *[Rata Die](https://en.wikipedia.org/wiki/Rata_Die)* number.
 
 Based on *[Algo R](http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch38.html)*.
 """
-function easter_rata(y::Year)
+function easter_rata(y::Dates.Year)
 
     # Algo R only works after 1582
     if y.value < 1582
@@ -33,11 +33,11 @@ function easter_rata(y::Year)
 end
 
 """
-    easter_date(y::Year) → Date
+    easter_date(y::Dates.Year) → Date
 
 Returns result of `easter_rata` as a `Date` instance.
 """
-@inline easter_date(y::Year) = Date(Dates.rata2datetime(easter_rata(y)))
+@inline easter_date(y::Dates.Year) = Date(Dates.rata2datetime(easter_rata(y)))
 
 """
     findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date
@@ -60,11 +60,11 @@ function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurren
     @assert occurrence > 0 "occurrence must be > 0. Provided $(occurrence)."
 
     if ascending
-        dt_dayofweek = dayofweek(dt)
+        dt_dayofweek = Dates.dayofweek(dt)
         offset = mod(weekday_target + 7 - dt_dayofweek, 7)
     else
-        dt = lastdayofmonth(dt)
-        dt_dayofweek = dayofweek(dt)
+        dt = Dates.lastdayofmonth(dt)
+        dt_dayofweek = Dates.dayofweek(dt)
         offset = mod(dt_dayofweek + 7 - weekday_target, 7)
     end
 
@@ -90,11 +90,11 @@ This function will adjust to the next Monday.
 """
 function adjustweekendholidayPost(dt::Date; adjust_saturdays::Bool = true)
 
-    if adjust_saturdays && (dayofweek(dt) == Dates.Saturday)
+    if adjust_saturdays && (Dates.dayofweek(dt) == Dates.Saturday)
         return dt + Dates.Day(2)
     end
 
-    if dayofweek(dt) == Dates.Sunday
+    if Dates.dayofweek(dt) == Dates.Sunday
         return dt + Dates.Day(1)
     end
 
@@ -109,11 +109,11 @@ If it falls on Sunday, it's observed on the next Monday.
 """
 function adjustweekendholidayUS(dt::Date)
 
-    if dayofweek(dt) == Dates.Saturday
+    if Dates.dayofweek(dt) == Dates.Saturday
         return dt - Dates.Day(1)
     end
 
-    if dayofweek(dt) == Dates.Sunday
+    if Dates.dayofweek(dt) == Dates.Sunday
         return dt + Dates.Day(1)
     end
 

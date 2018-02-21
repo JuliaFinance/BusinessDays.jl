@@ -8,8 +8,6 @@ Website: https://github.com/felipenoris/BusinessDays.jl
 """
 module BusinessDays
 
-using Base.Dates
-
 # types.jl
 export
     HolidayCalendar,

@@ -1,9 +1,10 @@
+
 # helper functions for vector inputs
 
 @inline isweekend(dt::Vector{Date}) = isweekend.(dt)
 
 function isbday(hc::HolidayCalendar, dt::Vector{Date})
-    result = Array{Bool}(length(dt))
+    result = Vector{Bool}(length(dt))
     
     for i in eachindex(dt)
         result[i] = isbday(hc, dt[i])
@@ -18,7 +19,7 @@ function isbday(hc::Vector{HolidayCalendar}, dt::Vector{Date})
 
     @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
 
-    result = Array{Bool}(length(dt))
+    result = Vector{Bool}(length(dt))
 
     for i in 1:l_hc
         result[i] = isbday(hc[i], dt[i])
@@ -31,7 +32,7 @@ isbday(calendar, dt::Vector{Date}) = isbday(convert(HolidayCalendar, calendar), 
 isbday(calendars::A, dt::Vector{Date}) where {A<:AbstractArray} = isbday(convert(Vector{HolidayCalendar}, calendars), dt)
 
 function tobday(hc::HolidayCalendar, dt::Vector{Date}; forward::Bool = true)
-    result = Array{Date}(length(dt))
+    result = Vector{Date}(length(dt))
 
     for i in eachindex(dt)
         result[i] = tobday(hc, dt[i]; forward=forward)
@@ -46,7 +47,7 @@ function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Date}; forward::Bool = t
 
     @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
 
-    result = Array{Date}(l_hc)
+    result = Vector{Date}(l_hc)
 
     for i in 1:l_hc
         result[i] = tobday(hc[i], dt[i]; forward=forward)
@@ -61,10 +62,22 @@ tobday(calendars::A, dt::Vector{Date}; forward::Bool = true) where {A<:AbstractA
 function bdays(hc::HolidayCalendar, base_date::Date, dt_vec::Vector{Date})
     len = length(dt_vec)
 
-    result = Array{Day}(len)
+    result = Vector{Dates.Day}(len)
 
     for i in 1:len
         result[i] = bdays(hc, base_date, dt_vec[i])
+    end
+
+    return result
+end
+
+function bdayscount(hc::HolidayCalendar, base_date::Date, dt_vec::Vector{Date})
+    len = length(dt_vec)
+
+    result = Vector{Int}(len)
+
+    for i in 1:len
+        result[i] = bdayscount(hc, base_date, dt_vec[i])
     end
 
     return result
@@ -76,10 +89,25 @@ function bdays(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
 
     @assert l0 == l1 "Input vectors must have the same size. $(l0) != $(l1)"
 
-    result = Array{Day}(l0)
+    result = Vector{Dates.Day}(l0)
 
     for i in 1:l0
         result[i] = bdays(hc, dt0[i], dt1[i])
+    end
+
+    return result
+end
+
+function bdayscount(hc::HolidayCalendar, dt0::Vector{Date}, dt1::Vector{Date})
+    l0 = length(dt0)
+    l1 = length(dt1)
+
+    @assert l0 == l1 "Input vectors must have the same size. $(l0) != $(l1)"
+
+    result = Vector{Int}(l0)
+
+    for i in 1:l0
+        result[i] = bdayscount(hc, dt0[i], dt1[i])
     end
 
     return result
@@ -92,7 +120,7 @@ function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date}
 
     @assert l_hc == l0 && l0 == l1 "Input vectors must have the same size. $(l_hc), $(l0), $(l1)"
 
-    result = Array{Day}(l0)
+    result = Vector{Dates.Day}(l0)
 
     for i in 1:l0
         result[i] = bdays(hc[i], dt0[i], dt1[i])
@@ -101,11 +129,28 @@ function bdays(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date}
     return result
 end
 
+function bdayscount(hc::Vector{HolidayCalendar}, dt0::Vector{Date}, dt1::Vector{Date})
+    l_hc = length(hc)
+    l0 = length(dt0)
+    l1 = length(dt1)
+
+    @assert l_hc == l0 && l0 == l1 "Input vectors must have the same size. $(l_hc), $(l0), $(l1)"
+
+    result = Vector{Int}(l0)
+
+    for i in 1:l0
+        result[i] = bdayscount(hc[i], dt0[i], dt1[i])
+    end
+
+    return result
+end
+
 bdays(calendars::A, dt0::Vector{Date}, dt1::Vector{Date}) where {A<:AbstractArray} = bdays(convert(Vector{HolidayCalendar}, calendars), dt0, dt1)
+bdayscount(calendars::A, dt0::Vector{Date}, dt1::Vector{Date}) where {A<:AbstractArray} = bdayscount(convert(Vector{HolidayCalendar}, calendars), dt0, dt1)
 
 function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count_vec::Vector{Int})
     l = length(bdays_count_vec)
-    result = Array{Date}(l)
+    result = Vector{Date}(l)
     for i in 1:l
         result[i] = advancebdays(hc, dt, bdays_count_vec[i])
     end

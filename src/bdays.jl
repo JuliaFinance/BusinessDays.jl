@@ -5,7 +5,7 @@
 Returns `true` for Saturdays or Sundays.
 Returns `false` otherwise.
 """
-@inline isweekend(dt::Date) = signbit(5 - dayofweek(dt))
+@inline isweekend(dt::Date) :: Bool = signbit(5 - Dates.dayofweek(dt))
 
 """
     isweekday(dt)
@@ -13,7 +13,7 @@ Returns `false` otherwise.
 Returns `true` for Monday to Friday.
 Returns `false` otherwise.
 """
-@inline isweekday(dt::Date) = signbit(dayofweek(dt)  - 6)
+@inline isweekday(dt::Date) :: Bool = signbit(Dates.dayofweek(dt)  - 6)
 
 """
     isbday(calendar, dt)
@@ -21,7 +21,7 @@ Returns `false` otherwise.
 Returns `false` for weekends or holidays.
 Returns `true` otherwise.
 """
-function isbday(hc::HolidayCalendar, dt::Date)
+function isbday(hc::HolidayCalendar, dt::Date) :: Bool
     if _getcachestate(hc)
         hcc :: HolidayCalendarCache = _getholidaycalendarcache(hc)
         return isbday(hcc, dt)
@@ -30,7 +30,7 @@ function isbday(hc::HolidayCalendar, dt::Date)
     end
 end
 
-isbday(calendar, dt) = isbday(convert(HolidayCalendar, calendar), dt)
+@inline isbday(calendar, dt) :: Bool = isbday(convert(HolidayCalendar, calendar), dt)
 
 """
     tobday(calendar, dt; [forward=true])
@@ -38,7 +38,7 @@ isbday(calendar, dt) = isbday(convert(HolidayCalendar, calendar), dt)
 Adjusts `dt` to next Business Day if it's not a Business Day.
 If `isbday(dt)`, returns `dt`.
 """
-function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
+function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true) :: Date
     if isbday(hc, dt)
         return dt
     else
@@ -54,7 +54,7 @@ function tobday(hc::HolidayCalendar, dt::Date; forward::Bool = true)
     return next_date
 end
 
-tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar,calendar), dt; forward=forward)
+tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar, calendar), dt; forward=forward)
 
 """
     advancebdays(calendar, dt, bdays_count)
@@ -65,7 +65,7 @@ Decrements it if `bdays_count` is negative.
 
 Computation starts by next Business Day if `dt` is not a Business Day.
 """
-function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)
+function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int) :: Date
     local result::Date = tobday(hc, dt)
 
     # does nothing
@@ -92,7 +92,7 @@ function advancebdays(hc::HolidayCalendar, dt::Date, bdays_count::Int)
     return result
 end
 
-advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar,calendar), convert(Date,dt), bdays_count)
+advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar, calendar), convert(Date, dt), bdays_count)
 
 """
     bdays(calendar, dt0, dt1)
@@ -102,10 +102,10 @@ Returns instances of `Dates.Day`.
 
 Computation is always based on next Business Day if given dates are not Business Days.
 """
-function bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
+function bdayscount(hc::HolidayCalendar, dt0::Date, dt1::Date) :: Int
     if _getcachestate(hc)
         hcc::HolidayCalendarCache = _getholidaycalendarcache(hc)
-        return bdays(hcc, dt0, dt1)
+        return bdayscount(hcc, dt0, dt1)
     else
         dt0 = tobday(hc, dt0)
         dt1 = tobday(hc, dt1)
@@ -123,10 +123,14 @@ function bdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
             result += inc
         end
 
-        return Dates.Day(result)
+        return result
     end
 end
 
+bdayscount(calendar, dt0::Date, dt1::T) where {T<:Union{Date,Vector{Date}}} = bdayscount(convert(HolidayCalendar, calendar), dt0, dt1)
+bdayscount(calendar, dt0::Vector{Date}, dt1::Vector{Date}) = bdayscount(convert(HolidayCalendar, calendar), dt0, dt1)
+
+bdays(hc::HolidayCalendar, dt0::Date, dt1::Date) :: Dates.Day = Dates.Day(bdayscount(hc, dt0, dt1))
 bdays(calendar, dt0::Date, dt1::T) where {T<:Union{Date,Vector{Date}}} = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 bdays(calendar, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 
@@ -136,7 +140,7 @@ bdays(calendar, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(HolidayCal
 
 Returns the first business day of month.
 """
-firstbdayofmonth(calendar, dt::Date) = tobday(calendar, firstdayofmonth(dt))
+firstbdayofmonth(calendar, dt::Date) = tobday(calendar, Dates.firstdayofmonth(dt))
 
 """
     lastbdayofmonth(calendar, dt)
@@ -144,8 +148,8 @@ firstbdayofmonth(calendar, dt::Date) = tobday(calendar, firstdayofmonth(dt))
 
 Returns the last business day of month.
 """
-lastbdayofmonth(calendar, dt::Date) = tobday(calendar, lastdayofmonth(dt), forward=false)
+lastbdayofmonth(calendar, dt::Date) = tobday(calendar, Dates.lastdayofmonth(dt), forward=false)
 firstbdayofmonth(calendar, yy::T, mm::T) where {T<:Integer} = firstbdayofmonth(calendar, Date(yy, mm, 1))
-firstbdayofmonth(calendar, yy::Year, mm::Month) = firstbdayofmonth(calendar, Date(yy, mm, Day(1)))
+firstbdayofmonth(calendar, yy::Dates.Year, mm::Dates.Month) = firstbdayofmonth(calendar, Date(yy, mm, Dates.Day(1)))
 lastbdayofmonth(calendar, yy::T, mm::T) where {T<:Integer} = lastbdayofmonth(calendar, Date(yy, mm, 1))
-lastbdayofmonth(calendar, yy::Year, mm::Month) = lastbdayofmonth(calendar, Date(yy, mm, Day(1)))
+lastbdayofmonth(calendar, yy::Dates.Year, mm::Dates.Month) = lastbdayofmonth(calendar, Date(yy, mm, Dates.Day(1)))
