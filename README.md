@@ -220,6 +220,14 @@ Computation is always based on next Business Day if given dates are not Business
 
 Same as `bdays`, but returns `Int`.
 
+**firstbdayofmonth(calendar, dt)** , **firstbdayofmonth(calendar, yy, mm)**
+
+Returns the first business day for a given month.
+
+**lastbdayofmonth(calendar, dt)** , **lastbdayofmonth(calendar, yy, mm)**
+
+Returns the last business day for a given month.
+
 **listholidays(calendar, dt0::Date, dt1::Date) → Vector{Date}**
 
 Returns the list of holidays between `dt0` and `dt1`.
