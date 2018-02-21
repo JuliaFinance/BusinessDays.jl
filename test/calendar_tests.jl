@@ -817,11 +817,13 @@ end
 d0 = Date(2013, 02, 06)
 d1 = Date(2013, 02, 14)
 @test bdays(hc_brazil, d0, d1).value == 4
+@test bdayscount(hc_brazil, d0, d1) == 4
 @test d0 == Date(2013, 02, 06) # d0 is changed inside bdays function, but outer-scope value remains the same
 @test d1 == Date(2013, 02, 14)
 
 d0 = Date(2015, 06, 29) ; d2 = Date(2100, 12, 20)
 @test bdays(hc_brazil, d0, d2).value == 21471
+@test bdayscount(hc_brazil, d0, d2) == 21471
 
 # Tests for Composite Calendar
 @test isholiday(hc_composite_BR_USA, Date(2012,9,3)) # US Labor Day
@@ -917,6 +919,9 @@ d2001 = collect(Date(2001,01,01):Date(2001,01,15))
 
 @test bdays(:Brazil, Date(2016,11,1), [Date(2016,11,3), Date(2016,11,7), Date(2016,11,4)]) == [Day(1), Day(3), Day(2)]
 @test bdayscount(:Brazil, Date(2016,11,1), [Date(2016,11,3), Date(2016,11,7), Date(2016,11,4)]) == [1, 3, 2]
+
+@test bdays(:Brazil, [Date(2018,3,28), Date(2018,3,28), Date(2018,3,28), Date(2018,3,28)], [Date(2018,3,28), Date(2018,3,29), Date(2018,3,30), Date(2018,4,2)]) == [Dates.Day(0), Dates.Day(1), Dates.Day(2), Dates.Day(2)]
+@test bdayscount(:Brazil, [Date(2018,3,28), Date(2018,3,28), Date(2018,3,28), Date(2018,3,28)], [Date(2018,3,28), Date(2018,3,29), Date(2018,3,30), Date(2018,4,2)]) == [0, 1, 2, 2]
 
 # first/last businessdayofmonth
 @test firstbdayofmonth(:Brazil, Date(2017,12,10)) == Date(2017,12,1)
