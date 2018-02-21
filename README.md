@@ -242,6 +242,8 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 
 ## Available Business Days Calendars
 
+- **AustraliaASX** : Public holidays for the Australian Stock Exchange (ASX).
+- **Australia(state)** : Public holidays for the Australian states and territories. Available for each state: `Australia(:ACT)`, `Australia(:NSW)`, `Australia(:NT)`, `Australia(:QLD)`, `Australia(:SA)`, `Australia(:TAS)`, `Australia(:WA)`, `Australia(:VIC)`.
 - **BRSettlement** or **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
 - **BrazilBMF** or **BrazilExchange** : holidays for BM&FBOVESPA Stock Exchange.
 - **CanadaSettlement** or **Canada**: holidays for Canada.
