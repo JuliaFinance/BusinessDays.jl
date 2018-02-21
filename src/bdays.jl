@@ -95,10 +95,10 @@ end
 advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar, calendar), convert(Date, dt), bdays_count)
 
 """
-    bdays(calendar, dt0, dt1)
+    bdayscount(calendar, dt0, dt1) :: Int
 
 Counts the number of Business Days between `dt0` and `dt1`.
-Returns instances of `Dates.Day`.
+Returns `Int`.
 
 Computation is always based on next Business Day if given dates are not Business Days.
 """
@@ -130,6 +130,14 @@ end
 bdayscount(calendar, dt0::Date, dt1::T) where {T<:Union{Date,Vector{Date}}} = bdayscount(convert(HolidayCalendar, calendar), dt0, dt1)
 bdayscount(calendar, dt0::Vector{Date}, dt1::Vector{Date}) = bdayscount(convert(HolidayCalendar, calendar), dt0, dt1)
 
+"""
+    bdays(calendar, dt0, dt1) :: Dates.Day
+
+Counts the number of Business Days between `dt0` and `dt1`.
+Returns instances of `Dates.Day`.
+
+Computation is always based on next Business Day if given dates are not Business Days.
+"""
 bdays(hc::HolidayCalendar, dt0::Date, dt1::Date) :: Dates.Day = Dates.Day(bdayscount(hc, dt0, dt1))
 bdays(calendar, dt0::Date, dt1::T) where {T<:Union{Date,Vector{Date}}} = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 bdays(calendar, dt0::Vector{Date}, dt1::Vector{Date}) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
