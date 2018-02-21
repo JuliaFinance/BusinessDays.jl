@@ -109,34 +109,34 @@ julia> using BusinessDays
 
 julia> BusinessDays.initcache(:USSettlement) # creates cache for US Federal holidays, allowing fast computations
 
-julia> isbday(:USSettlement, Date(2015, 01, 01)) # Calendars can be referenced using symbols
+julia> isbday(:USSettlement, Date(2015, 1, 1)) # Calendars can be referenced using symbols
 false
 
-julia> isbday("USSettlement", Date(2015, 01, 01)) # ... and also strings
+julia> isbday("USSettlement", Date(2015, 1, 1)) # ... and also strings
 false
 
-julia> isbday(BusinessDays.USSettlement(), Date(2015, 01, 01)) # but the best performance is when the calendar is referenced by a singleton instance
+julia> isbday(BusinessDays.USSettlement(), Date(2015, 1, 1)) # but the best performance is when the calendar is referenced by a singleton instance
 false
 
-julia> tobday(:USSettlement, Date(2015, 01, 01)) # Adjust to next business day
+julia> tobday(:USSettlement, Date(2015, 1, 1)) # Adjust to next business day
 2015-01-02
 
-julia> tobday(:USSettlement, Date(2015, 01, 01); forward = false) # Adjust to last business day
+julia> tobday(:USSettlement, Date(2015, 1, 1); forward = false) # Adjust to last business day
 2014-12-31
 
-julia> advancebdays(:USSettlement, Date(2015, 01, 02), 1) # advances 1 business day
+julia> advancebdays(:USSettlement, Date(2015, 1, 2), 1) # advances 1 business day
 2015-01-05
 
-julia> advancebdays(:USSettlement, Date(2015, 01, 02), -1) # goes back 1 business day
+julia> advancebdays(:USSettlement, Date(2015, 1, 2), -1) # goes back 1 business day
 2014-12-31
 
-julia> bdays(:USSettlement, Date(2014, 12, 31), Date(2015, 01, 05)) # counts the number of business days between dates
+julia> bdays(:USSettlement, Date(2014, 12, 31), Date(2015, 1, 5)) # counts the number of business days between dates
 2 days
 
-julia> bdayscount(:USSettlement, Date(2014, 12, 31), Date(2015, 01, 05)) # same as above, but returns integer
+julia> bdayscount(:USSettlement, Date(2014, 12, 31), Date(2015, 1, 5)) # same as above, but returns integer
 2
 
-julia> isbday(:USSettlement, [Date(2014,12,31),Date(2015,01,01),Date(2015,01,02),Date(2015,01,03),Date(2015,01,05)])
+julia> isbday(:USSettlement, [Date(2014,12,31),Date(2015,1,1),Date(2015,1,2),Date(2015,1,3),Date(2015,1,5)])
 5-element Array{Bool,1}:
   true
  false
@@ -144,7 +144,7 @@ julia> isbday(:USSettlement, [Date(2014,12,31),Date(2015,01,01),Date(2015,01,02)
  false
   true
 
-julia> bdays(:USSettlement, [Date(2014,12,31),Date(2015,01,02)], [Date(2015,01,05),Date(2015,01,05)])
+julia> bdays(:USSettlement, [Date(2014,12,31),Date(2015,1,2)], [Date(2015,1,5),Date(2015,1,5)])
 2-element Array{Base.Dates.Day,1}:
  2 days
  1 day 
