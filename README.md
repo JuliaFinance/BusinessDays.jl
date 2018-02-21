@@ -76,17 +76,17 @@ julia> cal = BusinessDays.Brazil()
 BusinessDays.BRSettlement()
 
 julia> @time BusinessDays.initcache(cal)
-  0.138267 seconds (154.84 k allocations: 7.123 MB)
+  0.295994 seconds (154.66 k allocations: 8.018 MiB)
 
 julia> bdays(cal, d0, d1) # force JIT compilation
 21471 days
 
 julia> @time bdays(cal, d0, d1)
-  0.000003 seconds (9 allocations: 240 bytes)
+  0.000011 seconds (9 allocations: 240 bytes)
 21471 days
 
 julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
-  0.379739 seconds (5.00 M allocations: 76.294 MB, 26.27% gc time)
+  0.686842 seconds (5.00 M allocations: 76.294 MiB, 26.15% gc time)
 ```
 
 **There's no magic**
@@ -132,6 +132,9 @@ julia> advancebdays(:USSettlement, Date(2015, 01, 02), -1) # goes back 1 busines
 
 julia> bdays(:USSettlement, Date(2014, 12, 31), Date(2015, 01, 05)) # counts the number of business days between dates
 2 days
+
+julia> bdayscount(:USSettlement, Date(2014, 12, 31), Date(2015, 01, 05)) # same as above, but returns integer
+2
 
 julia> isbday(:USSettlement, [Date(2014,12,31),Date(2015,01,01),Date(2015,01,02),Date(2015,01,03),Date(2015,01,05)])
 5-element Array{Bool,1}:
@@ -212,6 +215,10 @@ Counts the number of Business Days between `dt0` and `dt1`.
 Returns instances of `Dates.Day`.
 
 Computation is always based on next Business Day if given dates are not Business Days.
+
+**bdayscount(calendar, dt0, dt1)**
+
+Same as `bdays`, but returns `Int`.
 
 **listholidays(calendar, dt0::Date, dt1::Date) → Vector{Date}**
 
