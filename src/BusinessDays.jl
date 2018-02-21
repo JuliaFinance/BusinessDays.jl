@@ -8,18 +8,15 @@ Website: https://github.com/felipenoris/BusinessDays.jl
 """
 module BusinessDays
 
-# types.jl
+# exported types
 export
     HolidayCalendar,
     CompositeHolidayCalendar,
     GenericHolidayCalendar
 
-# isholiday.jl
+# exported functions
 export
-    isholiday
-
-# bdays.jl : main functions for BusinessDays module
-export
+    isholiday,
     isweekday,
     isweekend,
     isbday,
