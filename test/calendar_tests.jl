@@ -615,7 +615,7 @@ asxdates18 = Set([
     christmasday,
     boxingday
 ])
-for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+for dt in Date(2018,1,1):Dates.Day(1):Date(2018,12,31)
     if in(dt, asxdates18)
         dt != boxingday && @test isholiday(hc_australiaasx, dt-Dates.Day(1)) == false
         @test isholiday(hc_australiaasx, dt) == true
@@ -758,7 +758,7 @@ tasdates18 = Set([
     christmasday,
     boxingday
 ])
-for dt in Date(2018,1,1):Day(1):Date(2018,12,31)
+for dt in Date(2018,1,1):Dates.Day(1):Date(2018,12,31)
     if in(dt, tasdates18)
         @test isholiday(hc_australiatas, dt) == true
     else
@@ -890,21 +890,21 @@ d2001 = collect(Date(2001,01,01):Date(2001,01,15))
 @test tobday(:Brazil, d2001; forward=true) == [ Date(2001,01,02), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,08), Date(2001,01,08), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,15), Date(2001,01,15), Date(2001,01,15)]
 @test tobday("Brazil", d2001; forward=false) == [ Date(2000,12,29), Date(2001,01,02), Date(2001,01,03), Date(2001,01,04), Date(2001,01,05), Date(2001,01,05), Date(2001,01,05), Date(2001,01,08), Date(2001,01,09), Date(2001,01,10), Date(2001,01,11), Date(2001,01,12), Date(2001,01,12), Date(2001,01,12), Date(2001,01,15)]
 
-@test bdays([hc_brazil, hc_usa], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+@test bdays([hc_brazil, hc_usa], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Dates.Day(5), Dates.Day(5)] # 1/sep labor day US, 7/sep Indep day BR
 @test bdayscount([hc_brazil, hc_usa], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [5, 5] # 1/sep labor day US, 7/sep Indep day BR
 @test isbday([hc_brazil, hc_usa], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
 @test advancebdays(hc_brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
 @test advancebdays(hc_brazil, Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
 @test listholidays(hc_brazil, Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
 
-@test bdays([:Brazil, :USSettlement], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+@test bdays([:Brazil, :USSettlement], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Dates.Day(5), Dates.Day(5)] # 1/sep labor day US, 7/sep Indep day BR
 @test bdayscount([:Brazil, :USSettlement], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [5, 5] # 1/sep labor day US, 7/sep Indep day BR
 @test isbday([:Brazil, :USSettlement], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
 @test advancebdays(:Brazil, Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
 @test advancebdays(:Brazil, Date(2015,9,1), 0:5) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,3),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
 @test listholidays(:Brazil, Date(2016,1,1), Date(2016,5,30)) == [Date(2016,1,1),Date(2016,2,8),Date(2016,2,9),Date(2016,3,25),Date(2016,4,21),Date(2016,5,1),Date(2016,5,26)]
 
-@test bdays(["Brazil", "USSettlement"], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Day(5), Day(5)] # 1/sep labor day US, 7/sep Indep day BR
+@test bdays(["Brazil", "USSettlement"], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [Dates.Day(5), Dates.Day(5)] # 1/sep labor day US, 7/sep Indep day BR
 @test bdayscount(["Brazil", "USSettlement"], [Date(2012,8,31), Date(2012,8,31)], [Date(2012,9,10), Date(2012,9,10)]) == [5, 5] # 1/sep labor day US, 7/sep Indep day BR
 @test isbday(["Brazil", "USSettlement"], [Date(2012, 09, 07), Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
 @test advancebdays("Brazil", Date(2015,9,1), [0, 1, 3, 4, 5]) == [Date(2015,9,1),Date(2015,9,2),Date(2015,9,4),Date(2015,9,8),Date(2015,9,9)]
@@ -917,7 +917,7 @@ d2001 = collect(Date(2001,01,01):Date(2001,01,15))
 @test isempty(listbdays("Brazil", Date(2016,5,21), Date(2016,5,22)))
 @test listbdays("Brazil", Date(2016,5,21), Date(2016,5,23)) == [Date(2016,5,23)]
 
-@test bdays(:Brazil, Date(2016,11,1), [Date(2016,11,3), Date(2016,11,7), Date(2016,11,4)]) == [Day(1), Day(3), Day(2)]
+@test bdays(:Brazil, Date(2016,11,1), [Date(2016,11,3), Date(2016,11,7), Date(2016,11,4)]) == [Dates.Day(1), Dates.Day(3), Dates.Day(2)]
 @test bdayscount(:Brazil, Date(2016,11,1), [Date(2016,11,3), Date(2016,11,7), Date(2016,11,4)]) == [1, 3, 2]
 
 @test bdays(:Brazil, [Date(2018,3,28), Date(2018,3,28), Date(2018,3,28), Date(2018,3,28)], [Date(2018,3,28), Date(2018,3,29), Date(2018,3,30), Date(2018,4,2)]) == [Dates.Day(0), Dates.Day(1), Dates.Day(2), Dates.Day(2)]
@@ -932,6 +932,11 @@ d2001 = collect(Date(2001,01,01):Date(2001,01,15))
 @test firstbdayofmonth(:Brazil, 2018, 1) == Date(2018,1,2)
 @test lastbdayofmonth(:Brazil, 2017, 12) == Date(2017,12,29)
 
-@test firstbdayofmonth(:Brazil, Year(2017), Month(12)) == Date(2017,12,1)
-@test firstbdayofmonth(:Brazil, Year(2018), Month(1)) == Date(2018,1,2)
-@test lastbdayofmonth(:Brazil, Year(2017), Month(12)) == Date(2017,12,29)
+@test firstbdayofmonth(:Brazil, Dates.Year(2017), Dates.Month(12)) == Date(2017,12,1)
+@test firstbdayofmonth(:Brazil, Dates.Year(2018), Dates.Month(1)) == Date(2018,1,2)
+@test lastbdayofmonth(:Brazil, Dates.Year(2017), Dates.Month(12)) == Date(2017,12,29)
+
+# list holidays for all available calendars
+for c in [:BRSettlement, :BrazilExchange, :USNYSE, :USGovernmentBond, :USSettlement, :CanadaTSX, :CanadaSettlement, :EuroZone, :UKSettlement, :AustraliaASX]
+    x = listholidays(c, Date(1990,1,1), Date(2100,1,1))
+end

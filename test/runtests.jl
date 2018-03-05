@@ -7,6 +7,12 @@ bd = BusinessDays
 # Issue #18
 Dict(Any[])
 
+# Issue #30
+# list holidays for all available calendars
+for c in [:BRSettlement, :BrazilExchange, :USNYSE, :USGovernmentBond, :USSettlement, :CanadaTSX, :CanadaSettlement, :EuroZone, :UKSettlement, :AustraliaASX]
+    x = listholidays(c, Date(1900,1,1), Date(2100,1,1))
+end
+
 # Types
 bhc = bd.Brazil()
 ushc = bd.USSettlement()
@@ -271,7 +277,7 @@ include("easter-min-max.jl")
 len = typemax(UInt32) + 1
 if len > typemax(UInt32)
     d0 = Date(1950, 2, 1)
-    d1 = d0 + Day(len)
+    d1 = d0 + Dates.Day(len)
     @test_throws AssertionError bd._create_bdays_cache_arrays(bhc, d0, d1)
 end
 

@@ -99,7 +99,7 @@ function isholiday(::BrazilExchange, dt::Date)
         ( mm == 12 && dd == 24)
         ||
         # Último dia útil do ano
-        ( mm == 12 && (dd == 31 || (dd>=29 && Dates.dayofweek(dt) == Friday) ))
+        ( mm == 12 && (dd == 31 || (dd>=29 && Dates.dayofweek(dt) == Dates.Friday) ))
         ||
         # National holidays
         isholiday(Brazil(), dt)

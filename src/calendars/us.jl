@@ -150,7 +150,7 @@ function isholiday(::USNYSE , dt::Date)
         dt == Date(1968,7,5)
         ||
         # Paperwork Crisis
-        yy == 1968 && dayofyear(dt) >= 163 && Dates.iswednesday(dt)
+        yy == 1968 && Dates.dayofyear(dt) >= 163 && Dates.iswednesday(dt)
         ||
         # Mourning for Martin Luther King Jr
         dt == Date(1968,4,9)
