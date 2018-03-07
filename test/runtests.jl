@@ -430,8 +430,3 @@ cal_set = Set([gen_1, gen_2])
 # On a dict, they represent the same key
 cal_dict = Dict(gen_1 => "hey")
 @test cal_dict[gen_2] == "hey"
-
-# Tests precompile script
-if VERSION < v"0.6.99"
-	include(joinpath("..", "contrib", "userimg.jl"))
-end
