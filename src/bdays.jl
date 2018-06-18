@@ -23,8 +23,7 @@ Returns `true` otherwise.
 """
 function isbday(hc::HolidayCalendar, dt::Date) :: Bool
     if _getcachestate(hc)
-        hcc :: HolidayCalendarCache = _getholidaycalendarcache(hc)
-        return isbday(hcc, dt)
+        return isbday(_getholidaycalendarcache(hc), dt)
     else
         return !(isweekend(dt) || isholiday(hc, dt))
     end
@@ -103,8 +102,7 @@ Computation is always based on next Business Day if given dates are not Business
 """
 function bdayscount(hc::HolidayCalendar, dt0::Date, dt1::Date) :: Int
     if _getcachestate(hc)
-        hcc::HolidayCalendarCache = _getholidaycalendarcache(hc)
-        return bdayscount(hcc, dt0, dt1)
+        return bdayscount(_getholidaycalendarcache(hc), dt0, dt1)
     else
         dt0 = tobday(hc, dt0)
         dt1 = tobday(hc, dt1)

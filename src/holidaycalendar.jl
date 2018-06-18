@@ -6,18 +6,15 @@ abstract type HolidayCalendar end
 
 Base.string(hc::HolidayCalendar) = string(typeof(hc))
 
-function symtocalendar(sym::Symbol)
-    local result::HolidayCalendar
+function symtocalendar(sym::Symbol) :: HolidayCalendar
 
     if isdefined(BusinessDays, sym) && eval(BusinessDays, sym) <: HolidayCalendar
-        result = eval(BusinessDays, sym)()
+        return eval(BusinessDays, sym)()
     elseif isdefined(current_module(), sym) && eval(current_module(), sym) <: HolidayCalendar
-        result = eval(current_module(), sym)()
+        return eval(current_module(), sym)()
     else
         error("$sym is not a valid HolidayCalendar.")
     end
-
-    return result
 end
 
 @inline strtocalendar(str::AbstractString) = symtocalendar(Symbol(str))

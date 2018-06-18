@@ -20,19 +20,19 @@ listholidays(calendar, dt0::Date, dt1::Date) = listholidays(convert(HolidayCalen
 Returns the list of business days between `dt0` and `dt1`.
 """
 function listbdays(hc::HolidayCalendar, dt0::Date, dt1::Date)
-    d = tobday(hc,min(dt0,dt1))
+    d = tobday(hc, min(dt0, dt1))
     d1 = max(dt0, dt1)
 
     # empty result
     if d > d1
-        return Array{Date}(0)
+        return Vector{Date}()
     end
 
     n = Dates.value(d1) - Dates.value(d) + 1
-    raw_vec = Array{Date}(n)
+    raw_vec = Vector{Date}(n)
     raw_vec[1] = d
-    i::Int = 2
     d = advancebdays(hc,d,1)
+    i = 2
     while d <= d1
         raw_vec[i] = d
         i += 1
