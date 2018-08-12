@@ -7,11 +7,12 @@ abstract type HolidayCalendar end
 Base.string(hc::HolidayCalendar) = string(typeof(hc))
 
 function symtocalendar(sym::Symbol) :: HolidayCalendar
-
-    if isdefined(BusinessDays, sym) && eval(BusinessDays, sym) <: HolidayCalendar
-        return eval(BusinessDays, sym)()
-    elseif isdefined(current_module(), sym) && eval(current_module(), sym) <: HolidayCalendar
-        return eval(current_module(), sym)()
+    if isdefined(BusinessDays, sym) && Core.eval(BusinessDays, sym) <: HolidayCalendar
+        return Core.eval(BusinessDays, sym)()
+    elseif isdefined(@__MODULE__, sym) && Core.eval(@__MODULE__, sym) <: HolidayCalendar
+        return Core.eval(@__MODULE__, sym)()
+    elseif isdefined(Main, sym) && Core.eval(Main, sym) <: HolidayCalendar
+        return Core.eval(Main, sym)()
     else
         error("$sym is not a valid HolidayCalendar.")
     end
@@ -31,6 +32,6 @@ Checks if `dt` is a holiday based on a given `calendar` of holidays.
 
 Returns boolean values.
 """
-isholiday(hc::HolidayCalendar, dt::Date) = error("isholiday for $(hc) not implemented.")
+isholiday(hc::HolidayCalendar, dt::Dates.Date) = error("isholiday for $(hc) not implemented.")
 
-isholiday(calendar, dt::Date) = isholiday(convert(HolidayCalendar, calendar), dt)
+isholiday(calendar, dt::Dates.Date) = isholiday(convert(HolidayCalendar, calendar), dt)

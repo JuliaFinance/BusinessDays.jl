@@ -2,9 +2,8 @@
 # BusinessDays.jl
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)
-[![Coverage Status](https://coveralls.io/repos/felipenoris/BusinessDays.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/felipenoris/BusinessDays.jl?branch=master)
 [![codecov.io](http://codecov.io/github/felipenoris/BusinessDays.jl/coverage.svg?branch=master)](http://codecov.io/github/felipenoris/BusinessDays.jl?branch=master)
-[![BusinessDays](http://pkg.julialang.org/badges/BusinessDays_0.6.svg)](http://pkg.julialang.org/?pkg=BusinessDays&ver=0.6)
+[![BusinessDays](http://pkg.julialang.org/badges/BusinessDays_0.7.svg)](http://pkg.julialang.org/?pkg=BusinessDays&ver=0.7)
 
 A highly optimized *Business Days* calculator written in Julia language.
 Also known as *Working Days* calculator.
@@ -69,7 +68,7 @@ It's also important to point out that the initialization of the memory cache, wh
 **Benchmark Code**
 
 ```julia
-julia> using BusinessDays
+julia> using BusinessDays, Dates
 
 julia> d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20) ;
 
@@ -77,17 +76,17 @@ julia> cal = BusinessDays.Brazil()
 BusinessDays.BRSettlement()
 
 julia> @time BusinessDays.initcache(cal)
-  0.295994 seconds (154.66 k allocations: 8.018 MiB)
+  0.161972 seconds (598.85 k allocations: 30.258 MiB, 2.29% gc time)
 
 julia> bdays(cal, d0, d1) # force JIT compilation
 21471 days
 
 julia> @time bdays(cal, d0, d1)
-  0.000011 seconds (9 allocations: 240 bytes)
+  0.000012 seconds (9 allocations: 240 bytes)
 21471 days
 
 julia> @time for i in 1:1000000 bdays(cal, d0, d1) end
-  0.686842 seconds (5.00 M allocations: 76.294 MiB, 26.15% gc time)
+  0.221275 seconds (5.00 M allocations: 76.294 MiB, 2.93% gc time)
 ```
 
 **There's no magic**
@@ -106,7 +105,7 @@ It's important to point out that **cache is disabled by default**. So, in order 
 ## Usage
 
 ```julia
-julia> using BusinessDays
+julia> using BusinessDays, Dates
 
 julia> BusinessDays.initcache(:USSettlement) # creates cache for US Federal holidays, allowing fast computations
 
@@ -116,7 +115,7 @@ false
 julia> isbday("USSettlement", Date(2015, 1, 1)) # ... and also strings
 false
 
-julia> isbday(BusinessDays.USSettlement(), Date(2015, 1, 1)) # but the best performance is when the calendar is referenced by a singleton instance
+julia> isbday(BusinessDays.USSettlement(), Date(2015, 1, 1)) # but for the best performance, use a singleton instance
 false
 
 julia> tobday(:USSettlement, Date(2015, 1, 1)) # Adjust to next business day
@@ -148,7 +147,7 @@ julia> isbday(:USSettlement, [Date(2014,12,31),Date(2015,1,1),Date(2015,1,2),Dat
 julia> bdays(:USSettlement, [Date(2014,12,31),Date(2015,1,2)], [Date(2015,1,5),Date(2015,1,5)])
 2-element Array{Base.Dates.Day,1}:
  2 days
- 1 day 
+ 1 day
 
 ```
 
@@ -276,7 +275,7 @@ You can add your custom Holiday Calendar by doing the following:
 **Example Code**
 
 ```julia
-julia> using BusinessDays
+julia> using BusinessDays, Dates
 
 julia> struct CustomCalendar <: HolidayCalendar end
 
@@ -303,7 +302,7 @@ true
 You can use a fixed set of holidays to define a new Holiday Calendar using `GenericHolidayCalendar` type.
 
 ```julia
-julia> using BusinessDays
+julia> using BusinessDays, Dates
 
 julia> holidays = Set([Date(2018,1,16), Date(2018,1,18)])
 
@@ -311,8 +310,8 @@ julia> dtmin = Date(2018,1,15); dtmax = Date(2018,1,19)
 
 julia> gen_calendar = GenericHolidayCalendar(holidays, dtmin, dtmax)
 
-julia> bdays(gen_calendar, Date(2018,1,15), Date(2018,1,17))
-1 day
+julia> bdayscount(gen_calendar, Date(2018,1,15), Date(2018,1,17))
+1
 ```
 
 The constructor is given by: `GenericHolidayCalendar(holidays, [dtmin], [dtmax], [_initcache_])`, where

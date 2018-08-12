@@ -8,6 +8,8 @@ Website: https://github.com/felipenoris/BusinessDays.jl
 """
 module BusinessDays
 
+import Dates
+
 # exported types
 export
     HolidayCalendar,

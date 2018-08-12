@@ -12,7 +12,7 @@ struct BrazilExchange <: HolidayCalendar end
 const BrazilBMF = BrazilExchange
 
 # Brazilian Banking Holidays
-function isholiday(::Brazil, dt::Date)
+function isholiday(::Brazil, dt::Dates.Date)
 
     yy = Dates.year(dt)
     mm = Dates.month(dt)
@@ -80,7 +80,7 @@ function isholiday(::Brazil, dt::Date)
     return false
 end
 
-function isholiday(::BrazilExchange, dt::Date)
+function isholiday(::BrazilExchange, dt::Dates.Date)
     yy = Dates.year(dt)
     mm = Dates.month(dt)
     dd = Dates.day(dt)

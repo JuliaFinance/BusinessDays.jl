@@ -1,18 +1,17 @@
 
 using BusinessDays
-using Base.Test
-
-bd = BusinessDays
+using Test
+import Dates
 
 println("Perftests")
 
-d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20)
+d0 = Dates.Date(2015, 06, 29) ; d1 = Dates.Date(2100, 12, 20)
 
-cal_type = bd.Brazil()
+cal_type = BusinessDays.Brazil()
 cal_sym = :Brazil
 cal_str = "Brazil"
 
-@time bd.initcache(cal_type)
+@time BusinessDays.initcache(cal_type)
 bdays(cal_type, d0, d1) # force JIT compilation
 @time bdays(cal_type, d0, d1)
 @time for i in 1:1000 bdays(cal_type, d0, d1) end
@@ -29,42 +28,42 @@ cal_sym_vec = fill(cal_sym, N)
 cal_str_vec = fill(cal_str, N)
 
 # Warmup
-bd.initcache(bd.Brazil())
-bd.initcache("USSettlement")
-bd.initcache(:UKSettlement)
-bd.bdays(cal_type, d0, d1)
-bd.bdays(cal_sym, d0, d1)
-bd.bdays(cal_str, d0, d1)
-bd.bdays(cal_type, d0vec, d1vec)
-bd.bdays(cal_sym, d0vec, d1vec)
-bd.bdays(cal_str, d0vec, d1vec)
-bd.bdays(cal_type_vec, d0vec, d1vec)
-bd.bdays(cal_sym_vec, d0vec, d1vec)
-bd.bdays(cal_str_vec, d0vec, d1vec)
+BusinessDays.initcache(BusinessDays.Brazil())
+BusinessDays.initcache("USSettlement")
+BusinessDays.initcache(:UKSettlement)
+BusinessDays.bdays(cal_type, d0, d1)
+BusinessDays.bdays(cal_sym, d0, d1)
+BusinessDays.bdays(cal_str, d0, d1)
+BusinessDays.bdays(cal_type, d0vec, d1vec)
+BusinessDays.bdays(cal_sym, d0vec, d1vec)
+BusinessDays.bdays(cal_str, d0vec, d1vec)
+BusinessDays.bdays(cal_type_vec, d0vec, d1vec)
+BusinessDays.bdays(cal_sym_vec, d0vec, d1vec)
+BusinessDays.bdays(cal_str_vec, d0vec, d1vec)
 
 println("type")
-@time for i in 1:1000 bd.bdays(cal_type, d0, d1) end
-@time bd.bdays(cal_type, d0vec, d1vec)
-@time bd.bdays(cal_type_vec, d0vec, d1vec)
+@time for i in 1:1000 BusinessDays.bdays(cal_type, d0, d1) end
+@time BusinessDays.bdays(cal_type, d0vec, d1vec)
+@time BusinessDays.bdays(cal_type_vec, d0vec, d1vec)
 println("sym")
-@time for i in 1:1000 bd.bdays(cal_sym, d0, d1) end
-@time bd.bdays(cal_sym, d0vec, d1vec)
-@time bd.bdays(cal_sym_vec, d0vec, d1vec)
+@time for i in 1:1000 BusinessDays.bdays(cal_sym, d0, d1) end
+@time BusinessDays.bdays(cal_sym, d0vec, d1vec)
+@time BusinessDays.bdays(cal_sym_vec, d0vec, d1vec)
 println("str")
-@time for i in 1:1000 bd.bdays(cal_str, d0, d1) end
-@time bd.bdays(cal_str, d0vec, d1vec)
-@time bd.bdays(cal_str_vec, d0vec, d1vec)
+@time for i in 1:1000 BusinessDays.bdays(cal_str, d0, d1) end
+@time BusinessDays.bdays(cal_str, d0vec, d1vec)
+@time BusinessDays.bdays(cal_str_vec, d0vec, d1vec)
 
-bd.cleancache()
+BusinessDays.cleancache()
 
 println("initcache type")
-@time bd.initcache(cal_type)
-bd.cleancache()
+@time BusinessDays.initcache(cal_type)
+BusinessDays.cleancache()
 
 println("initcache sym")
-@time bd.initcache(cal_sym)
-bd.cleancache()
+@time BusinessDays.initcache(cal_sym)
+BusinessDays.cleancache()
 
 println("initcache str")
-@time bd.initcache(cal_str)
-bd.cleancache()
+@time BusinessDays.initcache(cal_str)
+BusinessDays.cleancache()

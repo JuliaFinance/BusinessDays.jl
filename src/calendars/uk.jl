@@ -6,7 +6,7 @@ struct UKSettlement <: HolidayCalendar end
 const UnitedKingdom = UKSettlement
 
 # England and Wales Banking Holidays
-function isholiday(::UKSettlement, dt::Date)
+function isholiday(::UKSettlement, dt::Dates.Date)
 
     yy = Dates.year(dt)
     mm = Dates.month(dt)
@@ -20,16 +20,16 @@ function isholiday(::UKSettlement, dt::Date)
                 adjustweekendholidayPost( findweekday(Dates.Monday, yy, 8, 1, false) ) == dt
                 ||
                 # Christmas
-                adjustweekendholidayPost( Date(yy, 12, 25) ) == dt
+                adjustweekendholidayPost( Dates.Date(yy, 12, 25) ) == dt
                 ||
                 # Boxing
-                adjustweekendholidayPost(adjustweekendholidayPost( Date(yy, 12, 25) ) + Dates.Day(1)) == dt
+                adjustweekendholidayPost(adjustweekendholidayPost( Dates.Date(yy, 12, 25) ) + Dates.Day(1)) == dt
             )
             return true
         end
 
         # Fixed date holidays with mm >= 8
-        if dt == Date(1999, 12, 31)
+        if dt == Dates.Date(1999, 12, 31)
             return true
         end
     else
@@ -37,7 +37,7 @@ function isholiday(::UKSettlement, dt::Date)
         # Fixed holidays
         if (
                 # New Year's Day
-                adjustweekendholidayPost( Date(yy, 01, 01) ) == dt
+                adjustweekendholidayPost( Dates.Date(yy, 01, 01) ) == dt
                 ||
                 # May Day, Early May Bank Holiday
                 adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, true)) == dt
@@ -66,19 +66,19 @@ function isholiday(::UKSettlement, dt::Date)
         # Fixed date holidays with mm < 8
         if (
             # Substitute date for Spring Bank Holiday
-            (dt == Date(2012, 06, 04))
+            (dt == Dates.Date(2012, 06, 04))
             ||
             # Diamond Jubilee of Queen Elizabeth II.
-            (dt == Date(2012, 06, 05))
+            (dt == Dates.Date(2012, 06, 05))
             ||
             # Golden Jubilee of Queen Elizabeth II.
-            (dt == Date(2002, 06, 03))
+            (dt == Dates.Date(2002, 06, 03))
             ||
             # Substitute date for Spring Bank Holiday
-            (dt == Date(2002, 06, 04))
+            (dt == Dates.Date(2002, 06, 04))
             ||
             # Wedding of Prince William and Catherine Middleton
-            (dt == Date(2011, 04, 29))
+            (dt == Dates.Date(2011, 04, 29))
             )
             return true
         end

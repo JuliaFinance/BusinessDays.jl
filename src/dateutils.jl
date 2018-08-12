@@ -26,18 +26,18 @@ function easter_rata(y::Dates.Year)
     end
 
     # Paschal Moon
-    p = Date(y.value, 4, 19).instant.periods.value - se
+    p = Dates.Date(y.value, 4, 19).instant.periods.value - se
 
     # Easter: locate the Sunday after the Paschal Moon
     return p + 7 - mod(p, 7)
 end
 
 """
-    easter_date(y::Dates.Year) → Date
+    easter_date(y::Dates.Year) → Dates.Date
 
-Returns result of `easter_rata` as a `Date` instance.
+Returns result of `easter_rata` as a `Dates.Date` instance.
 """
-@inline easter_date(y::Dates.Year) = Date(Dates.rata2datetime(easter_rata(y)))
+@inline easter_date(y::Dates.Year) = Dates.Date(Dates.rata2datetime(easter_rata(y)))
 
 """
     findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) → Date
@@ -51,9 +51,9 @@ If `ascending` is true, searches from the beginning of the month. If false, sear
 
 If `occurrence` is `2` and `weekday_target` is `Monday`, searches the 2nd Monday of the given month, and so on.
 """
-function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool)
+function findweekday(weekday_target::Integer, yy::Integer, mm::Integer, occurrence::Integer, ascending::Bool) :: Dates.Date
 
-    local dt::Date = Date(yy, mm, 1)
+    dt = Dates.Date(yy, mm, 1)
     local dt_dayofweek::Integer
     local offset::Integer
 
@@ -88,7 +88,7 @@ This function will adjust to the next Monday.
 
 `adjust_saturdays` kwarg defaults to `true`.
 """
-function adjustweekendholidayPost(dt::Date; adjust_saturdays::Bool = true)
+function adjustweekendholidayPost(dt::Dates.Date; adjust_saturdays::Bool = true) :: Dates.Date
 
     if adjust_saturdays && (Dates.dayofweek(dt) == Dates.Saturday)
         return dt + Dates.Day(2)
@@ -107,7 +107,7 @@ end
 In the United States, if a holiday falls on Saturday, it's observed on the preceding Friday.
 If it falls on Sunday, it's observed on the next Monday.
 """
-function adjustweekendholidayUS(dt::Date)
+function adjustweekendholidayUS(dt::Dates.Date) :: Dates.Date
 
     if Dates.dayofweek(dt) == Dates.Saturday
         return dt - Dates.Day(1)
