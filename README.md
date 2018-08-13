@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/felipenoris/BusinessDays.jl.svg?branch=master)](https://travis-ci.org/felipenoris/BusinessDays.jl)
 [![codecov.io](http://codecov.io/github/felipenoris/BusinessDays.jl/coverage.svg?branch=master)](http://codecov.io/github/felipenoris/BusinessDays.jl?branch=master)
 [![BusinessDays](http://pkg.julialang.org/badges/BusinessDays_0.7.svg)](http://pkg.julialang.org/?pkg=BusinessDays&ver=0.7)
-[![BusinessDays](http://pkg.julialang.org/badges/BusinessDays_1.0.svg)](http://pkg.julialang.org/?pkg=BusinessDays&ver=1.0)
 
 A highly optimized *Business Days* calculator written in Julia language.
 Also known as *Working Days* calculator.
