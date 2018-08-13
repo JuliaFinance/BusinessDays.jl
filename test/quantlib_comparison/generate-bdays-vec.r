@@ -7,10 +7,10 @@ d1 <- seq(d0, as.Date("2100-01-04"), by="days")
 l <- length(d1)
 d0 <- rep(d0, l)
 
-cals = c( "Canada", "Canada/Settlement", "Canada/TSX", "Germany", "Germany/FrankfurtStockExchange", 
+cals = c( "Canada", "Canada/Settlement", "Canada/TSX", "Germany", "Germany/FrankfurtStockExchange",
           "Germany/Settlement", "Germany/Xetra", "Germany/Eurex", "Italy", "Italy/Settlement", "Italy/Exchange",
           "Japan", "UnitedKingdom", "UnitedKingdom/Settlement", "UnitedKingdom/Exchange", "UnitedKingdom/Metals",
-          "UnitedStates", "UnitedStates/Settlement", "UnitedStates/NYSE", "UnitedStates/GovernmentBond", 
+          "UnitedStates", "UnitedStates/Settlement", "UnitedStates/NYSE", "UnitedStates/GovernmentBond",
           "UnitedStates/NERC", "Brazil", "TARGET")
 
 dir.create('csv')

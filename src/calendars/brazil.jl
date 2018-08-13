@@ -49,7 +49,7 @@ function isholiday(::Brazil, dt::Dates.Date)
                 # Tiradentes
                 ((mm == 4) && (dd == 21))
                 ||
-                # Dia do Trabalho   
+                # Dia do Trabalho
                 ((mm == 5) && (dd == 1))
             )
             return true

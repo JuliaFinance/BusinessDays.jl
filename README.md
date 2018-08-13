@@ -259,7 +259,7 @@ Cleans cache for a given instance or list of `HolidayCalendar`, `Symbol` or `Abs
 - **CanadaTSX**: holidays for Toronto Stock Exchange
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 - **NullHolidayCalendar** : `isholiday` returns `false` and `isbday` returns `true` for any date. `bdays` returns the actual days between dates.
-- **TARGET** or **TARGET2** or **EuroZone** : [TARGET / TARGET2 Euro Zone](https://en.wikipedia.org/wiki/TARGET2) holiday calendar. 
+- **TARGET** or **TARGET2** or **EuroZone** : [TARGET / TARGET2 Euro Zone](https://en.wikipedia.org/wiki/TARGET2) holiday calendar.
 - **USSettlement** or **UnitedStates**: United States federal holidays.
 - **USNYSE** : United States NYSE holidays.
 - **USGovernmentBond** : United States Government Bond calendar.

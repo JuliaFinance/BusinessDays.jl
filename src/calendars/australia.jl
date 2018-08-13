@@ -4,7 +4,6 @@ Public holidays for the Australian Stock Exchange (ASX).
 """
 struct AustraliaASX <: HolidayCalendar end
 
-
 """
 Public holidays for the Australian states and territories.
 Although some holidays are common to all states and territories, such as Christmas Day, each state and territory also has its own additional holidays.
