@@ -891,7 +891,7 @@ d2001 = collect(Dates.Date(2001,01,01):Dates.Day(1):Dates.Date(2001,01,15))
 @test bdayscount([hc_brazil, hc_usa], [Dates.Date(2012,8,31), Dates.Date(2012,8,31)], [Dates.Date(2012,9,10), Dates.Date(2012,9,10)]) == [5, 5] # 1/sep labor day US, 7/sep Indep day BR
 @test isbday([hc_brazil, hc_usa], [Dates.Date(2012, 09, 07), Dates.Date(2012, 09, 03)]) == [false, false] # 1/sep labor day US, 7/sep Indep day BR
 @test advancebdays(hc_brazil, Dates.Date(2015,9,1), [0, 1, 3, 4, 5]) == [Dates.Date(2015,9,1),Dates.Date(2015,9,2),Dates.Date(2015,9,4),Dates.Date(2015,9,8),Dates.Date(2015,9,9)]
-@test advancebdays(hc_brazil, Dates.Date(2015,9,1), 0:5) == [Dates.Date(2015,9,1),Dates.Date(2015,9,2),Dates.Date(2015,9,3),Dates.Date(2015,9,4),Dates.Date(2015,9,8),Dates.Date(2015,9,9)]
+@test advancebdays(hc_brazil, Dates.Date(2015,9,1), 0:1:5) == [Dates.Date(2015,9,1),Dates.Date(2015,9,2),Dates.Date(2015,9,3),Dates.Date(2015,9,4),Dates.Date(2015,9,8),Dates.Date(2015,9,9)]
 @test listholidays(hc_brazil, Dates.Date(2016,1,1), Dates.Date(2016,5,30)) == [Dates.Date(2016,1,1),Dates.Date(2016,2,8),Dates.Date(2016,2,9),Dates.Date(2016,3,25),Dates.Date(2016,4,21),Dates.Date(2016,5,1),Dates.Date(2016,5,26)]
 
 @test bdays([:Brazil, :USSettlement], [Dates.Date(2012,8,31), Dates.Date(2012,8,31)], [Dates.Date(2012,9,10), Dates.Date(2012,9,10)]) == [Dates.Day(5), Dates.Day(5)] # 1/sep labor day US, 7/sep Indep day BR
