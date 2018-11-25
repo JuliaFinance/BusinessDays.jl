@@ -110,13 +110,7 @@ function bdayscount(hc::HolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) :: In
 
         result = 0
         while dt0 != dt1
-            dt0 += Dates.Day(inc)
-
-            # Looks for next/last Business Day
-            while !isbday(hc, dt0)
-                dt0 += Dates.Day(inc)
-            end
-
+            dt0 = advancebdays(hc, dt0, inc)
             result += inc
         end
 
