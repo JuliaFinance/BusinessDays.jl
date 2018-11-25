@@ -485,9 +485,11 @@ end
 
 @test advancebdays(hc_brazil, Dates.Date(2013, 02, 06), 0) == Dates.Date(2013, 02, 06) # regular wednesday
 @test advancebdays(hc_brazil, Dates.Date(2013, 02, 06), 1) == Dates.Date(2013, 02, 07) # regular thursday
+@test advancebdays(hc_brazil, Dates.Date(2013, 02, 07), -1) == Dates.Date(2013, 02, 06) # regular thursday
 @test advancebdays(hc_brazil, Dates.Date(2013, 02, 06), 2) == Dates.Date(2013, 02, 08) # regular friday
 @test advancebdays(hc_brazil, Dates.Date(2013, 02, 06), 3) == Dates.Date(2013, 02, 13) # after carnaval wednesday
 @test advancebdays(hc_brazil, Dates.Date(2013, 02, 06), 4) == Dates.Date(2013, 02, 14) # after carnaval thursday
+@test advancebdays(hc_brazil, Dates.Date(2013, 02, 14), -4) == Dates.Date(2013, 02, 06) # after carnaval thursday
 
 @test advancebdays(:Brazil, Dates.Date(2013, 02, 06), 0) == Dates.Date(2013, 02, 06) # regular wednesday
 @test advancebdays(:Brazil, Dates.Date(2013, 02, 06), 1) == Dates.Date(2013, 02, 07) # regular thursday
