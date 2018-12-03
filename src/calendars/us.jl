@@ -110,6 +110,9 @@ function isholiday(::USNYSE , dt::Dates.Date)
 
     # Special Closings
     if (
+        # President George H.W. Bush's funeral
+        dt == Dates.Date(2018,12,5)
+        ||
         # Hurricane Sandy
         yy == 2012 && mm == 10 && (dd == 29 || dd == 30)
         ||
