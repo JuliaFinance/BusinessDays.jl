@@ -1,10 +1,19 @@
 language: julia
 os:
     - linux
+    - osx
 julia:
     - 0.7
     - 1.0
+    - 1.1
+    - 1.2
+    - nightly
+matrix:
+  allow_failures:
+    - julia: nightly
+env:
+  - JULIA_PROJECT="@."
 notifications:
     email: false
 after_success:
-  - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'ENV["TRAVIS_JULIA_VERSION"] != "1.1" && ENV["TRAVIS_OS_NAME"] != "linux" && exit(); using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'

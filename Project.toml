@@ -1,0 +1,18 @@
+name = "BusinessDays"
+uuid = "4f18b42c-503e-5345-9536-bb0f25fc7038"
+license = "MIT"
+authors = ["Felipe Noronha <felipenoris@gmail.com>"]
+repo = "https://github.com/JuliaFinance/BusinessDays.jl.git"
+version = "0.10.0"
+
+[deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[compat]
+julia = "^1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
