@@ -17,6 +17,6 @@ d0vec = fill(d0, length(d1vec))
 !isdir("csv") && mkdir("csv")
 
 for hc in hc_vec
-	b = convert(Array{Int, 1}, isbday(hc, d1vec))
-	writetable(string("csv/julia-isbday-", string(hc), ".csv"), DataFrame(D = d1vec, ISBDAY = b), quotemark = ' ')
+    b = convert(Array{Int, 1}, isbday(hc, d1vec))
+    writetable(string("csv/julia-isbday-", string(hc), ".csv"), DataFrame(D = d1vec, ISBDAY = b), quotemark = ' ')
 end
