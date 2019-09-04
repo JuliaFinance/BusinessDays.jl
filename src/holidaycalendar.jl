@@ -6,6 +6,8 @@ abstract type HolidayCalendar end
 
 Base.string(hc::HolidayCalendar) = string(typeof(hc))
 
+Base.broadcastable(hc::HolidayCalendar) = Ref(hc)
+
 function symtocalendar(sym::Symbol) :: HolidayCalendar
     if isdefined(BusinessDays, sym) && Core.eval(BusinessDays, sym) <: HolidayCalendar
         return Core.eval(BusinessDays, sym)()
