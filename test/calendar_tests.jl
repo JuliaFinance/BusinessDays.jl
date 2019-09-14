@@ -92,7 +92,7 @@ end
 @test isbday(:NullHolidayCalendar, Dates.Date(2016,9,25)) == true
 @test isbday("NullHolidayCalendar", Dates.Date(2016,9,25)) == true
 @test bdayscount(:NullHolidayCalendar, Dates.Date(2016,9,25), Dates.Date(2016,9,28)) == 3
-@test bdays(:NullHolidayCalendar, Dates.Date(2016,9,25), Dates.Date(2016,9,28)) == Dates.Dates.Day(3)
+@test bdays(:NullHolidayCalendar, Dates.Date(2016,9,25), Dates.Date(2016,9,28)) == Dates.Day(3)
 
 @test isholiday(BusinessDays.WeekendsOnly(), Dates.Date(2016,9,25)) == false
 @test isholiday(:WeekendsOnly, Dates.Date(2016,9,25)) == false
@@ -101,7 +101,16 @@ end
 @test isbday(:WeekendsOnly, Dates.Date(2016,9,25)) == false
 @test isbday("WeekendsOnly", Dates.Date(2016,9,25)) == false
 @test bdayscount(:WeekendsOnly, Dates.Date(2016,9,25), Dates.Date(2016,9,28)) == 2
-@test bdays(:WeekendsOnly, Dates.Date(2016,9,25), Dates.Date(2016,9,28)) == Dates.Dates.Day(2)
+@test bdays(:WeekendsOnly, Dates.Date(2016,9,25), Dates.Date(2016,9,28)) == Dates.Day(2)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,26), Dates.Date(2019,9,2)) == Dates.Day(5)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,26), Dates.Date(2019,8,30)) == Dates.Day(4)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,26), Dates.Date(2019,8,27)) == Dates.Day(1)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,26), Dates.Date(2019,8,26)) == Dates.Day(0)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,26), Dates.Date(2019,8,19)) == Dates.Day(-5)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,26), Dates.Date(2019,8,25)) == Dates.Day(0)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,24), Dates.Date(2019,8,25)) == Dates.Day(0)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,24), Dates.Date(2019,8,26)) == Dates.Day(0)
+@test bdays(:WeekendsOnly, Dates.Date(2019,8,23), Dates.Date(2019,8,24)) == Dates.Day(1)
 
 # Brazil HolidayCalendar tests
 @test isbday(hc_brazil, Dates.Date(2014, 12, 31)) == true # wednesday
@@ -503,8 +512,8 @@ end
 @test advancebdays("Brazil", Dates.Date(2013, 02, 06), 3) == Dates.Date(2013, 02, 13) # after carnaval wednesday
 @test advancebdays("Brazil", Dates.Date(2013, 02, 06), 4) == Dates.Date(2013, 02, 14) # after carnaval thursday
 
-@test bdays(hc_brazil, Dates.Date(2013, 02, 06), Dates.Date(2013, 02, 06)) == Dates.Dates.Day(0)
-@test bdays(hc_brazil, Dates.Date(2013, 02, 06), Dates.Date(2013, 02, 07)) == Dates.Dates.Day(1)
+@test bdays(hc_brazil, Dates.Date(2013, 02, 06), Dates.Date(2013, 02, 06)) == Dates.Day(0)
+@test bdays(hc_brazil, Dates.Date(2013, 02, 06), Dates.Date(2013, 02, 07)) == Dates.Day(1)
 @test bdays(hc_brazil, Dates.Date(2013, 02, 07), Dates.Date(2013, 02, 06)).value == -1
 @test bdays(hc_brazil, Dates.Date(2013, 02, 06), Dates.Date(2013, 02, 08)).value == 2
 @test bdays(hc_brazil, Dates.Date(2013, 02, 08), Dates.Date(2013, 02, 06)).value == -2
