@@ -8,42 +8,45 @@ Remember that `isbday` considers that Saturdays and Sundars are not business day
 """
 struct WeekendsOnly <: HolidayCalendar end
 isholiday(::WeekendsOnly, dt::Dates.Date) = false
+
 function bdayscount(::WeekendsOnly, dt0::Dates.Date, dt1::Dates.Date)
     swapped = false
-    if (dt0 == dt1)
+    if dt0 == dt1
         return 0
-    elseif (dt0 > dt1)
+    elseif dt0 > dt1
         dt1, dt0 = dt0, dt1
         swapped = true
     end
 
-    count = 0
+    result = 0
     days = (dt1 - dt0).value
     whole_weeks = div(days, 7)
-    count += whole_weeks * 5
-    
+    result += whole_weeks * 5
+
     dt0 += Dates.Day(whole_weeks * 7)
-    
-    if (dt0 < dt1)
+
+    if dt0 < dt1
         day_of_week = Dates.dayofweek(dt0)
 
-        while (dt0 < dt1)
+        while dt0 < dt1
             if day_of_week < 6
-                count += 1
+                result += 1
             end
+
             dt0 += Dates.Day(1)
             day_of_week += 1
-            if (day_of_week == 8)
+
+            if day_of_week == 8
                 day_of_week = 1
             end
         end
     end
 
     if swapped
-        count = -count
+        result = -result
     end
 
-    count
+    return result
 end
 
 """

@@ -243,3 +243,6 @@ cal_set = Set([gen_1, gen_2])
 # On a dict, they represent the same key
 cal_dict = Dict(gen_1 => "hey")
 @test cal_dict[gen_2] == "hey"
+
+# Broadcast
+@test BusinessDays.tobday.(BusinessDays.WeekendsOnly(), [Dates.Date(2019, 8, 30), Dates.Date(2019, 8, 31), Dates.Date(2019, 9, 1), Dates.Date(2019, 9, 2)]) == [Dates.Date(2019, 8, 30), Dates.Date(2019, 9, 2), Dates.Date(2019, 9, 2), Dates.Date(2019, 9, 2)]
