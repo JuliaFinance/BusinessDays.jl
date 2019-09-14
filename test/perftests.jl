@@ -67,3 +67,12 @@ BusinessDays.cleancache()
 println("initcache str")
 @time BusinessDays.initcache(cal_str)
 BusinessDays.cleancache()
+
+let
+    cal = BusinessDays.WeekendsOnly()
+    println("WeekendsOnly no cache")
+    @time for i in 1:1000 BusinessDays.bdays(cal, d0, d1) end
+    BusinessDays.initcache(cal)
+    println("WeekendsOnly cache enabled")
+    @time for i in 1:1000 BusinessDays.bdays(cal, d0, d1) end
+end
