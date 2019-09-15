@@ -121,7 +121,6 @@ end
 test_bdays(:WeekendsOnly, (2016, 9, 25), (2016, 9, 28), 2)
 test_bdays(:WeekendsOnly, (2019, 8, 26), (2019, 9, 2), 5)
 test_bdays(:WeekendsOnly, (2019, 8, 26), (2019, 9, 3), 6)
-test_bdays(:WeekendsOnly, (2019, 8, 26), (2019, 9, 3), 6)
 test_bdays(:WeekendsOnly, (2019, 8, 26), (2019, 9, 9), 10)
 test_bdays(:WeekendsOnly, (2019, 8, 26), (2019, 9, 10), 11)
 test_bdays(:WeekendsOnly, (2019, 8, 26), (2019, 8, 30), 4)
