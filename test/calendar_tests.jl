@@ -103,7 +103,6 @@ end
 @test bdayscount(:WeekendsOnly, Dates.Date(2016,9,25), Dates.Date(2016,9,28)) == 2
 
 function test_bdays(cal, d0::Dates.Date, d1::Dates.Date, expected_result::Integer)
-    @assert d0 <= d1
     @test bdays(cal, d0, d1) == Dates.Day(expected_result)
     if d0 != d1
         @test bdays(cal, d1, d0) == Dates.Day(-expected_result)
