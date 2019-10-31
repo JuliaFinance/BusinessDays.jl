@@ -58,6 +58,7 @@ struct NullHolidayCalendar <: HolidayCalendar end
 isholiday(::NullHolidayCalendar, dt::Dates.Date) = false
 isbday(::NullHolidayCalendar, dt::Dates.Date) = true
 bdays(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = dt1 - dt0
+bdayscount(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = (dt1 - dt0).value
 
 include("australia.jl")
 include("brazil.jl")
