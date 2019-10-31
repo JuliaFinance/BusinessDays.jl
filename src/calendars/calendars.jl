@@ -59,6 +59,7 @@ isholiday(::NullHolidayCalendar, dt::Dates.Date) = false
 isbday(::NullHolidayCalendar, dt::Dates.Date) = true
 bdays(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = dt1 - dt0
 bdayscount(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = (dt1 - dt0).value
+listbdays(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = collect(dt0:Dates.Day(1):dt1)
 
 include("australia.jl")
 include("brazil.jl")
