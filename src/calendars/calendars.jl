@@ -19,7 +19,7 @@ function bdayscount(::WeekendsOnly, dt0::Dates.Date, dt1::Dates.Date)
     end
 
     result = 0
-    days = (dt1 - dt0).value
+    days = Dates.value(dt1 - dt0)
     whole_weeks = div(days, 7)
     result += whole_weeks * 5
 
@@ -57,8 +57,7 @@ struct NullHolidayCalendar <: HolidayCalendar end
 
 isholiday(::NullHolidayCalendar, dt::Dates.Date) = false
 isbday(::NullHolidayCalendar, dt::Dates.Date) = true
-bdays(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = dt1 - dt0
-bdayscount(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = (dt1 - dt0).value
+bdayscount(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = Dates.value(dt1 - dt0)
 listbdays(::NullHolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = collect(dt0:Dates.Day(1):dt1)
 
 include("australia.jl")
