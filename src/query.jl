@@ -28,7 +28,7 @@ function listbdays(hc::HolidayCalendar, dt0::Dates.Date, dt1::Dates.Date)
         return Vector{Dates.Date}()
     end
 
-    n = Dates.value(d1) - Dates.value(d) + 1
+    n = Dates.value(d1 - d) + 1
     raw_vec = Vector{Dates.Date}(undef, n)
     raw_vec[1] = d
     d = advancebdays(hc, d, 1)
@@ -36,7 +36,7 @@ function listbdays(hc::HolidayCalendar, dt0::Dates.Date, dt1::Dates.Date)
     while d <= d1
         raw_vec[i] = d
         i += 1
-        d = advancebdays(hc,d,1)
+        d = advancebdays(hc, d, 1)
     end
 
     return raw_vec[1:(i-1)]
