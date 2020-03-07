@@ -22,7 +22,8 @@ julia> Pkg.add("BusinessDays")
 
 This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
 While there are many implementations of *Business Days* calculators out there, the usual implementation is based on this kind of algorithm:
-```R
+
+```r
 dt0 = initial_date
 dt1 = final_date
 holidays = vector_of_holidays
@@ -38,7 +39,8 @@ end while
 This works fine for general use. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50 000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1 000 000 times.
 
 For instance, let's try out this code using *R* and *[QuantLib](https://github.com/lballabio/QuantLib)* ([RQuantLib](https://github.com/eddelbuettel/rquantlib)):
-```R
+
+```r
 library(RQuantLib)
 library(microbenchmark)
 
@@ -52,6 +54,7 @@ microbenchmark(businessDaysBetween("Brazil", from_vect, to_vect), times=1)
 ```
 
 Running this code, we get the following: *(only the fastest execution is shown)*
+
 ```
 Unit: milliseconds
                                     expr     min
@@ -111,33 +114,43 @@ It's important to point out that **cache is disabled by default**. So, in order 
 ```julia
 julia> using BusinessDays, Dates
 
-julia> BusinessDays.initcache(:USSettlement) # creates cache for US Federal holidays, allowing fast computations
+# creates cache for US Federal holidays, allowing fast computations
+julia> BusinessDays.initcache(:USSettlement)
 
-julia> isbday(:USSettlement, Date(2015, 1, 1)) # Calendars can be referenced using symbols
+# Calendars can be referenced using symbols
+julia> isbday(:USSettlement, Date(2015, 1, 1))
 false
 
-julia> isbday("USSettlement", Date(2015, 1, 1)) # ... and also strings
+# ... and also strings
+julia> isbday("USSettlement", Date(2015, 1, 1))
 false
 
-julia> isbday(BusinessDays.USSettlement(), Date(2015, 1, 1)) # but for the best performance, use a singleton instance
+# but for the best performance, use a singleton instance
+julia> isbday(BusinessDays.USSettlement(), Date(2015, 1, 1))
 false
 
-julia> tobday(:USSettlement, Date(2015, 1, 1)) # Adjust to next business day
+# Adjust to next business day
+julia> tobday(:USSettlement, Date(2015, 1, 1))
 2015-01-02
 
-julia> tobday(:USSettlement, Date(2015, 1, 1); forward = false) # Adjust to last business day
+# Adjust to last business day
+julia> tobday(:USSettlement, Date(2015, 1, 1); forward = false)
 2014-12-31
 
-julia> advancebdays(:USSettlement, Date(2015, 1, 2), 1) # advances 1 business day
+# advances 1 business day
+julia> advancebdays(:USSettlement, Date(2015, 1, 2), 1)
 2015-01-05
 
-julia> advancebdays(:USSettlement, Date(2015, 1, 2), -1) # goes back 1 business day
+# goes back 1 business day
+julia> advancebdays(:USSettlement, Date(2015, 1, 2), -1)
 2014-12-31
 
-julia> bdays(:USSettlement, Date(2014, 12, 31), Date(2015, 1, 5)) # counts the number of business days between dates
+# counts the number of business days between dates
+julia> bdays(:USSettlement, Date(2014, 12, 31), Date(2015, 1, 5))
 2 days
 
-julia> bdayscount(:USSettlement, Date(2014, 12, 31), Date(2015, 1, 5)) # same as above, but returns integer
+# same as above, but returns integer
+julia> bdayscount(:USSettlement, Date(2014, 12, 31), Date(2015, 1, 5))
 2
 
 julia> isbday(:USSettlement, [Date(2014,12,31),Date(2015,1,1),Date(2015,1,2),Date(2015,1,3),Date(2015,1,5)])
@@ -245,10 +258,10 @@ the [MIT License](https://raw.githubusercontent.com/JuliaFinance/BusinessDays.jl
 
 ## Alternative Packages
 
-* Ito.jl: http://aviks.github.io/Ito.jl/time.html
+* [Ito.jl](http://aviks.github.io/Ito.jl/time.html)
 
-* FinancialMarkets.jl: https://github.com/imanuelcostigan/FinancialMarkets.jl
+* [FinancialMarkets.jl](https://github.com/imanuelcostigan/FinancialMarkets.jl)
 
-* QuantLib.jl : https://github.com/pazzo83/QuantLib.jl
+* [QuantLib.jl](https://github.com/pazzo83/QuantLib.jl)
 
-* QuantLib C++ Library: https://github.com/lballabio/QuantLib
+* [QuantLib C++ Library](https://github.com/lballabio/QuantLib)

@@ -13,9 +13,9 @@
 [codecov-img]: https://img.shields.io/codecov/c/github/JuliaFinance/BusinessDays.jl/master.svg?label=codecov&style=flat-square
 [codecov-url]: http://codecov.io/github/JuliaFinance/BusinessDays.jl?branch=master
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg?style=flat-square
-[docs-dev-url]: https://JuliaFinance.github.io/BusinessDays.jl/dev
+[docs-dev-url]: https://juliafinance.github.io/BusinessDays.jl/dev
 [docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg?style=flat-square
-[docs-stable-url]: https://JuliaFinance.github.io/BusinessDays.jl/stable
+[docs-stable-url]: https://juliafinance.github.io/BusinessDays.jl/stable
 
 A highly optimized *Business Days* calculator written in Julia language.
 Also known as *Working Days* calculator.
@@ -32,4 +32,4 @@ julia> Pkg.add("BusinessDays")
 
 ## Documentation
 
-Package documentation is hosted at https://JuliaFinance.github.io/BusinessDays.jl/stable.
+Package documentation is hosted at https://juliafinance.github.io/BusinessDays.jl/stable.
