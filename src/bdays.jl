@@ -1,6 +1,6 @@
 
 """
-    isweekend(dt)
+    isweekend(dt) :: Bool
 
 Returns `true` for Saturdays or Sundays.
 Returns `false` otherwise.
@@ -8,7 +8,7 @@ Returns `false` otherwise.
 @inline isweekend(dt::Dates.Date) :: Bool = signbit(5 - Dates.dayofweek(dt))
 
 """
-    isweekday(dt)
+    isweekday(dt) :: Bool
 
 Returns `true` for Monday to Friday.
 Returns `false` otherwise.
@@ -16,7 +16,7 @@ Returns `false` otherwise.
 @inline isweekday(dt::Dates.Date) :: Bool = signbit(Dates.dayofweek(dt)  - 6)
 
 """
-    isbday(calendar, dt)
+    isbday(calendar, dt) :: Bool
 
 Returns `false` for weekends or holidays.
 Returns `true` otherwise.
@@ -32,7 +32,7 @@ end
 @inline isbday(calendar, dt) :: Bool = isbday(convert(HolidayCalendar, calendar), dt)
 
 """
-    tobday(calendar, dt; [forward=true])
+    tobday(calendar, dt; [forward=true]) :: Dates.Date
 
 Adjusts `dt` to next Business Day if it's not a Business Day.
 If `isbday(dt)`, returns `dt`.
@@ -55,7 +55,7 @@ end
 tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar, calendar), dt; forward=forward)
 
 """
-    advancebdays(calendar, dt, bdays_count)
+    advancebdays(calendar, dt, bdays_count) :: Dates.Date
 
 Increments given date `dt` by `bdays_count`.
 Decrements it if `bdays_count` is negative.
@@ -134,16 +134,16 @@ bdays(calendar, dt0::Dates.Date, dt1::T) where {T<:Union{Dates.Date, Vector{Date
 bdays(calendar, dt0::Vector{Dates.Date}, dt1::Vector{Dates.Date}) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 
 """
-    firstbdayofmonth(calendar, dt)
-    firstbdayofmonth(calendar, yy, mm)
+    firstbdayofmonth(calendar, dt) :: Dates.Date
+    firstbdayofmonth(calendar, yy, mm) :: Dates.Date
 
 Returns the first business day of month.
 """
 firstbdayofmonth(calendar, dt::Dates.Date) = tobday(calendar, Dates.firstdayofmonth(dt))
 
 """
-    lastbdayofmonth(calendar, dt)
-    lastbdayofmonth(calendar, yy, mm)
+    lastbdayofmonth(calendar, dt) :: Dates.Date
+    lastbdayofmonth(calendar, yy, mm) :: Dates.Date
 
 Returns the last business day of month.
 """

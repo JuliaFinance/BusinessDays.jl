@@ -26,13 +26,11 @@ Base.convert(::Type{HolidayCalendar}, sym::Symbol) = symtocalendar(sym)
 Base.convert(::Type{HolidayCalendar}, str::AbstractString) = strtocalendar(str)
 
 """
-    isholiday(calendar, dt)
+    isholiday(calendar, dt) :: Bool
 
 Checks if `dt` is a holiday based on a given `calendar` of holidays.
 
 `calendar` can be an instance of `HolidayCalendar`,  a `Symbol` or an `AbstractString`.
-
-Returns boolean values.
 """
 isholiday(hc::HolidayCalendar, dt::Dates.Date) = error("isholiday for $(hc) not implemented.")
 
