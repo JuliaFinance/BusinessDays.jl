@@ -20,8 +20,13 @@ julia> Pkg.add("BusinessDays")
 
 ## Motivation
 
-This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio. Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
-While there are many implementations of *Business Days* calculators out there, the usual implementation is based on this kind of algorithm:
+This code was developed with a mindset of a Financial Institution that has a big *Fixed Income* portfolio.
+Many financial contracts, specially *Fixed Income instruments*, depend on a particular calendar of holidays
+to determine how many days exist between the valuation date and the maturity of the contract.
+A *Business Days* calculator is a small piece of software used to perform this important step of the valuation process.
+
+While there are many implementations of *Business Days* calculators out there,
+the usual implementation is based on this kind of algorithm:
 
 ```r
 dt0 = initial_date
@@ -38,7 +43,7 @@ end while
 
 This works fine for general use. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50 000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1 000 000 times.
 
-For instance, let's try out this code using *R* and *[QuantLib](https://github.com/lballabio/QuantLib)* ([RQuantLib](https://github.com/eddelbuettel/rquantlib)):
+For instance, let's try out this code using *R* and [QuantLib](https://github.com/lballabio/QuantLib) ([RQuantLib](https://github.com/eddelbuettel/rquantlib)):
 
 ```r
 library(RQuantLib)
@@ -66,7 +71,7 @@ Unit: seconds
 
 ```
 
-While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R's performance, because *[RQuantLib](https://github.com/eddelbuettel/rquantlib)* is a simple wrapper to [QuantLib](https://github.com/lballabio/QuantLib) *C++* library.
+While one computation takes up to 2 milliseconds, we're in trouble if we have to repeat it for the whole portfolio: it takes about **half an hour** to complete. This is not due to R's performance, because [RQuantLib](https://github.com/eddelbuettel/rquantlib) is a simple wrapper to [QuantLib](https://github.com/lballabio/QuantLib) C++ library.
 
 **BusinessDays.jl** uses a *tailor-made* cache to store Business Days results, reducing the time spent to the order of a few *microseconds* for a single computation. Also, the time spent to process the whole portfolio is reduced to **under a second**.
 
