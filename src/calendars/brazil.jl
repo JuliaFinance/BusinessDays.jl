@@ -10,6 +10,7 @@ BMF&BOVESPA Exchange holidays (http://www.bmfbovespa.com.br).
 """
 struct BrazilExchange <: HolidayCalendar end
 const BrazilBMF = BrazilExchange
+const BrazilB3 = BrazilExchange
 
 # Brazilian Banking Holidays
 function isholiday(::Brazil, dt::Dates.Date)

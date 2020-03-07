@@ -199,6 +199,11 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday(:BrazilBMF, Dates.Date(2013, 05, 30)) == false # Corpus Christi (National Holiday)
 @test isbday(:BrazilBMF, Dates.Date(2013, 05, 31)) == true # friday
 
+# BrazilB3 as alias of BrazilExchange
+@test isbday(:BrazilB3, Dates.Date(2013, 05, 29)) == true # wednesday
+@test isbday(:BrazilB3, Dates.Date(2013, 05, 30)) == false # Corpus Christi (National Holiday)
+@test isbday(:BrazilB3, Dates.Date(2013, 05, 31)) == true # friday
+
 # USSettlement HolidayCaledar tests
 # Federal Holidays listed on https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/#url=2015
 @test isbday(hc_usa, Dates.Date(2014, 12, 31)) == true
