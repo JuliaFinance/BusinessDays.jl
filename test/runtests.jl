@@ -87,6 +87,12 @@ include("easter-min-max.jl")
 @test_throws AssertionError BusinessDays.findweekday(Dates.Wednesday, 2015, 07, -1, false)
 @test_throws AssertionError BusinessDays.findweekday(Dates.Wednesday, 2015, 07, -1, true)
 
+@test advancebdays(:BRSettlement, Dates.Date(2013, 02, 06), 3) == Dates.Date(2013, 02, 13) # after carnaval wednesday
+@test advancebdays(:BRSettlement, Dates.Date(2013, 02, 14), -4) == Dates.Date(2013, 02, 06) # after carnaval thursday
+@test advancebdays(:BRSettlement, Dates.Date(2013, 02, 06), Dates.Day(3)) == Dates.Date(2013, 02, 13) # after carnaval wednesday
+@test advancebdays(:BRSettlement, Dates.Date(2013, 02, 14), Dates.Day(-4)) == Dates.Date(2013, 02, 06) # after carnaval thursday
+@test advancebdays(:BRSettlement, Dates.Date(2013, 02, 06), [Dates.Day(3), Dates.Day(4)]) == [Dates.Date(2013, 02, 13), Dates.Date(2013, 02, 14)] # after carnaval wednesday
+
 # Test this only on 64bit or higher systems
 len = typemax(UInt32) + 1
 if len > typemax(UInt32)

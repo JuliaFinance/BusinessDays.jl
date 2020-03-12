@@ -59,7 +59,7 @@ tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar, cal
 
 Increments given date `dt` by `bdays_count`.
 Decrements it if `bdays_count` is negative.
-`bdays_count` can be a `Int`, `Vector{Int}` or a `UnitRange`.
+`bdays_count` can be a `Int`, `Dates.Day`, `Vector{Int}`, `Vector{Dates.Day}` or a `UnitRange`.
 
 Computation starts by next Business Day if `dt` is not a Business Day.
 """
@@ -90,6 +90,7 @@ function advancebdays(hc::HolidayCalendar, dt::Dates.Date, bdays_count::Int) :: 
     return result
 end
 
+advancebdays(hc::HolidayCalendar, dt::Dates.Date, bdays_count::Dates.Day) = advancebdays(hc, dt, Dates.value(bdays_count))
 advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar, calendar), convert(Dates.Date, dt), bdays_count)
 
 """
@@ -129,7 +130,7 @@ Returns instances of `Dates.Day`.
 
 Computation is always based on next Business Day if given dates are not Business Days.
 """
-bdays(hc::HolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) :: Dates.Day = Dates.Day(bdayscount(hc, dt0, dt1))
+bdays(hc::HolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) = Dates.Day(bdayscount(hc, dt0, dt1))
 bdays(calendar, dt0::Dates.Date, dt1::T) where {T<:Union{Dates.Date, Vector{Dates.Date}}} = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 bdays(calendar, dt0::Vector{Dates.Date}, dt1::Vector{Dates.Date}) = bdays(convert(HolidayCalendar, calendar), dt0, dt1)
 

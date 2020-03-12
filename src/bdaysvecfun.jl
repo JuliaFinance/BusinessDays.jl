@@ -146,7 +146,7 @@ end
 bdays(calendars::A, dt0::Vector{Dates.Date}, dt1::Vector{Dates.Date}) where {A<:AbstractArray} = bdays(convert(Vector{HolidayCalendar}, calendars), dt0, dt1)
 bdayscount(calendars::A, dt0::Vector{Dates.Date}, dt1::Vector{Dates.Date}) where {A<:AbstractArray} = bdayscount(convert(Vector{HolidayCalendar}, calendars), dt0, dt1)
 
-function advancebdays(hc::HolidayCalendar, dt::Dates.Date, bdays_count_vec::Vector{Int})
+function advancebdays(hc::HolidayCalendar, dt::Dates.Date, bdays_count_vec::Vector{T}) where {T<:Union{Int, Dates.Day}}
     l = length(bdays_count_vec)
     result = Vector{Dates.Date}(undef, l)
     for i in 1:l
@@ -155,6 +155,8 @@ function advancebdays(hc::HolidayCalendar, dt::Dates.Date, bdays_count_vec::Vect
     return result
 end
 
-advancebdays(calendar, dt::Dates.Date, bdays_count_vec::Vector{Int}) = advancebdays(convert(HolidayCalendar, calendar), dt, bdays_count_vec)
-advancebdays(hc, dt::Dates.Date, bdays_range::AbstractRange) = advancebdays(hc, dt, collect(bdays_range))
+function advancebdays(calendar, dt::Dates.Date, bdays_count_vec::Vector{T}) where {T<:Union{Int, Dates.Day}}
+    advancebdays(convert(HolidayCalendar, calendar), dt, bdays_count_vec)
+end
 
+advancebdays(hc, dt::Dates.Date, bdays_range::AbstractRange) = advancebdays(hc, dt, collect(bdays_range))
