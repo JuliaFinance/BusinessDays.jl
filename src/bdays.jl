@@ -91,7 +91,12 @@ function advancebdays(hc::HolidayCalendar, dt::Dates.Date, bdays_count::Int) :: 
 end
 
 advancebdays(hc::HolidayCalendar, dt::Dates.Date, bdays_count::Dates.Day) = advancebdays(hc, dt, Dates.value(bdays_count))
-advancebdays(calendar, dt, bdays_count) = advancebdays(convert(HolidayCalendar, calendar), convert(Dates.Date, dt), bdays_count)
+
+const BDaysCountType = Union{Int, Dates.Day}
+
+function advancebdays(calendar, dt, bdays_count::Union{T, Vector{T}, AbstractRange}) where {T<:BDaysCountType}
+    advancebdays(convert(HolidayCalendar, calendar), convert(Dates.Date, dt), bdays_count)
+end
 
 """
     bdayscount(calendar, dt0, dt1) :: Int
