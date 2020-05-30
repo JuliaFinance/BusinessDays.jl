@@ -499,6 +499,14 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday(hc_uk, Dates.Date(1999, 12, 30)) == true
 @test isbday(hc_uk, Dates.Date(1999, 12, 31)) == false
 
+# 1995 UK holidays
+@test isbday(hc_uk, Dates.Date(1995, 5, 1)) == true  # Early May Bank Holiday was moved to May 8th in 1995
+@test isbday(hc_uk, Dates.Date(1995, 5, 8)) == false # Early May Bank Holiday was moved to May 8th in 1995
+
+# 2020 UK holidays
+@test isbday(hc_uk, Dates.Date(2020, 5, 4)) == true  # Early May Bank Holiday was moved to May 8th in 2020
+@test isbday(hc_uk, Dates.Date(2020, 5, 8)) == false # Early May Bank Holiday was moved to May 8th in 2020
+
 @test tobday(hc_brazil, Dates.Date(2013, 02, 08)) == Dates.Date(2013, 02, 08) # regular friday
 @test tobday(hc_brazil, Dates.Date(2013, 02, 09)) == Dates.Date(2013, 02, 13) # after carnaval
 @test tobday(hc_brazil, Dates.Date(2013, 02, 09); forward = true) == Dates.Date(2013, 02, 13) # after carnaval

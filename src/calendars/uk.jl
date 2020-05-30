@@ -40,7 +40,7 @@ function isholiday(::UKSettlement, dt::Dates.Date)
                 adjustweekendholidayPost( Dates.Date(yy, 01, 01) ) == dt
                 ||
                 # May Day, Early May Bank Holiday
-                adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, true)) == dt
+                (adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, true)) == dt && yy != 1995 && yy != 2020)
                 ||
                 # Spring Bank Holiday
                 (adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, false)) == dt && yy != 2012 && yy != 2002)
@@ -65,20 +65,26 @@ function isholiday(::UKSettlement, dt::Dates.Date)
 
         # Fixed date holidays with mm < 8
         if (
-            # Substitute date for Spring Bank Holiday
-            (dt == Dates.Date(2012, 06, 04))
-            ||
-            # Diamond Jubilee of Queen Elizabeth II.
-            (dt == Dates.Date(2012, 06, 05))
-            ||
-            # Golden Jubilee of Queen Elizabeth II.
-            (dt == Dates.Date(2002, 06, 03))
-            ||
-            # Substitute date for Spring Bank Holiday
-            (dt == Dates.Date(2002, 06, 04))
-            ||
-            # Wedding of Prince William and Catherine Middleton
-            (dt == Dates.Date(2011, 04, 29))
+                # Substitute date for Spring Bank Holiday
+                (dt == Dates.Date(2012, 06, 04))
+                ||
+                # Diamond Jubilee of Queen Elizabeth II.
+                (dt == Dates.Date(2012, 06, 05))
+                ||
+                # Golden Jubilee of Queen Elizabeth II.
+                (dt == Dates.Date(2002, 06, 03))
+                ||
+                # Substitute date for Spring Bank Holiday
+                (dt == Dates.Date(2002, 06, 04))
+                ||
+                # Wedding of Prince William and Catherine Middleton
+                (dt == Dates.Date(2011, 04, 29))
+                ||
+                # Substitute date for Early May Bank Holiday in 1995
+                (dt == Dates.Date(1995, 05, 08))
+                ||
+                # Substitute date for Early May Bank Holiday in 2020
+                (dt == Dates.Date(2020, 05, 08))
             )
             return true
         end
