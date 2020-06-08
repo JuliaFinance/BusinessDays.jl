@@ -13,7 +13,7 @@ const BrazilBMF = BrazilExchange
 const BrazilB3 = BrazilExchange
 
 # Brazilian Banking Holidays
-function isholiday(::Brazil, dt::Dates.Date)
+function isholiday(::BRSettlement, dt::Dates.Date)
 
     yy = Dates.year(dt)
     mm = Dates.month(dt)
@@ -39,7 +39,7 @@ function isholiday(::Brazil, dt::Dates.Date)
                 ((mm == 12) && (dd == 25))
             )
             return true
-        end 
+        end
     else
         # mm < 8
         # Fixed holidays
@@ -91,10 +91,10 @@ function isholiday(::BrazilExchange, dt::Dates.Date)
         ( mm == 1 && dd == 25 )
         ||
         # Revolucão
-        ( mm == 7 && dd == 9 )
+        ( mm == 7 && dd == 9 && yy != 2020 )
         ||
-        # Conciência Negra (a partir de 2007)
-        ( yy >= 2007 && mm == 11 && dd == 20 )
+        # Consciência Negra (since 2007)
+        ( yy >= 2007 && mm == 11 && dd == 20 && yy != 2020 )
         # Christmas Eve
         ||
         ( mm == 12 && dd == 24)

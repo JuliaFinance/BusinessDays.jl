@@ -84,7 +84,7 @@ julia> using BusinessDays, Dates
 
 julia> d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20) ;
 
-julia> cal = BusinessDays.Brazil()
+julia> cal = BusinessDays.BRSettlement()
 BusinessDays.BRSettlement()
 
 julia> @time BusinessDays.initcache(cal)
@@ -180,7 +180,7 @@ See *runtests.jl* for more examples.
 - **AustraliaASX** : Public holidays for the Australian Stock Exchange (ASX).
 - **Australia(state)** : Public holidays for the Australian states and territories. Available for each state: `Australia(:ACT)`, `Australia(:NSW)`, `Australia(:NT)`, `Australia(:QLD)`, `Australia(:SA)`, `Australia(:TAS)`, `Australia(:WA)`, `Australia(:VIC)`.
 - **BRSettlement** or **Brazil** : banking holidays for Brazil (federal holidays plus Carnival).
-- **BrazilBMF** or **BrazilExchange** : holidays for BM&FBOVESPA Stock Exchange.
+- **BrazilExchange** or **BrazilB3** : holidays for B3 Stock Exchange.
 - **CanadaSettlement** or **Canada**: holidays for Canada.
 - **CanadaTSX**: holidays for Toronto Stock Exchange
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
