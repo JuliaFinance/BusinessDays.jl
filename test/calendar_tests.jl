@@ -190,19 +190,43 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday("Brazil", Dates.Date(2013, 05, 30)) == false # Corpus Christi
 @test isbday("Brazil", Dates.Date(2013, 05, 31)) == true # friday
 
-# BrazilBMF holiday calendar tests
-@test isbday(hc_brazil_bmf, Dates.Date(2017, 11, 19)) == false # sunday
-@test isbday(hc_brazil_bmf, Dates.Date(2017, 11, 20)) == false # Conciência Negra (segunda)
-@test isbday(hc_brazil_bmf, Dates.Date(2017, 11, 21)) == true # Terca
+# BrazilExchange holiday calendar tests
+@test isbday(hc_brazil_exc, Dates.Date(2017, 11, 19)) == false # sunday
+@test isbday(hc_brazil_exc, Dates.Date(2017, 11, 20)) == false # Consciência Negra (segunda)
+@test isbday(hc_brazil_exc, Dates.Date(2017, 11, 21)) == true # Terca
 
-@test isbday(:BrazilBMF, Dates.Date(2013, 05, 29)) == true # wednesday
-@test isbday(:BrazilBMF, Dates.Date(2013, 05, 30)) == false # Corpus Christi (National Holiday)
-@test isbday(:BrazilBMF, Dates.Date(2013, 05, 31)) == true # friday
+@test isbday(:BrazilExchange, Dates.Date(2013, 05, 29)) == true # wednesday
+@test isbday(:BrazilExchange, Dates.Date(2013, 05, 30)) == false # Corpus Christi (National Holiday)
+@test isbday(:BrazilExchange, Dates.Date(2013, 05, 31)) == true # friday
 
 # BrazilB3 as alias of BrazilExchange
 @test isbday(:BrazilB3, Dates.Date(2013, 05, 29)) == true # wednesday
 @test isbday(:BrazilB3, Dates.Date(2013, 05, 30)) == false # Corpus Christi (National Holiday)
 @test isbday(:BrazilB3, Dates.Date(2013, 05, 31)) == true # friday
+
+# BrazilExchange 2019 calendar
+@test isbday(hc_brazil_exc, Dates.Date(2019, 01, 01)) == false # Confraternização Universal
+@test isbday(hc_brazil_exc, Dates.Date(2019, 03, 04)) == false # Carnaval
+@test isbday(hc_brazil_exc, Dates.Date(2019, 03, 05)) == false # Carnaval
+@test isbday(hc_brazil_exc, Dates.Date(2019, 04, 19)) == false # Paixão de Cristo
+@test isbday(hc_brazil_exc, Dates.Date(2019, 05, 01)) == false # Dia do Trabalho
+@test isbday(hc_brazil_exc, Dates.Date(2019, 06, 20)) == false # Corpus Christi
+@test isbday(hc_brazil_exc, Dates.Date(2019, 11, 15)) == false # Proclamação da República
+@test isbday(hc_brazil_exc, Dates.Date(2019, 12, 24)) == false # Véspera de Natal
+@test isbday(hc_brazil_exc, Dates.Date(2019, 12, 25)) == false # Natal
+@test isbday(hc_brazil_exc, Dates.Date(2019, 12, 31)) == false # bank holiday
+@test isbday(hc_brazil_exc, Dates.Date(2019, 01, 25)) == false # Aniversário de São Paulo
+@test isbday(hc_brazil_exc, Dates.Date(2019, 07, 09)) == false # Revolução Constitucionalista
+@test isbday(hc_brazil_exc, Dates.Date(2019, 11, 20)) == false # Dia da Consciência Negra
+
+# BrazilExchange 2020 calendar
+@test isbday(hc_brazil_exc, Dates.Date(2020, 05, 20)) == true
+@test isbday(hc_brazil_exc, Dates.Date(2020, 05, 21)) == true
+@test isbday(hc_brazil_exc, Dates.Date(2020, 05, 22)) == true
+@test isbday(hc_brazil_exc, Dates.Date(2020, 05, 25)) == true
+@test isbday(hc_brazil_exc, Dates.Date(2020, 06, 11)) == false
+@test isbday(hc_brazil_exc, Dates.Date(2020, 07, 09)) == true # 2020 update by Ofício Circular 072/2020-PRE
+@test isbday(hc_brazil_exc, Dates.Date(2020, 11, 20)) == true # 2020 update by Ofício Circular 072/2020-PRE
 
 # USSettlement HolidayCaledar tests
 # Federal Holidays listed on https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/#url=2015
