@@ -88,7 +88,7 @@ function isholiday(::BrazilExchange, dt::Dates.Date)
 
     if (
         # Aniversário de São Paulo
-        ( mm == 1 && dd == 25 )
+        ( mm == 1 && dd == 25 && yy != 2022 )
         ||
         # Revolucão
         ( mm == 7 && dd == 9 && yy != 2020 )

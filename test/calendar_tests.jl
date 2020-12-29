@@ -228,6 +228,13 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday(hc_brazil_exc, Dates.Date(2020, 07, 09)) == true # 2020 update by Ofício Circular 072/2020-PRE
 @test isbday(hc_brazil_exc, Dates.Date(2020, 11, 20)) == true # 2020 update by Ofício Circular 072/2020-PRE
 
+# BrazilExchange 2021 calendar
+@test isholiday(hc_brazil_exc, Dates.Date(2021, 1, 25)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2021, 7, 9)) == true
+
+# BrazilExchange 2022 calendar
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 1, 25)) == false # updated by Ofício Circular 150/2020-PRE
+
 # USSettlement HolidayCaledar tests
 # Federal Holidays listed on https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/#url=2015
 @test isbday(hc_usa, Dates.Date(2014, 12, 31)) == true
