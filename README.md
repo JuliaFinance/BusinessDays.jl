@@ -2,14 +2,14 @@
 # BusinessDays.jl
 
 [![License][license-img]](LICENSE)
-[![travis][travis-img]][travis-url]
+[![CI][ci-img]][ci-url]
 [![codecov][codecov-img]][codecov-url]
 [![dev][docs-dev-img]][docs-dev-url]
 [![stable][docs-stable-img]][docs-stable-url]
 
 [license-img]: http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[travis-img]: https://img.shields.io/travis/JuliaFinance/BusinessDays.jl/master.svg?logo=travis&label=Linux&style=flat-square
-[travis-url]: https://travis-ci.org/JuliaFinance/BusinessDays.jl
+[ci-img]: https://github.com/felipenoris/BusinessDays.jl/workflows/CI/badge.svg
+[ci-url]: https://github.com/felipenoris/BusinessDays.jl/actions?query=workflow%3ACI
 [codecov-img]: https://img.shields.io/codecov/c/github/JuliaFinance/BusinessDays.jl/master.svg?label=codecov&style=flat-square
 [codecov-url]: http://codecov.io/github/JuliaFinance/BusinessDays.jl?branch=master
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg?style=flat-square
