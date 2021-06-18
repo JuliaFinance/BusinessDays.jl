@@ -39,6 +39,9 @@ function isholiday(::USSettlement , dt::Dates.Date)
             # Memorial Day
             adjustweekendholidayUS(findweekday(Dates.Monday, yy, 5, 1, false)) == dt
             ||
+            # Juneteenth
+            (yy >= 2021 && adjustweekendholidayUS(Dates.Date(yy, 6, 19)) == dt)
+            ||
             # Independence Day
             adjustweekendholidayUS(Dates.Date(yy, 7, 4)) == dt
             ||

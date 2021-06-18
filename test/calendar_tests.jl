@@ -255,6 +255,11 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday(hc_usa, Dates.Date(2015, 05, 25)) == false # Memorial Day - Monday
 @test isbday(hc_usa, Dates.Date(2015, 05, 26)) == true
 
+@test isbday(hc_usa, Dates.Date(2020, 06, 19)) == true
+@test isbday(hc_usa, Dates.Date(2021, 06, 17)) == true
+@test isbday(hc_usa, Dates.Date(2021, 06, 18)) == false # Juneteenth starting 2021
+@test isbday(hc_usa, Dates.Date(2022, 06, 20)) == false # Juneteenth 2022
+
 @test isbday(hc_usa, Dates.Date(2015, 07, 02)) == true
 @test isbday(hc_usa, Dates.Date(2015, 07, 03)) == false # Independence Day - Friday
 @test isbday(hc_usa, Dates.Date(2015, 07, 04)) == false
