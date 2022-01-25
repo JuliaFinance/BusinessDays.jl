@@ -88,13 +88,13 @@ function isholiday(::BrazilExchange, dt::Dates.Date)
 
     if (
         # Aniversário de São Paulo
-        ( mm == 1 && dd == 25 && yy != 2022 )
+        ( mm == 1 && dd == 25 && yy < 2022 )
         ||
         # Revolucão
-        ( mm == 7 && dd == 9 && yy != 2020 )
+        ( mm == 7 && dd == 9 && yy != 2020 && yy < 2022 )
         ||
         # Consciência Negra (since 2007)
-        ( yy >= 2007 && mm == 11 && dd == 20 && yy != 2020 )
+        ( yy >= 2007 && mm == 11 && dd == 20 && yy != 2020 && yy < 2022 )
         # Christmas Eve
         ||
         ( mm == 12 && dd == 24)

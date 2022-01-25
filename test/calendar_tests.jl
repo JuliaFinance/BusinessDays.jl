@@ -234,6 +234,35 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 
 # BrazilExchange 2022 calendar
 @test isholiday(hc_brazil_exc, Dates.Date(2022, 1, 25)) == false # updated by Ofício Circular 150/2020-PRE
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 7, 9)) == false
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 11, 20)) == false
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 2, 28)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 3, 1)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 4, 15)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 4, 21)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 6, 16)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 9, 7)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 10, 12)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 11, 2)) == true
+@test isholiday(hc_brazil_exc, Dates.Date(2022, 11, 15)) == true
+
+@test BusinessDays.listholidays(hc_brazil_exc, Dates.Date(2022, 1, 1), Dates.Date(2022, 12, 31)) == [
+    Dates.Date("2022-01-01"), # Confraternização Universal (Sábado)
+    Dates.Date("2022-02-28"), # Carnaval (segunda)
+    Dates.Date("2022-03-01"), # Carnaval (Terça)
+    Dates.Date("2022-04-15"), # Paixão de Cristo
+    Dates.Date("2022-04-21"), # Tiradentes
+    Dates.Date("2022-05-01"), # Dia do Trabalho (Domingo)
+    Dates.Date("2022-06-16"), # Corpus Christi
+    Dates.Date("2022-09-07"), # Independência do Brasil
+    Dates.Date("2022-10-12"), # Nossa Senhora Aparecida
+    Dates.Date("2022-11-02"), # Finados
+    Dates.Date("2022-11-15"), # Proclamação da República
+    Dates.Date("2022-12-24"), # Véspera de Natal (sábado)
+    Dates.Date("2022-12-25"), # Natal (Domingo)
+    Dates.Date("2022-12-30"), # Véspera do ano novo
+    Dates.Date("2022-12-31")  # Ano novo (Sábado)
+]
 
 # USSettlement HolidayCaledar tests
 # Federal Holidays listed on https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/#url=2015
