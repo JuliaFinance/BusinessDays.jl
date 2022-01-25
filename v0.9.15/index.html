@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Home · BusinessDays.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">BusinessDays.jl</span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Home</a><ul class="internal"><li><a class="tocitem" href="#Requirements"><span>Requirements</span></a></li><li><a class="tocitem" href="#Installation"><span>Installation</span></a></li><li><a class="tocitem" href="#Motivation"><span>Motivation</span></a></li><li><a class="tocitem" href="#Tutorial"><span>Tutorial</span></a></li><li><a class="tocitem" href="#Available-Business-Days-Calendars"><span>Available Business Days Calendars</span></a></li><li><a class="tocitem" href="#Adding-new-Holiday-Calendars"><span>Adding new Holiday Calendars</span></a></li><li><a class="tocitem" href="#Generic-Holiday-Calendar"><span>Generic Holiday Calendar</span></a></li><li><a class="tocitem" href="#Source-Code"><span>Source Code</span></a></li><li><a class="tocitem" href="#License"><span>License</span></a></li><li><a class="tocitem" href="#Alternative-Packages"><span>Alternative Packages</span></a></li></ul></li><li><a class="tocitem" href="api/">API Reference</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Home</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Home</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/JuliaFinance/BusinessDays.jl/blob/master/docs/src/index.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="BusinessDays.jl"><a class="docs-heading-anchor" href="#BusinessDays.jl">BusinessDays.jl</a><a id="BusinessDays.jl-1"></a><a class="docs-heading-anchor-permalink" href="#BusinessDays.jl" title="Permalink"></a></h1><p>A highly optimized <em>Business Days</em> calculator written in Julia language. Also known as <em>Working Days</em> calculator.</p><h2 id="Requirements"><a class="docs-heading-anchor" href="#Requirements">Requirements</a><a id="Requirements-1"></a><a class="docs-heading-anchor-permalink" href="#Requirements" title="Permalink"></a></h2><ul><li>Julia v1.0 or newer.</li></ul><h2 id="Installation"><a class="docs-heading-anchor" href="#Installation">Installation</a><a id="Installation-1"></a><a class="docs-heading-anchor-permalink" href="#Installation" title="Permalink"></a></h2><p>From a Julia session, run:</p><pre><code class="language-julia">julia&gt; using Pkg
+
+julia&gt; Pkg.add(&quot;BusinessDays&quot;)</code></pre><h2 id="Motivation"><a class="docs-heading-anchor" href="#Motivation">Motivation</a><a id="Motivation-1"></a><a class="docs-heading-anchor-permalink" href="#Motivation" title="Permalink"></a></h2><p>This code was developed with a mindset of a Financial Institution that has a big <em>Fixed Income</em> portfolio. Many financial contracts, specially <em>Fixed Income instruments</em>, depend on a particular calendar of holidays to determine how many days exist between the valuation date and the maturity of the contract. A <em>Business Days</em> calculator is a small piece of software used to perform this important step of the valuation process.</p><p>While there are many implementations of <em>Business Days</em> calculators out there, the usual implementation is based on this kind of algorithm:</p><pre><code class="language-r">dt0 = initial_date
+dt1 = final_date
+holidays = vector_of_holidays
+bdays = 0
+while d0 &lt;= d1
+    if d0 not in holidays
+        bdays = bdays + 1
+    end
+    d0 = d0 + 1
+end while</code></pre><p>This works fine for general use. But the performance becomes an issue if one must repeat this calculation many times. Say you have 50 000 contracts, each contract with 20 cash flows. If you need to apply this algorithm to each cash flow, you will need to perform it 1 000 000 times.</p><p>For instance, let&#39;s try out this code using <em>R</em> and <a href="https://github.com/lballabio/QuantLib">QuantLib</a> (<a href="https://github.com/eddelbuettel/rquantlib">RQuantLib</a>):</p><pre><code class="language-r">library(RQuantLib)
+library(microbenchmark)
+
+from &lt;- as.Date(&quot;2015-06-29&quot;)
+to &lt;- as.Date(&quot;2100-12-20&quot;)
+microbenchmark(businessDaysBetween(&quot;Brazil&quot;, from, to))
+
+from_vect &lt;- rep(from, 1000000)
+to_vect &lt;- rep(to, 1000000)
+microbenchmark(businessDaysBetween(&quot;Brazil&quot;, from_vect, to_vect), times=1)</code></pre><p>Running this code, we get the following: <em>(only the fastest execution is shown)</em></p><pre><code class="language-none">Unit: milliseconds
+                                    expr     min
+ businessDaysBetween(&quot;Brazil&quot;, from, to) 1.63803
+
+Unit: seconds
+                                              expr      min
+ businessDaysBetween(&quot;Brazil&quot;, from_vect, to_vect) 1837.476
+</code></pre><p>While one computation takes up to 2 milliseconds, we&#39;re in trouble if we have to repeat it for the whole portfolio: it takes about <strong>half an hour</strong> to complete. This is not due to R&#39;s performance, because <a href="https://github.com/eddelbuettel/rquantlib">RQuantLib</a> is a simple wrapper to <a href="https://github.com/lballabio/QuantLib">QuantLib</a> C++ library.</p><p><strong>BusinessDays.jl</strong> uses a <em>tailor-made</em> cache to store Business Days results, reducing the time spent to the order of a few <em>microseconds</em> for a single computation. Also, the time spent to process the whole portfolio is reduced to <strong>under a second</strong>.</p><p>It&#39;s also important to point out that the initialization of the memory cache, which is done only once for each Julia runtime session, takes less than <em>half a second</em>, including JIT compilation time. Also, the <em>memory footprint</em> required for each cached calendar should take around 0.7 MB.</p><p><strong>Benchmark Code</strong></p><pre><code class="language-julia">julia&gt; using BusinessDays, Dates
+
+julia&gt; d0 = Date(2015, 06, 29) ; d1 = Date(2100, 12, 20) ;
+
+julia&gt; cal = BusinessDays.BRSettlement()
+BusinessDays.BRSettlement()
+
+julia&gt; @time BusinessDays.initcache(cal)
+  0.161972 seconds (598.85 k allocations: 30.258 MiB, 2.29% gc time)
+
+julia&gt; bdays(cal, d0, d1) # force JIT compilation
+21471 days
+
+julia&gt; @time bdays(cal, d0, d1)
+  0.000012 seconds (9 allocations: 240 bytes)
+21471 days
+
+julia&gt; @time for i in 1:1000000 bdays(cal, d0, d1) end
+  0.221275 seconds (5.00 M allocations: 76.294 MiB, 2.93% gc time)</code></pre><p><strong>There&#39;s no magic</strong></p><p>If we disable BusinessDays&#39;s cache, however, the performance is slightly worse than QuantLib&#39;s implementation. It takes around 38 minutes to process the same benchmark test.</p><pre><code class="language-julia">julia&gt; BusinessDays.cleancache() # cleans existing cache, if any
+
+julia&gt; @time for i in 1:1000000 bdays(cal, d0, d1) end
+# 2288.906548 seconds (5.00 M allocations: 76.294 MB, 0.00% gc time)</code></pre><p>It&#39;s important to point out that <strong>cache is disabled by default</strong>. So, in order to take advantage of high speed computation provided by this package, one must call <code>BusinessDays.initcache</code> function.</p><h2 id="Tutorial"><a class="docs-heading-anchor" href="#Tutorial">Tutorial</a><a id="Tutorial-1"></a><a class="docs-heading-anchor-permalink" href="#Tutorial" title="Permalink"></a></h2><pre><code class="language-julia">julia&gt; using BusinessDays, Dates
+
+# creates cache for US Federal holidays, allowing fast computations
+julia&gt; BusinessDays.initcache(:USSettlement)
+
+# Calendars can be referenced using symbols
+julia&gt; isbday(:USSettlement, Date(2015, 1, 1))
+false
+
+# ... and also strings
+julia&gt; isbday(&quot;USSettlement&quot;, Date(2015, 1, 1))
+false
+
+# but for the best performance, use a singleton instance
+julia&gt; isbday(BusinessDays.USSettlement(), Date(2015, 1, 1))
+false
+
+# Adjust to next business day
+julia&gt; tobday(:USSettlement, Date(2015, 1, 1))
+2015-01-02
+
+# Adjust to last business day
+julia&gt; tobday(:USSettlement, Date(2015, 1, 1); forward = false)
+2014-12-31
+
+# advances 1 business day
+julia&gt; advancebdays(:USSettlement, Date(2015, 1, 2), 1)
+2015-01-05
+
+# goes back 1 business day
+julia&gt; advancebdays(:USSettlement, Date(2015, 1, 2), -1)
+2014-12-31
+
+# counts the number of business days between dates
+julia&gt; bdays(:USSettlement, Date(2014, 12, 31), Date(2015, 1, 5))
+2 days
+
+# same as above, but returns integer
+julia&gt; bdayscount(:USSettlement, Date(2014, 12, 31), Date(2015, 1, 5))
+2
+
+julia&gt; isbday(:USSettlement, [Date(2014,12,31),Date(2015,1,1),Date(2015,1,2),Date(2015,1,3),Date(2015,1,5)])
+5-element Array{Bool,1}:
+  true
+ false
+  true
+ false
+  true
+
+julia&gt; bdays(:USSettlement, [Date(2014,12,31),Date(2015,1,2)], [Date(2015,1,5),Date(2015,1,5)])
+2-element Array{Base.Dates.Day,1}:
+ 2 days
+ 1 day
+</code></pre><p>See <em>runtests.jl</em> for more examples.</p><h2 id="Available-Business-Days-Calendars"><a class="docs-heading-anchor" href="#Available-Business-Days-Calendars">Available Business Days Calendars</a><a id="Available-Business-Days-Calendars-1"></a><a class="docs-heading-anchor-permalink" href="#Available-Business-Days-Calendars" title="Permalink"></a></h2><ul><li><strong>AustraliaASX</strong> : Public holidays for the Australian Stock Exchange (ASX).</li><li><strong>Australia(state)</strong> : Public holidays for the Australian states and territories. Available for each state: <code>Australia(:ACT)</code>, <code>Australia(:NSW)</code>, <code>Australia(:NT)</code>, <code>Australia(:QLD)</code>, <code>Australia(:SA)</code>, <code>Australia(:TAS)</code>, <code>Australia(:WA)</code>, <code>Australia(:VIC)</code>.</li><li><strong>BRSettlement</strong> or <strong>Brazil</strong> : banking holidays for Brazil (federal holidays plus Carnival).</li><li><strong>BrazilExchange</strong> or <strong>BrazilB3</strong> : holidays for B3 Stock Exchange.</li><li><strong>CanadaSettlement</strong> or <strong>Canada</strong>: holidays for Canada.</li><li><strong>CanadaTSX</strong>: holidays for Toronto Stock Exchange</li><li><strong>CompositeHolidayCalendar</strong> : supports combination of Holiday Calendars.</li><li><strong>NullHolidayCalendar</strong> : <code>isholiday</code> returns <code>false</code> and <code>isbday</code> returns <code>true</code> for any date. <code>bdays</code> returns the actual days between dates.</li><li><strong>TARGET</strong> or <strong>TARGET2</strong> or <strong>EuroZone</strong> : <a href="https://en.wikipedia.org/wiki/TARGET2">TARGET / TARGET2 Euro Zone</a> holiday calendar.</li><li><strong>USSettlement</strong> or <strong>UnitedStates</strong>: United States federal holidays.</li><li><strong>USNYSE</strong> : United States NYSE holidays.</li><li><strong>USGovernmentBond</strong> : United States Government Bond calendar.</li><li><strong>UKSettlement</strong> or <strong>UnitedKingdom</strong>: banking holidays for England and Wales.</li><li><strong>WeekendsOnly</strong> : for this calendar, <code>isholiday</code> returns <code>false</code>, but <code>isbday</code> returns <code>false</code> for Saturdays and Sundays.</li></ul><h2 id="Adding-new-Holiday-Calendars"><a class="docs-heading-anchor" href="#Adding-new-Holiday-Calendars">Adding new Holiday Calendars</a><a id="Adding-new-Holiday-Calendars-1"></a><a class="docs-heading-anchor-permalink" href="#Adding-new-Holiday-Calendars" title="Permalink"></a></h2><p>You can add your custom Holiday Calendar by doing the following:</p><ol><li>Define a subtype of <code>HolidayCalendar</code>.</li><li>Implement a new method for <code>isholiday</code> for your calendar.</li></ol><p><strong>Example Code</strong></p><pre><code class="language-julia">julia&gt; using BusinessDays, Dates
+
+julia&gt; struct CustomCalendar &lt;: HolidayCalendar end
+
+julia&gt; BusinessDays.isholiday(::CustomCalendar, dt::Date) = dt == Date(2015,8,27)
+
+julia&gt; cc = CustomCalendar()
+CustomCalendar()
+
+julia&gt; isholiday(cc, Date(2015,8,26))
+false
+
+julia&gt; isholiday(cc, Date(2015,8,27))
+true
+
+julia&gt; isholiday(:CustomCalendar, Date(2015,8,27))
+true
+
+julia&gt; isholiday(&quot;CustomCalendar&quot;, Date(2015,8,27))
+true</code></pre><h2 id="Generic-Holiday-Calendar"><a class="docs-heading-anchor" href="#Generic-Holiday-Calendar">Generic Holiday Calendar</a><a id="Generic-Holiday-Calendar-1"></a><a class="docs-heading-anchor-permalink" href="#Generic-Holiday-Calendar" title="Permalink"></a></h2><p>You can use a fixed set of holidays to define a new Holiday Calendar using <code>GenericHolidayCalendar</code> type.</p><pre><code class="language-julia">julia&gt; using BusinessDays, Dates
+
+julia&gt; holidays = Set([Date(2018,1,16), Date(2018,1,18)])
+
+julia&gt; dtmin = Date(2018,1,15); dtmax = Date(2018,1,19)
+
+julia&gt; gen_calendar = GenericHolidayCalendar(holidays, dtmin, dtmax)
+
+julia&gt; bdayscount(gen_calendar, Date(2018,1,15), Date(2018,1,17))
+1</code></pre><p>The constructor is given by: <code>GenericHolidayCalendar(holidays, [dtmin], [dtmax], [_initcache_])</code>, where</p><ul><li><p><code>holidays</code>: a set of holiday dates</p></li><li><p><code>dtmin</code>: minimum date allowed to check for holidays in holidays set. Defaults to <code>min(holidays...)</code>.</p></li><li><p><code>dtmax</code>: maximum date allowed to check for holidays in holidays set. Defaults to <code>max(holidays...)</code>.</p></li><li><p><code>_initcache_</code>: initializes the cache for this calendar. Defaults to <code>true</code>.</p></li></ul><h2 id="Source-Code"><a class="docs-heading-anchor" href="#Source-Code">Source Code</a><a id="Source-Code-1"></a><a class="docs-heading-anchor-permalink" href="#Source-Code" title="Permalink"></a></h2><p>The source code for this package is hosted at <a href="https://github.com/JuliaFinance/BusinessDays.jl">https://github.com/JuliaFinance/BusinessDays.jl</a>.</p><h2 id="License"><a class="docs-heading-anchor" href="#License">License</a><a id="License-1"></a><a class="docs-heading-anchor-permalink" href="#License" title="Permalink"></a></h2><p>The source code for the package <strong>BusinessDays.jl</strong> is licensed under the <a href="https://raw.githubusercontent.com/JuliaFinance/BusinessDays.jl/master/LICENSE">MIT License</a>.</p><h2 id="Alternative-Packages"><a class="docs-heading-anchor" href="#Alternative-Packages">Alternative Packages</a><a id="Alternative-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Alternative-Packages" title="Permalink"></a></h2><ul><li><p><a href="http://aviks.github.io/Ito.jl/time.html">Ito.jl</a></p></li><li><p><a href="https://github.com/imanuelcostigan/FinancialMarkets.jl">FinancialMarkets.jl</a></p></li><li><p><a href="https://github.com/pazzo83/QuantLib.jl">QuantLib.jl</a></p></li><li><p><a href="https://github.com/lballabio/QuantLib">QuantLib C++ Library</a></p></li></ul></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="api/">API Reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 25 January 2022 03:52">Tuesday 25 January 2022</span>. Using Julia version 1.7.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
