@@ -1,13 +1,11 @@
 
-"""
-Banking holidays for Brazil (federal holidays plus Carnival).
-"""
+
+"Banking holidays for Brazil (federal holidays plus Carnival)."
 struct BRSettlement <: HolidayCalendar end
 const Brazil = BRSettlement
 
-"""
-BMF&BOVESPA Exchange holidays (http://www.bmfbovespa.com.br).
-"""
+
+"B3 Exchange holidays (https://www.b3.com.br)."
 struct BrazilExchange <: HolidayCalendar end
 const BrazilBMF = BrazilExchange
 const BrazilB3 = BrazilExchange
