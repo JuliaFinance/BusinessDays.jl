@@ -74,6 +74,9 @@ function isholiday(::UKSettlement, dt::Dates.Date)
                 # Golden Jubilee of Queen Elizabeth II.
                 (dt == Dates.Date(2002, 06, 03))
                 ||
+                # Platinum Jubilee of Queen Elizabeth II.
+                (dt == Dates.Date(2022, 06, 03))
+                ||
                 # Substitute date for Spring Bank Holiday
                 (dt == Dates.Date(2002, 06, 04))
                 ||
