@@ -576,8 +576,20 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday(hc_uk, Dates.Date(2020, 5, 4)) == true  # Early May Bank Holiday was moved to May 8th in 2020
 @test isbday(hc_uk, Dates.Date(2020, 5, 8)) == false # Early May Bank Holiday was moved to May 8th in 2020
 
-# 2022 UK holidays
+# 2021 UK Holidays
+@test isbday(hc_uk, Dates.Date(2021, 5, 3)) == false # May Day
+@test isbday(hc_uk, Dates.Date(2021, 5, 4)) == true
+@test isbday(hc_uk, Dates.Date(2021, 5, 31)) == false # spring bank holiday
+@test isbday(hc_uk, Dates.Date(2021, 6, 1)) == true # spring bank holiday
+
+# 2022 UK holidays slightly move due to Platinum Jubilee (#57)
 @test isbday(hc_uk, Dates.Date(2022, 6, 3)) == false # Platinum Jubilee of Queen Elizabeth II.
+@test isbday(hc_uk, Dates.Date(2022, 5, 2)) == false # May Day
+@test isbday(hc_uk, Dates.Date(2022, 5, 30)) == true
+@test isbday(hc_uk, Dates.Date(2022, 6, 2)) == false # Spring Bank Holiday
+@test isbday(hc_uk, Dates.Date(2022, 8, 29)) == false # Summer Bank Holiday
+@test isbday(hc_uk, Dates.Date(2022, 12, 26)) == false # Boxing
+@test isbday(hc_uk, Dates.Date(2022, 12, 27)) == false # Christmas
 
 @test tobday(hc_brazil, Dates.Date(2013, 02, 08)) == Dates.Date(2013, 02, 08) # regular friday
 @test tobday(hc_brazil, Dates.Date(2013, 02, 09)) == Dates.Date(2013, 02, 13) # after carnaval

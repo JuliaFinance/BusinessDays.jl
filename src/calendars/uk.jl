@@ -41,10 +41,14 @@ function isholiday(::UKSettlement, dt::Dates.Date)
                 ||
                 # May Day, Early May Bank Holiday
                 (adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, true)) == dt && yy != 1995 && yy != 2020)
-                ||
-                # Spring Bank Holiday
-                (adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, false)) == dt && yy != 2012 && yy != 2002)
             )
+            return true
+        end
+
+        # Spring Bank Holiday
+        if yy == 2022 && dt == Dates.Date(2022, 6, 2)
+            return true
+        elseif adjustweekendholidayPost(findweekday(Dates.Monday, yy, 5, 1, false)) == dt && yy != 2012 && yy != 2002 && yy != 2022
             return true
         end
 
