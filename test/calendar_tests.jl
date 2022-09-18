@@ -588,6 +588,7 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday(hc_uk, Dates.Date(2022, 5, 30)) == true
 @test isbday(hc_uk, Dates.Date(2022, 6, 2)) == false # Spring Bank Holiday
 @test isbday(hc_uk, Dates.Date(2022, 8, 29)) == false # Summer Bank Holiday
+@test isbday(hc_uk, Dates.Date(2022, 9, 19)) == false # Funeral of Queen Elizabeth II
 @test isbday(hc_uk, Dates.Date(2022, 12, 26)) == false # Boxing
 @test isbday(hc_uk, Dates.Date(2022, 12, 27)) == false # Christmas
 

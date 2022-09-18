@@ -29,7 +29,12 @@ function isholiday(::UKSettlement, dt::Dates.Date)
         end
 
         # Fixed date holidays with mm >= 8
-        if dt == Dates.Date(1999, 12, 31)
+        if (
+                dt == Dates.Date(1999, 12, 31)
+                ||
+                # Funeral of Queen Elizabeth II
+                dt == Dates.Date(2022, 9, 19)
+            )
             return true
         end
     else
