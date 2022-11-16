@@ -139,7 +139,7 @@ function is_german_state_holiday(
     mm ==  1 && dd ==  6  && return true                        # Epiphany
     mm == 11 && dd ==  1  && return true                        # All Saints' Day
     dt == easter_sunday + Dates.Day(60) && return true          # Corpus Christi
-    mm == 8 && dd == 15 && cal <: Val{:BY} && return true   # Assumption of Mary
+    mm == 8 && dd == 15 && cal <: Val{:BY} && return true       # Assumption of Mary
                                                                 # (only catholic communities in Bavaria)
     return false
 end
