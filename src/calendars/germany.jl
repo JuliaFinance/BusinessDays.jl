@@ -128,7 +128,7 @@ Holidays for Thuringia.
 struct DE_TH <: GER end
 
 
-function isholiday(cal::T, dt::Dates.Date) where T<:DE
+function isholiday(cal::T, dt::Dates.Date) where T<:GER
     yy = Dates.year(dt)
     mm = Dates.month(dt)
     dd = Dates.day(dt)
