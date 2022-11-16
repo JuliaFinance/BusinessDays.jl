@@ -1,231 +1,313 @@
-"""
-Common holidays in all of Germany.
-"""
-abstract type GER <: HolidayCalendar end
-struct DE <: GER end
-const Germany = DE
-
-
-# Holiday structs for German regions
 
 """
-State-wide holidays for Baden-Württemberg and Bavaria.
-"""
-abstract type DE_SOUTH <: GER end
+Public holidays for the German states.
+Although some holidays are common to all states, such as Easter and Christmas,
+each state also has its own additional holidays. The only national holiday is the
+Day of German Unity.
+The set of relevant holidays depends about which state you are concerned.
 
+The German states are:
+- Baden-Württemberg (BW)
+- Bavaria (BY)
+- Berlin (BE)
+- Brandenburg (BB)
+- Bremen (HB)
+- Hamburg (HH)
+- Hessen (HE)
+- Mecklenburg-Vorpommern (MV)
+- Lowwer Saxony (NI)
+- North Rhine-Westphalia (NW)
+- Rhineland-Palatinate (RP)
+- Saarland (SL)
+- Saxony (SN)
+- Saxony-Anhalt (ST)
+- Schleswig-Holstein (SH)
+- Thuringia (TH)
 
+For example: `cal = Germany(:BW)` or `cal = DE(:BW)`
 """
-State-wide holidays for Baden-Württemberg.
-"""
-struct DE_BYP <: DE_SOUTH end
+struct Germany <: HolidayCalendar
+    state::Symbol
 
-
-"""
-State-wide holidays for Bavaria.
-"""
-struct DE_BW <: DE_SOUTH end
-
-
-"""
-Holidays for Catholic communities in Bavaria (including Assumption of Mary).
-"""
-struct DE_BY <: DE_SOUTH end
-
-
-"""
-Holidays for Berlin.
-"""
-struct DE_BE <: GER end
-
-
-"""
-Holidays for Brandenburg.
-"""
-struct DE_BB <: GER end
+    function Germany(state::Symbol)
+        states = Set([:BW, :BY, :BYP, :BE, :BB, :HB, :HH, :HE, :MV, :NI, :NW, :RP, :SL, :SN, :ST, :SH, :TH])
+        @assert state ∈ states "$(state) is not a valid German state. Choose from: :BW, :BY, :BYP, :BE, :BB, :HB, :HH, :HE, :MV, :NI, :NW, :RP, :SL, :SN, :ST, :SH, :TH."
+        new(state)
+    end
+end
+const DE = Germany
 
 
 """
-Holidays for Bremen, Hamburg, Lower Saxony, and Schleswig-Holstein.
+    isholiday(cal::DE, dt::Dates.Date)::Bool
+
+Return true if `dt` is a is a holiday in the German calender (`cal`), otherwise false.
 """
-abstract type DE_NORTH <: GER end
-
-
-"""
-Holidays for Bremen.
-"""
-struct DE_HB <: DE_NORTH end
-
-
-"""
-Holidays for Hamburg.
-"""
-struct DE_HH <: DE_NORTH end
-
-
-"""
-Holidays for Lower Saxony.
-"""
-struct DE_NI <: DE_NORTH end
-
-
-"""
-Holidays for Schleswig-Holstein.
-"""
-struct DE_SH <: DE_NORTH end
-
-
-"""
-Holidays for Hessen.
-"""
-struct DE_HE <: GER end
-
-
-"""
-Holidays for Mecklenburg-Vorpommern.
-"""
-struct DE_MV <: GER end
-
-
-"""
-Common holidays for North Rhine-Westphalia Rhineland-Palatinate, and Saarland.
-"""
-abstract type DE_WEST <: GER end
-
-
-"""
-Holidays for North Rhine-Westphalia.
-"""
-struct DE_NW <: DE_WEST end
-
-
-"""
-Holidays for Rhineland-Palatinate.
-"""
-struct DE_RP <: DE_WEST end
-
-
-"""
-Holidays for Saarland.
-"""
-struct DE_SL <: DE_WEST end
-
-
-"""
-State-wide holidays for Saxony.
-"""
-struct DE_SN <: GER end
-
-
-"""
-Holidays for Saxony-Anhalt.
-"""
-struct DE_ST <: GER end
-
-
-"""
-Holidays for Thuringia.
-"""
-struct DE_TH <: GER end
-
-
-function isholiday(cal::T, dt::Dates.Date) where T<:GER
+function isholiday(cal::DE, dt::Dates.Date)::Bool
+    dt ≤ Dates.Date(1990, 10, 3) && return false # Only count holidays after German Reunification
     yy = Dates.year(dt)
     mm = Dates.month(dt)
     dd = Dates.day(dt)
+    easter_sunday = BusinessDays.easter_date(Dates.Year(yy))
+    is_common_german_holiday(dt, yy, mm, dd, easter_sunday) && return true
+    is_german_state_holiday(Val{cal.state}, dt, yy, mm, dd, easter_sunday)
+end
 
-    # Bisection
-    if mm < 8 && dt ≥ Dates.Date(1990, 10, 3)
-        # Fixed Holidays
-        if (
-            # New Year's Day
-            (mm == 1 && dd == 1)
-            ||
-            # Epiphany (BW, BY, ST)
-            (mm == 1 && dd == 6 && T <: Union{DE_SOUTH, DE_ST})
-            ||
-            # International Women's Day (BE)
-            (yy >= 2019 && mm == 3 && dd == 8 && T <: DE_BE)
-            ||
-            # International Women's Day (MC)
-            (yy >= 2023 && mm == 3 && dd == 8 && T <: DE_MV)
-            ||
-            # International Workers' Day
-            (mm == 5 && dd == 1)
-            ||
-            # 75. Jahrestag zur Befreiung des Nationalsozialismus
-            (yy == 2020 && mm == 5 && dd == 8 && T <: DE_BE)
-            )
-            return true
-        end
 
-        # Holidays in relation to Easter
-        dt_rata::Int = Dates.days(dt)
-        e_rata::Int = easter_rata(Dates.Year(yy))
+################################################################################
 
-        if (
-            # Good Friday
-            (dt_rata ==  e_rata -  2)
-            ||
-            # Easter Sunday (BB)
-            (dt_rata == e_rata && T <: DE_BB)
-            ||
-            # Easter Monday
-            (dt_rata == e_rata + 1)
-            ||
-            # Ascension Day
-            (dt_rata == e_rata + 39)
-            ||
-            # Pentecost Sunday (BB)
-            (dt_rata == e_rata + 49 && T <: DE_BB)
-            ||
-            # Pentecost Monday
-            (dt_rata == e_rata + 50)
-            ||
-            # Corpus Christi (BW, BY, HE, NW, RP, SL; parts of SN, TH not considered)
-            (dt_rata == e_rata + 60 && T <: Union{DE_SOUTH, DE_HE, DE_WEST})
-            )
-            return true
-        end
-    elseif dt ≥ Dates.Date(1990, 10, 3)
-        # mm >= 8
-        if (
-            # Assumption of Mary (BY, SL)
-            (mm == 8 && dd == 15 && T <: Union{DE_BY, DE_SL})
-            ||
-            # Children's Day (TH)
-            (yy >= 2019 && mm == 9 && dd == 20 && T <: DE_TH)
-            ||
-            # German Unity Day
-            (mm == 10 && dd == 3)
-            ||
-            # Reformation Day (BB, MV, SN, ST, TH)
-            (mm == 10 && dd == 31 && T <: Union{DE_BB, DE_MV, DE_SN, DE_ST, DE_TH})
-            ||
-            # Reformation Day (HB, HH, NI, SH since 2017)
-            (yy >= 2017 && mm == 10 && dd == 31 && T <: DE_NORTH)
-            ||
-            # 500 years Reformation: common holiday in whole Germany
-            (yy == 2017)
-            ||
-            # All Saints' Day (BW, BY, NW, RP, SL)
-            (mm == 11 && dd == 1 && T <: Union{DE_SOUTH, DE_WEST})
-            ||
-            # Day of Repentance and Prayer (SN)
-            (mm == 11 && dd == day_of_repentance_and_prayer(yy) && (T <: DE_SN || yy <= 1994))
-            ||
-            # Christmas
-            (mm == 12 && dd == 25)
-            ||
-            # Day of Goodwill
-            (mm == 12 && dd == 26)
-            )
-            return true
-        end
-    end
+
+"""
+    is_common_german_holiday(dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date)::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day) is a is a holiday
+in the calender of all of Germany (`cal`), otherwise false.
+"""
+function is_common_german_holiday(dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date)::Bool
+
+    mm ==  1 && dd ==  1 && return true                # New year's day
+    mm ==  5 && dd ==  1 && return true                # International Workers' Day
+    dt == easter_sunday - Dates.Day(2) && return true  # Good Friday
+    dt == easter_sunday + Dates.Day(1) && return true  # Easter Monday
+    dt == easter_sunday + Dates.Day(39) && return true # Ascension Day
+    dt == easter_sunday + Dates.Day(50) && return true # Pentecost Monday
+    mm == 10 && dd ==  3 && return true                # German Unity Day
+    mm == 10 && dd == 31 && yy == 2017 && return true  # 500 years Reformation
+    mm == 12 && dd == 25 && return true                # Christmas Day
+    mm == 12 && dd == 26 && return true                # Boxing Day
+    mm == 11 && dd == day_of_repentance_and_prayer(yy) &&
+        yy ≤ 1994 && return true                       # Day of Repentance and Prayer
 
     return false
 end
 
+
+"""
+    function is_german_state_holiday(
+        ::Union{Type{Val{:HB}},Type{Val{:HH}},Type{Val{:NI}},Type{Val{:SH}}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German states
+Bremen, Hamburg, Lower Saxony or Schleswig-Holstein, otherwise false.
+"""
+function is_german_state_holiday(
+    ::Union{Type{Val{:HB}},Type{Val{:HH}},Type{Val{:NI}},Type{Val{:SH}}},
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool
+    mm == 31 && dd == 10 && yy ≥ 2017 && return true   # Reformation Day
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Union{Type{Val{:NW}},Type{Val{:RP}},Type{Val{:SL}}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German states
+North Rhine-Westphalia, Rhineland-Palatinate or Saarland, otherwise false.
+"""
+function is_german_state_holiday(
+    cal::T,
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool where T <: Union{Type{Val{:NW}},Type{Val{:RP}},Type{Val{:SL}}}
+    mm == 11 && dd ==  1  && return true                        # All Saints' Day
+    dt == easter_sunday + Dates.Day(60) && return true          # Corpus Christi
+    mm == 8 && dd == 15 && cal <: Val{:SL} && return true   # Assumption of Mary
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Union{Type{Val{:NW}},Type{Val{:RP}},Type{Val{:SL}}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German states
+Baden-Württemberg or Bavaria (with or without Assumption of Mary), otherwise false.
+"""
+function is_german_state_holiday(
+    cal::T,
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool where T <: Union{Type{Val{:BW}},Type{Val{:BY}},Type{Val{:BYP}}}
+    mm ==  1 && dd ==  6  && return true                        # Epiphany
+    mm == 11 && dd ==  1  && return true                        # All Saints' Day
+    dt == easter_sunday + Dates.Day(60) && return true          # Corpus Christi
+    mm == 8 && dd == 15 && cal <: Val{:BY} && return true   # Assumption of Mary
+                                                                # (only catholic communities in Bavaria)
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Type{Val{:BE}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German state Berlin, otherwise false.
+"""
+function is_german_state_holiday(
+    ::Type{Val{:BE}},
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool
+    mm ==  3 && dd == 8 && yy ≥  2019   && return true  # Womens' Day
+    # 75. Jahrestag zur Befreiung des Nationalsozialismus:
+    mm ==  5 && dd == 8 && yy == 2020   && return true
+
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Type{Val{:BB}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German state Brandenburg,
+otherwise false.
+"""
+function is_german_state_holiday(
+    ::Type{Val{:BB}},
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool
+    mm == 10 && dd == 31 && yy ≥ 2019   && return true          # Reformation Day
+    dt == easter_sunday                 && return true          # Easter Sunday
+    dt == easter_sunday + Dates.Day(49) && return true          # Pentecost Sunday
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Type{Val{:HE}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German state Hessen,
+otherwise false.
+"""
+function is_german_state_holiday(
+    ::Type{Val{:HE}},
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool
+    dt == easter_sunday + Dates.Day(60) && return true          # Corpus Christi
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Type{Val{:MV}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German state Mecklenburg-Vorpommern,
+otherwise false.
+"""
+function is_german_state_holiday(
+    ::Type{Val{:MV}},
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool
+    mm == 10 && dd == 31 && return true                 # Reformation Day
+    mm ==  3 && dd == 08 && yy ≥ 2023   && return true  # Womens' Day
+
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Type{Val{:SN}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German state Saxony,
+otherwise false.
+"""
+function is_german_state_holiday(
+    ::Type{Val{:SN}},
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool
+    mm == 10 && dd == 31 && return true  # Reformation Day
+    # Day of Repentance and Prayer:
+    mm == 11 && dd == day_of_repentance_and_prayer(yy) && return true
+
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Type{Val{:ST}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German state Saxony-Anhalt,
+otherwise false.
+"""
+function is_german_state_holiday(
+    ::Type{Val{:ST}},
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool
+    mm ==  1 && dd ==  6 && return true  # Epiphany
+    mm == 10 && dd == 31 && return true  # Reformation Day
+
+    return false
+end
+
+
+"""
+    function is_german_state_holiday(
+        ::Type{Val{:TH}},
+        dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+    )::Bool
+
+Return true if `dt` (with its parts `yy` - year, `mm` - month, `dd` -day)
+is a is a holiday in the calender (`cal`) of the German state Thuringia,
+otherwise false.
+"""
+function is_german_state_holiday(
+    ::Type{Val{:TH}},
+    dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
+)::Bool
+    mm ==  9 && dd == 20 && yy ≥ 2019 && return true  # Children's Day
+    mm == 10 && dd == 31 && return true               # Reformation Day
+
+    return false
+end
+
+
+const DE_BW = DE(:BW)
+const DE_BY = DE(:BY)
+const DE_BYP = DE(:BYP)
+const DE_BE = DE(:BE)
+const DE_BB = DE(:BB)
+const DE_HB = DE(:HB)
+const DE_HH = DE(:HH)
+const DE_HE = DE(:HE)
+const DE_MV = DE(:MV)
+const DE_NI = DE(:NI)
+const DE_NW = DE(:NW)
+const DE_RP = DE(:RP)
+const DE_SL = DE(:SL)
+const DE_SN = DE(:SN)
+const DE_ST = DE(:ST)
+const DE_SH = DE(:SH)
+const DE_TH = DE(:TH)
 
 function day_of_repentance_and_prayer(yy::Int)::Int
     drange = Dates.Date(yy,11,16):Dates.Day(1):Dates.Date(yy,11,22)
