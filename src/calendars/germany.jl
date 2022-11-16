@@ -134,7 +134,7 @@ function isholiday(cal::T, dt::Dates.Date) where T<:GER
     dd = Dates.day(dt)
 
     # Bisection
-    if mm < 8 && yy ≥ 1990
+    if mm < 8 && dt ≥ Dates.Date(1990, 10, 3)
         # Fixed Holidays
         if (
             # New Year's Day
@@ -143,11 +143,17 @@ function isholiday(cal::T, dt::Dates.Date) where T<:GER
             # Epiphany (BW, BY, ST)
             (mm == 1 && dd == 6 && T <: Union{DE_SOUTH, DE_ST})
             ||
-            # International Women's Day (BE, MV)
-            (mm == 3 && dd == 8 && T <: Union{DE_BE, DE_MV})
+            # International Women's Day (BE)
+            (yy >= 2019 && mm == 3 && dd == 8 && T <: DE_BE)
+            ||
+            # International Women's Day (MC)
+            (yy >= 2023 && mm == 3 && dd == 8 && T <: DE_MV)
             ||
             # International Workers' Day
             (mm == 5 && dd == 1)
+            ||
+            # 75. Jahrestag zur Befreiung des Nationalsozialismus
+            (yy == 2020 && mm == 5 && dd == 8 && T <: DE_BE)
             )
             return true
         end
@@ -160,8 +166,8 @@ function isholiday(cal::T, dt::Dates.Date) where T<:GER
             # Good Friday
             (dt_rata ==  e_rata -  2)
             ||
-            # Easter Sunday (BB, HE)
-            (dt_rata == e_rata && T <: Union{DE_BB, DE_HE})
+            # Easter Sunday (BB)
+            (dt_rata == e_rata && T <: DE_BB)
             ||
             # Easter Monday
             (dt_rata == e_rata + 1)
@@ -169,10 +175,10 @@ function isholiday(cal::T, dt::Dates.Date) where T<:GER
             # Ascension Day
             (dt_rata == e_rata + 39)
             ||
-            # Pentecost (BB, HE)
-            (dt_rata == e_rata + 49 && T <: Union{DE_BB, DE_HE})
+            # Pentecost Sunday (BB)
+            (dt_rata == e_rata + 49 && T <: DE_BB)
             ||
-            # Pentecost
+            # Pentecost Monday
             (dt_rata == e_rata + 50)
             ||
             # Corpus Christi (BW, BY, HE, NW, RP, SL; parts of SN, TH not considered)
@@ -180,26 +186,32 @@ function isholiday(cal::T, dt::Dates.Date) where T<:GER
             )
             return true
         end
-    else
+    elseif dt ≥ Dates.Date(1990, 10, 3)
         # mm >= 8
         if (
             # Assumption of Mary (BY, SL)
             (mm == 8 && dd == 15 && T <: Union{DE_BY, DE_SL})
             ||
             # Children's Day (TH)
-            (mm == 9 && dd == 20 && T <: DE_TH)
+            (yy >= 2019 && mm == 9 && dd == 20 && T <: DE_TH)
             ||
             # German Unity Day
             (mm == 10 && dd == 3)
             ||
-            # Reformation Day (BB, HB, HH, MV, NI, SN, ST, SH, TH)
-            (mm == 10 && dd == 31 && T <: Union{DE_NORTH, DE_BB, DE_MV, DE_SN, DE_ST, DE_TH})
+            # Reformation Day (BB, MV, SN, ST, TH)
+            (mm == 10 && dd == 31 && T <: Union{DE_BB, DE_MV, DE_SN, DE_ST, DE_TH})
+            ||
+            # Reformation Day (HB, HH, NI, SH since 2017)
+            (yy >= 2017 && mm == 10 && dd == 31 && T <: DE_NORTH)
+            ||
+            # 500 years Reformation: common holiday in whole Germany
+            (yy == 2017)
             ||
             # All Saints' Day (BW, BY, NW, RP, SL)
             (mm == 11 && dd == 1 && T <: Union{DE_SOUTH, DE_WEST})
             ||
             # Day of Repentance and Prayer (SN)
-            (mm == 11 && dd == day_of_repentance_and_prayer(yy) && T <: DE_SN)
+            (mm == 11 && dd == day_of_repentance_and_prayer(yy) && (T <: DE_SN || yy <= 1994))
             ||
             # Christmas
             (mm == 12 && dd == 25)
