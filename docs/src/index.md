@@ -190,9 +190,7 @@ See *runtests.jl* for more examples.
     Mary for Catholic communities), `Germany(:BYP)` (only Protestant communities without Assumption of
     Mary), `Germany(:BE)`, `Germany(:BB)`, `Germany(:HB)`, `Germany(:HH)`, `Germany(:HE)`,
     `Germany(:MV)`, `Germany(:NI)`, `Germany(:NW)`, `Germany(:RP)`, `Germany(:SL)`, `Germany(:SN)`,
-    `Germany(:ST)`, `Germany(:SH)`, `Germany(:TH)`. 
-  - Constants are available with the syntax `DE_<state abbrev.>` instead of the constructors for
-    `Germany`, i.e. use `bdays(BusinessDays.DE_BW, Date(2014, 12, 31), Date(2015, 1, 5))` instead of `bdays(BusinessDays.Germany(:BW), Date(2014, 12, 31), Date(2015, 1, 5))`
+    `Germany(:ST)`, `Germany(:SH)`, `Germany(:TH)`.
 - **NullHolidayCalendar** : `isholiday` returns `false` and `isbday` returns `true` for any date. `bdays` returns the actual days between dates.
 - **TARGET** or **TARGET2** or **EuroZone** : [TARGET / TARGET2 Euro Zone](https://en.wikipedia.org/wiki/TARGET2) holiday calendar.
 - **USSettlement** or **UnitedStates**: United States federal holidays.

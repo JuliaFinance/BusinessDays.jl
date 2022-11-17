@@ -291,24 +291,11 @@ function is_german_state_holiday(
 end
 
 
-const DE_BW = DE(:BW)
-const DE_BY = DE(:BY)
-const DE_BYP = DE(:BYP)
-const DE_BE = DE(:BE)
-const DE_BB = DE(:BB)
-const DE_HB = DE(:HB)
-const DE_HH = DE(:HH)
-const DE_HE = DE(:HE)
-const DE_MV = DE(:MV)
-const DE_NI = DE(:NI)
-const DE_NW = DE(:NW)
-const DE_RP = DE(:RP)
-const DE_SL = DE(:SL)
-const DE_SN = DE(:SN)
-const DE_ST = DE(:ST)
-const DE_SH = DE(:SH)
-const DE_TH = DE(:TH)
+"""
+    day_of_repentance_and_prayer(yy::Int)::Int
 
+Calculate day of rependance and prayer als last Wednesday before 23. November.
+"""
 function day_of_repentance_and_prayer(yy::Int)::Int
     drange = Dates.Date(yy,11,16):Dates.Day(1):Dates.Date(yy,11,22)
     return Dates.day(drange[findfirst(isequal.(Dates.dayofweek.(drange),3))])
