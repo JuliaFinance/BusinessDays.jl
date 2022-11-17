@@ -96,7 +96,7 @@ function is_german_state_holiday(
     ::Union{Type{Val{:HB}},Type{Val{:HH}},Type{Val{:NI}},Type{Val{:SH}}},
     dt::Dates.Date, yy::Int, mm::Int, dd::Int, easter_sunday::Dates.Date
 )::Bool
-    mm == 31 && dd == 10 && yy ≥ 2017 && return true   # Reformation Day
+    mm == 10 && dd == 31 && yy ≥ 2017 && return true   # Reformation Day
     return false
 end
 

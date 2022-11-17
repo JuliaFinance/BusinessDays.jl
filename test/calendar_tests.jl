@@ -939,6 +939,176 @@ for dt in Dates.Date(2018,1,1):Dates.Day(1):Dates.Date(2018,12,31)
     end
 end
 
+# German holidays
+gerdates2020 = Set([
+    Dates.Date(2020,  1,  1),  # New year's day
+    Dates.Date(2020,  4, 10),  # Good Friday
+    Dates.Date(2020,  4, 13),  # Easter Monday
+    Dates.Date(2020,  5,  1),  # International Workers' Day
+    Dates.Date(2020,  5, 21),  # Ascension Day
+    Dates.Date(2020,  6,  1),  # Pentecost
+    Dates.Date(2020, 10,  3),  # Day of German Unity
+    Dates.Date(2020, 12, 25),  # Christmas Day
+    Dates.Date(2020, 12, 26)   # Boxing Day
+])
+
+# German state holidays in different regions
+northdates2020 = Set([
+    Dates.Date(2020, 10, 31)   # Reformation Day
+])
+
+westdates2020 = Set([
+    Dates.Date(2020,  6, 11),  # Corpus Christi
+    Dates.Date(2020, 11,  1)   # All Saints Day
+])
+
+southdates2020 = Set([
+    Dates.Date(2020,  1,  6),  # Epiphany
+    Dates.Date(2020,  6, 11),  # Corpus Christi
+    Dates.Date(2020, 11,  1)   # All Saints Day
+])
+
+assumption2020 = Set([
+    Dates.Date(2020,  8, 15)  # Assumption of Mary
+])
+
+debedates2020 = Set([
+    Dates.Date(2020,  3,  8),  # International Womens' Day
+    Dates.Date(2020,  5,  8)   # Tag der Befreiung
+])
+
+debbdates2020 = Set([
+    Dates.Date(2020,  4, 12),  # Easter Sunday
+    Dates.Date(2020,  5, 31),  # Pentecost Sunday
+    Dates.Date(2020, 10, 31)   # Reformation Day
+])
+
+dehedates2020 = Set([
+    Dates.Date(2020,  6, 11)   # Corpus Christi
+])
+
+desndates2020 = Set([
+    Dates.Date(2020, 10, 31),  # Reformation Day
+    Dates.Date(2020, 11, 18)   # Day of rependance and prayer
+])
+
+destdates2020 = Set([
+    Dates.Date(2020,  1,  6),  # Epiphany
+    Dates.Date(2020, 10, 31)   # Reformation Day
+])
+
+dethdates2020 = Set([
+    Dates.Date(2020,  9, 20),  # World Children's Day
+    Dates.Date(2020, 10, 31)   # Reformation Day
+])
+
+# Test holidays in northern states of Bremen, Hamburg,
+# Mecklenburg-Vorpommern, Lower Saxony, and Schleswig-Holstein
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, northdates2020)
+        @test isholiday(hc_de_hb, dt) == true
+        @test isholiday(hc_de_hh, dt) == true
+        @test isholiday(hc_de_mv, dt) == true
+        @test isholiday(hc_de_ni, dt) == true
+        @test isholiday(hc_de_sh, dt) == true
+    else
+        @test isholiday(hc_de_hb, dt) == false
+        @test isholiday(hc_de_hh, dt) == false
+        @test isholiday(hc_de_mv, dt) == false
+        @test isholiday(hc_de_ni, dt) == false
+        @test isholiday(hc_de_sh, dt) == false
+    end
+end
+
+# Test holidays in western states of
+# North Rhine-Westphalia, Rhineland Palatinate, and Saarland
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, westdates2020)
+        @test isholiday(hc_de_nw, dt) == true
+        @test isholiday(hc_de_rp, dt) == true
+        @test isholiday(hc_de_sl, dt) == true
+    elseif dt ∈ assumption2020
+        @test isholiday(hc_de_nw, dt) == false
+        @test isholiday(hc_de_rp, dt) == false
+        @test isholiday(hc_de_sl, dt) == true
+    else
+        @test isholiday(hc_de_nw, dt) == false
+        @test isholiday(hc_de_rp, dt) == false
+        @test isholiday(hc_de_sl, dt) == false
+    end
+end
+
+# Test holidays in southern states of Baden-Württemberg and Bavaria
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, southdates2020)
+        @test isholiday(hc_de_bw, dt) == true
+        @test isholiday(hc_de_by, dt) == true
+        @test isholiday(hc_de_byp, dt) == true
+    elseif dt ∈ assumption2020
+        @test isholiday(hc_de_bw, dt) == false
+        @test isholiday(hc_de_by, dt) == true
+        @test isholiday(hc_de_byp, dt) == false
+    else
+        @test isholiday(hc_de_bw, dt) == false
+        @test isholiday(hc_de_by, dt) == false
+        @test isholiday(hc_de_byp, dt) == false
+    end
+end
+
+# Test holidays of Berlin
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, debedates2020)
+        @test isholiday(hc_de_be, dt) == true
+    else
+        @test isholiday(hc_de_be, dt) == false
+    end
+end
+
+# Test holidays of Brandenburg
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, debbdates2020)
+        @test isholiday(hc_de_bb, dt) == true
+    else
+        @test isholiday(hc_de_bb, dt) == false
+    end
+end
+
+# Test holidays of Hessen
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, dehedates2020)
+        @test isholiday(hc_de_he, dt) == true
+    else
+        @test isholiday(hc_de_he, dt) == false
+    end
+end
+
+# Test holidays of Saxony
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, desndates2020)
+        @test isholiday(hc_de_sn, dt) == true
+    else
+        @test isholiday(hc_de_sn, dt) == false
+    end
+end
+
+# Test holidays of Saxony-Anhalt
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, destdates2020)
+        @test isholiday(hc_de_st, dt) == true
+    else
+        @test isholiday(hc_de_st, dt) == false
+    end
+end
+
+# Test holidays of Thuringia
+for dt in Dates.Date(2020):Dates.Day(1):Dates.Date(2020,12,31)
+    if dt ∈ union(gerdates2020, dethdates2020)
+        @test isholiday(hc_de_th, dt) == true
+    else
+        @test isholiday(hc_de_th, dt) == false
+    end
+end
+
 # dates are treated per value
 d0 = Dates.Date(2013, 02, 06)
 d1 = Dates.Date(2013, 02, 14)
