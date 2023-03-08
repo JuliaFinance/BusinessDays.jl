@@ -202,7 +202,7 @@ function isholiday(::USGovernmentBond , dt::Dates.Date)
             adjustweekendholidayUS(findweekday(Dates.Monday, yy, 2, 3, true)) == dt
             ||
             # Good Friday
-            dt_rata == ( e_rata - 2 )
+            yy != 2023 && dt_rata == ( e_rata - 2 )
             ||
             # Memorial Day
             adjustweekendholidayUS(findweekday(Dates.Monday, yy, 5, 1, false)) == dt
@@ -220,7 +220,7 @@ function isholiday(::USGovernmentBond , dt::Dates.Date)
             adjustweekendholidayUS(findweekday(Dates.Monday, yy, 10, 2, true)) == dt
             ||
             # Veterans Day
-            adjustweekendholidayUS(Dates.Date(yy, 11, 11)) == dt
+            yy != 2023 && adjustweekendholidayUS(Dates.Date(yy, 11, 11)) == dt
             ||
             # Thanksgiving Day
             adjustweekendholidayUS(findweekday(Dates.Thursday, yy, 11, 4, true)) == dt
