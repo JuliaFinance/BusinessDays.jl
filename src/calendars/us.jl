@@ -13,7 +13,7 @@ United States NYSE holidays.
 struct USNYSE <: HolidayCalendar end
 
 """
-United States Government Bond calendar.
+United States Government Bond calendar. See <https://www.sifma.org/resources/general/holiday-schedule/>.
 """
 struct USGovernmentBond <: HolidayCalendar end
 

@@ -195,7 +195,7 @@ See *runtests.jl* for more examples.
 - **TARGET** or **TARGET2** or **EuroZone** : [TARGET / TARGET2 Euro Zone](https://en.wikipedia.org/wiki/TARGET2) holiday calendar.
 - **USSettlement** or **UnitedStates**: United States federal holidays.
 - **USNYSE** : United States NYSE holidays.
-- **USGovernmentBond** : United States Government Bond calendar.
+- **USGovernmentBond** : United States Government Bond calendar. See <https://www.sifma.org/resources/general/holiday-schedule/>.
 - **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales.
 - **WeekendsOnly** : for this calendar, `isholiday` returns `false`, but `isbday` returns `false` for Saturdays and Sundays.
 
