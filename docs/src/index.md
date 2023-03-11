@@ -185,7 +185,7 @@ See *runtests.jl* for more examples.
 - **CanadaTSX**: holidays for Toronto Stock Exchange
 - **CompositeHolidayCalendar** : supports combination of Holiday Calendars.
 - **Germany(state)** or **DE(state)** : State-wide (except BY/BYP) public holidays for the German
-  federal states. 
+  federal states.
   - Available for each state: `Germany(:BW)`, `Germany(:BY)` (including Assumption of
     Mary for Catholic communities), `Germany(:BYP)` (only Protestant communities without Assumption of
     Mary), `Germany(:BE)`, `Germany(:BB)`, `Germany(:HB)`, `Germany(:HH)`, `Germany(:HE)`,
