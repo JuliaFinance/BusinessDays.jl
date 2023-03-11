@@ -231,5 +231,12 @@ function isholiday(::USGovernmentBond , dt::Dates.Date)
         return true
     end
 
+    # Special Closings
+
+    # President George H.W. Bush's funeral <https://www.newyorkfed.org/markets/opolicy/operating_policy_181204>
+    if dt == Dates.Date(2018, 12, 5)
+        return true
+    end
+
     return false
 end
