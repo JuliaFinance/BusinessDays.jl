@@ -463,16 +463,16 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
     "2023-01-02", # New Year's Day 2022/2023
     "2023-01-16", # Martin Luther King Day
     "2023-02-20", # Presidents Day
+    "2023-04-07", # Good Friday
     "2023-05-29", # Memorial Day
     "2023-06-19", # Juneteenth
     "2023-07-04", # U.S. Independence Day
     "2023-09-04", # Labor Day
     "2023-10-09", # Columbus Day
+    "2023-11-10", # Veterans Day
     "2023-11-23", # Thanksgiving Day
     "2023-12-25", # Christmas Day
 ])
-
-@test isbday(hc_usgovbond, Dates.Date(2023, 4, 7)) # Early Close is recommended rather than a close to accommodate the release of US employment data
 
 # 2024
 
