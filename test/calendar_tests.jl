@@ -646,6 +646,19 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday(hc_uk, Dates.Date(2022, 12, 26)) == false # Boxing
 @test isbday(hc_uk, Dates.Date(2022, 12, 27)) == false # Christmas
 
+# 2023 UK holidays
+@test BusinessDays.listholidays(hc_uk, Dates.Date(2023, 1, 1), Dates.Date(2023, 12, 31)) == Dates.Date.([
+    "2023-01-02", # New Year’s Day (substitute day)
+    "2023-04-07", # Good Friday
+    "2023-04-10", # Easter Monday
+    "2023-05-01", # Early May bank holiday
+    "2023-05-08", # Coronation of King Charles III
+    "2023-05-29", # Spring bank holiday
+    "2023-08-28", # Summer bank holiday
+    "2023-12-25", # Christmas Day
+    "2023-12-26", # Boxing Day
+])
+
 @test tobday(hc_brazil, Dates.Date(2013, 02, 08)) == Dates.Date(2013, 02, 08) # regular friday
 @test tobday(hc_brazil, Dates.Date(2013, 02, 09)) == Dates.Date(2013, 02, 13) # after carnaval
 @test tobday(hc_brazil, Dates.Date(2013, 02, 09); forward = true) == Dates.Date(2013, 02, 13) # after carnaval
