@@ -196,7 +196,7 @@ See *runtests.jl* for more examples.
 - **USSettlement** or **UnitedStates**: United States federal holidays.
 - **USNYSE** : United States NYSE holidays.
 - **USGovernmentBond** : Broadly accepted holidays for United States Government Bond market. [SOFR Rate](https://www.newyorkfed.org/markets/reference-rates/sofr) calendar. See <https://www.sifma.org/resources/general/holiday-schedule/>.
-- **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales.
+- **UKSettlement** or **UnitedKingdom**: banking holidays for England and Wales. See <https://www.gov.uk/bank-holidays>.
 - **WeekendsOnly** : for this calendar, `isholiday` returns `false`, but `isbday` returns `false` for Saturdays and Sundays.
 
 ## Adding new Holiday Calendars
