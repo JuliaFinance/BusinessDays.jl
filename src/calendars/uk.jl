@@ -97,6 +97,9 @@ function isholiday(::UKSettlement, dt::Dates.Date)
                 ||
                 # Substitute date for Early May Bank Holiday in 2020
                 (dt == Dates.Date(2020, 05, 08))
+                ||
+                # Coronation of King Charles III
+                (dt == Dates.Date(2023, 5, 8))
             )
             return true
         end
