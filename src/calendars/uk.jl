@@ -75,28 +75,28 @@ function isholiday(::UKSettlement, dt::Dates.Date)
         # Fixed date holidays with mm < 8
         if (
                 # Substitute date for Spring Bank Holiday
-                (dt == Dates.Date(2012, 06, 04))
+                (dt == Dates.Date(2012, 6, 4))
                 ||
                 # Diamond Jubilee of Queen Elizabeth II.
-                (dt == Dates.Date(2012, 06, 05))
+                (dt == Dates.Date(2012, 6, 5))
                 ||
                 # Golden Jubilee of Queen Elizabeth II.
-                (dt == Dates.Date(2002, 06, 03))
+                (dt == Dates.Date(2002, 6, 3))
                 ||
                 # Platinum Jubilee of Queen Elizabeth II.
-                (dt == Dates.Date(2022, 06, 03))
+                (dt == Dates.Date(2022, 6, 3))
                 ||
                 # Substitute date for Spring Bank Holiday
-                (dt == Dates.Date(2002, 06, 04))
+                (dt == Dates.Date(2002, 6, 4))
                 ||
                 # Wedding of Prince William and Catherine Middleton
-                (dt == Dates.Date(2011, 04, 29))
+                (dt == Dates.Date(2011, 4, 29))
                 ||
                 # Substitute date for Early May Bank Holiday in 1995
-                (dt == Dates.Date(1995, 05, 08))
+                (dt == Dates.Date(1995, 5, 8))
                 ||
                 # Substitute date for Early May Bank Holiday in 2020
-                (dt == Dates.Date(2020, 05, 08))
+                (dt == Dates.Date(2020, 5, 8))
                 ||
                 # Coronation of King Charles III
                 (dt == Dates.Date(2023, 5, 8))
