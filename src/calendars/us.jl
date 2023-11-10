@@ -17,7 +17,7 @@ United States Government Bond calendar. See <https://www.sifma.org/resources/gen
 """
 struct USGovernmentBond <: HolidayCalendar end
 
-function isholiday(::USSettlement , dt::Dates.Date)
+function isholiday(::USSettlement, dt::Dates.Date)
 
     yy = Dates.year(dt)
     mm = Dates.month(dt)
@@ -66,7 +66,7 @@ function isholiday(::USSettlement , dt::Dates.Date)
     return false
 end
 
-function isholiday(::USNYSE , dt::Dates.Date)
+function isholiday(::USNYSE, dt::Dates.Date)
 
     yy = Dates.year(dt)
     mm = Dates.month(dt)
@@ -129,7 +129,7 @@ function isholiday(::USNYSE , dt::Dates.Date)
         dt == Dates.Date(2004,6,11)
         ||
         # Sep 11th
-        yy == 2001 && mm == 9 && ( 11 <= dd && dd <= 14)
+        yy == 2001 && mm == 9 && (11 <= dd && dd <= 14)
         ||
         # President Nixon's funeral
         dt == Dates.Date(1994,4,27)
@@ -182,7 +182,7 @@ function isholiday(::USNYSE , dt::Dates.Date)
     return false
 end
 
-function isholiday(::USGovernmentBond , dt::Dates.Date)
+function isholiday(::USGovernmentBond, dt::Dates.Date)
 
     yy = Dates.year(dt)
     mm = Dates.month(dt)
