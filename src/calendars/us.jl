@@ -220,7 +220,7 @@ function isholiday(::USGovernmentBond , dt::Dates.Date)
             adjustweekendholidayUS(findweekday(Dates.Monday, yy, 10, 2, true)) == dt
             ||
             # Veterans Day
-            adjustweekendholidayUS(Dates.Date(yy, 11, 11)) == dt
+            (yy != 2023 && adjustweekendholidayUS(Dates.Date(yy, 11, 11)) == dt)
             ||
             # Thanksgiving Day
             adjustweekendholidayUS(findweekday(Dates.Thursday, yy, 11, 4, true)) == dt
