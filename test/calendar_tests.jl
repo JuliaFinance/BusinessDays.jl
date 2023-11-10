@@ -469,7 +469,6 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
     "2023-07-04", # U.S. Independence Day
     "2023-09-04", # Labor Day
     "2023-10-09", # Columbus Day
-    "2023-11-10", # Veterans Day
     "2023-11-23", # Thanksgiving Day
     "2023-12-25", # Christmas Day
 ])
