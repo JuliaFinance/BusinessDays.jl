@@ -30,6 +30,9 @@ function isholiday(::BRSettlement, dt::Dates.Date)
                 ||
                 # Proclamacao da Republica
                 ((mm == 11) && (dd == 15))
+		||
+                # Dia Nacional de Zumbi e da Consciência Negra
+                ((mm == 11) && (dd == 20) && (yy >= 2024))
                 ||
                 # Natal
                 ((mm == 12) && (dd == 25))

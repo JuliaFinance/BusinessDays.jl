@@ -180,6 +180,9 @@ test_bdays(:WeekendsOnly, (2019, 8, 23), (2019, 8, 24), 1)
 @test isbday(hc_brazil, Dates.Date(2013, 05, 30)) == false # Corpus Christi
 @test isbday(hc_brazil, Dates.Date(2013, 05, 31)) == true # friday
 
+@test isbday(hc_brazil, Dates.Date(2023, 11, 20)) == true # zumbi 2023
+@test isbday(hc_brazil, Dates.Date(2024, 11, 20)) == false # zumbi 2024
+
 # Symbol
 @test isbday(:Brazil, Dates.Date(2013, 05, 29)) == true # wednesday
 @test isbday(:Brazil, Dates.Date(2013, 05, 30)) == false # Corpus Christi
@@ -1184,8 +1187,8 @@ d1 = Dates.Date(2013, 02, 14)
 @test d1 == Dates.Date(2013, 02, 14)
 
 d0 = Dates.Date(2015, 06, 29) ; d2 = Dates.Date(2100, 12, 20)
-@test bdays(hc_brazil, d0, d2).value == 21471
-@test bdayscount(hc_brazil, d0, d2) == 21471
+@test bdays(hc_brazil, d0, d2).value == 21416
+@test bdayscount(hc_brazil, d0, d2) == 21416
 
 # Tests for Composite Calendar
 @test isholiday(hc_composite_BR_USA, Dates.Date(2012,9,3)) # US Labor Day
