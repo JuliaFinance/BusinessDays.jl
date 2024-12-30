@@ -116,6 +116,9 @@ function isholiday(::USNYSE, dt::Dates.Date)
 
     # Special Closings
     if (
+        # President Carter's funeral
+        dt == Dates.Date(2025, 1, 9)
+        ||
         # President George H.W. Bush's funeral
         dt == Dates.Date(2018,12,5)
         ||
