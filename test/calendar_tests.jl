@@ -102,22 +102,6 @@ end
 @test isbday("WeekendsOnly", Dates.Date(2016,9,25)) == false
 @test bdayscount(:WeekendsOnly, Dates.Date(2016,9,25), Dates.Date(2016,9,28)) == 2
 
-function test_bdays(cal, d0::Dates.Date, d1::Dates.Date, expected_result::Integer)
-    @test bdays(cal, d0, d1) == Dates.Day(expected_result)
-    if d0 != d1
-        @test bdays(cal, d1, d0) == Dates.Day(-expected_result)
-    end
-    nothing
-end
-
-function test_bdays(cal,
-        d0::Tuple{Int, Int, Int},
-        d1::Tuple{Int, Int, Int},
-        expected_result::Integer)
-
-    test_bdays(cal, Dates.Date(d0[1], d0[2], d0[3]), Dates.Date(d1[1], d1[2], d1[3]), expected_result)
-end
-
 test_bdays(:WeekendsOnly, (2016, 9, 25), (2016, 9, 28), 2)
 test_bdays(:WeekendsOnly, (2019, 8, 26), (2019, 9, 2), 5)
 test_bdays(:WeekendsOnly, (2019, 8, 26), (2019, 9, 3), 6)
