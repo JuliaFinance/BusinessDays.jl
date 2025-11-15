@@ -32,7 +32,7 @@ struct Australia <: HolidayCalendar
 end
 
 Base.:(==)(a1::Australia, a2::Australia) = a1.state == a2.state
-Base.hash(a::Australia) = hash(a.state)
+Base.hash(a::Australia, h::UInt) = hash(a.state, h)
 
 
 function isholiday(::AustraliaASX, dt::Dates.Date)
