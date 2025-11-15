@@ -141,6 +141,9 @@ hc_canada       = BusinessDays.CanadaSettlement()
 # Calendar Tests
 ####################
 
+# Defines helper functions for some common tests 
+include("functions.jl")
+
 usecache = false
 include("calendar_tests.jl")
 
