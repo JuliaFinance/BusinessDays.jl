@@ -134,11 +134,11 @@ false
 julia> isbday(BusinessDays.USSettlement(), Date(2015, 1, 1))
 false
 
-# Adjust to next business day
+# Adjust to next business day (or return date if already a business day)
 julia> tobday(:USSettlement, Date(2015, 1, 1))
 2015-01-02
 
-# Adjust to last business day
+# Adjust to last business day (or return date if already a business day)
 julia> tobday(:USSettlement, Date(2015, 1, 1); forward = false)
 2014-12-31
 
