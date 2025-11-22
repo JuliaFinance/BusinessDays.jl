@@ -105,6 +105,13 @@ Counts the number of Business Days between `dt0` and `dt1`.
 Returns `Int`.
 
 Computation is always based on next Business Day if given dates are not Business Days.
+
+!!! note "Counting Convention"
+    The first Business Day is excluded from the count, e.g. if `dt0` and `dt1` 
+    are the same date, `bdayscount` will always return 0. This convention is 
+    different from [`listbdays`](@ref) which *is* inclusive. In our 
+    `dt0 == dt1` example, if the date is a Business Day then `listbdays` will 
+    return a 1-element Vector with that date.
 """
 function bdayscount(hc::HolidayCalendar, dt0::Dates.Date, dt1::Dates.Date) :: Int
     if _getcachestate(hc)

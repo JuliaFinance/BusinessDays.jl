@@ -17,11 +17,11 @@ listholidays(calendar, dt0::Dates.Date, dt1::Dates.Date) = listholidays(convert(
 """
     listbdays(calendar, dt0::Dates.Date, dt1::Dates.Date) → Vector{Dates.Date}
 
-Returns the list of business days between `dt0` and `dt1`.
+Returns the list of business days between `dt0` and `dt1` (inclusive).
 """
 function listbdays(hc::HolidayCalendar, dt0::Dates.Date, dt1::Dates.Date)
-    d = tobday(hc, min(dt0, dt1))
-    d1 = max(dt0, dt1)
+    d, d1 = minmax(dt0, dt1)
+    d = tobday(hc, d)
 
     # empty result
     if d > d1
