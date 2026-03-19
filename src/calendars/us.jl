@@ -19,9 +19,7 @@ struct USGovernmentBond <: HolidayCalendar end
 
 function isholiday(::USSettlement, dt::Dates.Date)
 
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
 
     if (
             # New Year's Day
@@ -68,9 +66,7 @@ end
 
 function isholiday(::USNYSE, dt::Dates.Date)
 
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
 
     dt_rata::Int = Dates.days(dt)
     e_rata::Int = easter_rata(Dates.Year(yy))
@@ -188,8 +184,6 @@ end
 function isholiday(::USGovernmentBond, dt::Dates.Date)
 
     yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
 
     dt_rata::Int = Dates.days(dt)
     e_rata::Int = easter_rata(Dates.Year(yy))

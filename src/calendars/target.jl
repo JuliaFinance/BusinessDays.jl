@@ -7,9 +7,7 @@ const TARGET2 = TARGET
 const EuroZone = TARGET
 
 function isholiday(::TARGET, dt::Dates.Date)
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
 
     # Bisection
     if mm < 8

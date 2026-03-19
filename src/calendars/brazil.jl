@@ -11,9 +11,7 @@ const BrazilB3 = BrazilExchange
 # Brazilian Banking Holidays
 function isholiday(::BRSettlement, dt::Dates.Date)
 
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
 
     # Bisection
     if mm >= 8
@@ -81,9 +79,7 @@ function isholiday(::BRSettlement, dt::Dates.Date)
 end
 
 function isholiday(::BrazilExchange, dt::Dates.Date)
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
 
     if (
         # Aniversário de São Paulo

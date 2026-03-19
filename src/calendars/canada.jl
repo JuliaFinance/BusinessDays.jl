@@ -12,9 +12,7 @@ struct CanadaTSX <: HolidayCalendar end
 
 function isholiday(::CanadaSettlement, dt::Dates.Date)
 
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
     ww = Dates.dayofweek(dt)
 
     # Bisection
@@ -70,9 +68,7 @@ end
 
 function isholiday(::CanadaTSX, dt::Dates.Date)
 
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
     ww = Dates.dayofweek(dt)
 
     # Bisection

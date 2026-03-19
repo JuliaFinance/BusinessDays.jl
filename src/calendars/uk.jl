@@ -8,9 +8,7 @@ const UnitedKingdom = UKSettlement
 # England and Wales Banking Holidays
 function isholiday(::UKSettlement, dt::Dates.Date)
 
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm) = Dates.yearmonth(dt)
 
     # Bisection
     if mm >= 8

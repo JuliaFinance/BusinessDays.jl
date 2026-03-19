@@ -36,9 +36,7 @@ Base.hash(a::Australia, h::UInt) = hash(a.state, h)
 
 
 function isholiday(::AustraliaASX, dt::Dates.Date)
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
     easter_sunday = BusinessDays.easter_date(Dates.Year(yy))
     is_australian_national_holiday(dt, yy, mm, dd, easter_sunday) && return true
     mm == 6 && Dates.dayofweek(dt) == Dates.Mon && Dates.dayofweekofmonth(dt) == 2 && return true # Queen's Birthday holiday (2nd Monday of June)
@@ -47,9 +45,7 @@ end
 
 
 function isholiday(cal::Australia, dt::Dates.Date)
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
     easter_sunday = BusinessDays.easter_date(Dates.Year(yy))
     is_australian_national_holiday(dt, yy, mm, dd, easter_sunday) && return true
     is_australian_state_holiday(Val{cal.state}, dt, yy, mm, dd, easter_sunday)

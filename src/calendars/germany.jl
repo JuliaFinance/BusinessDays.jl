@@ -45,9 +45,7 @@ Return true if `dt` is a is a holiday in the German calender (`cal`), otherwise 
 """
 function isholiday(cal::DE, dt::Dates.Date)::Bool
     dt ≤ Dates.Date(1990, 10, 3) && return false # Only count holidays after German Reunification
-    yy = Dates.year(dt)
-    mm = Dates.month(dt)
-    dd = Dates.day(dt)
+    (yy, mm, dd) = Dates.yearmonthday(dt)
     easter_sunday = BusinessDays.easter_date(Dates.Year(yy))
     is_common_german_holiday(dt, yy, mm, dd, easter_sunday) && return true
     is_german_state_holiday(Val{cal.state}, dt, yy, mm, dd, easter_sunday)
