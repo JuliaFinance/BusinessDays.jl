@@ -175,6 +175,15 @@ isbday(:Brazil, Dates.Date(2016,2,1))
 isbday(:TestCalendar, Dates.Date(2016,2,1))
 isbday("TestCalendar", Dates.Date(2016,2,1))
 
+# `dt` must be a Dates.Date. Anything else should be a MethodError, and never
+# an infinite recursion into the generic method (StackOverflowError).
+for calendar in Any[:USNYSE, "USNYSE", hc_usnyse]
+    for dt in Any["2026-03-14", Dates.DateTime(2026, 3, 14, 10, 30)]
+        @test_throws MethodError isbday(calendar, dt)
+        @test_throws MethodError tobday(calendar, dt)
+    end
+end
+
 sym_vec = [:Brazil, :UKSettlement]
 BusinessDays.initcache(sym_vec)
 BusinessDays.cleancache(sym_vec)

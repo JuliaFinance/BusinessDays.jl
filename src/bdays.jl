@@ -29,7 +29,7 @@ function isbday(hc::HolidayCalendar, dt::Dates.Date) :: Bool
     end
 end
 
-@inline isbday(calendar, dt) :: Bool = isbday(convert(HolidayCalendar, calendar), dt)
+@inline isbday(calendar, dt::Dates.Date) :: Bool = isbday(convert(HolidayCalendar, calendar), dt)
 
 """
     tobday(calendar, dt; [forward=true]) :: Dates.Date
@@ -52,7 +52,7 @@ function tobday(hc::HolidayCalendar, dt::Dates.Date; forward::Bool = true) :: Da
     return next_date
 end
 
-tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar, calendar), dt; forward=forward)
+tobday(calendar, dt::Dates.Date; forward::Bool = true) = tobday(convert(HolidayCalendar, calendar), dt; forward=forward)
 
 """
     advancebdays(calendar, dt, bdays_count) :: Dates.Date
