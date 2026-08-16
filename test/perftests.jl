@@ -76,3 +76,48 @@ let
     println("WeekendsOnly cache enabled")
     @time for i in 1:1000 BusinessDays.bdays(cal, d0, d1) end
 end
+
+BusinessDays.cleancache()
+
+# function barrier: keeps the loop body specialized on the convention type, so
+# the timings below measure `tobday` rather than the driver loop's dispatch
+function bench_roll(cal, dt::Dates.Date, conv, n::Int)
+    result = dt
+    for i in 1:n
+        result = tobday(cal, dt, conv)
+    end
+    return result
+end
+
+let
+    cal = BusinessDays.Brazil()
+    # a saturday at the end of the month, the worst case for the modified
+    # conventions: they need to roll forward and then back again
+    dt = Dates.Date(2015, 1, 31)
+
+    conventions = (BusinessDays.Unadjusted(), BusinessDays.Following(),
+                   BusinessDays.ModifiedFollowing(), BusinessDays.Preceding(),
+                   BusinessDays.ModifiedPreceding(),
+                   BusinessDays.HalfMonthModifiedFollowing(), BusinessDays.Nearest())
+
+    # force JIT compilation
+    for conv in conventions
+        bench_roll(cal, dt, conv, 1)
+    end
+
+    println("date rolling no cache")
+    for conv in conventions
+        print(rpad(string(typeof(conv)), 36))
+        @time bench_roll(cal, dt, conv, 10000)
+    end
+
+    BusinessDays.initcache(cal)
+
+    println("date rolling cache enabled")
+    for conv in conventions
+        print(rpad(string(typeof(conv)), 36))
+        @time bench_roll(cal, dt, conv, 10000)
+    end
+
+    BusinessDays.cleancache(cal)
+end

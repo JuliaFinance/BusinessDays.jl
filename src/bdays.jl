@@ -29,30 +29,69 @@ function isbday(hc::HolidayCalendar, dt::Dates.Date) :: Bool
     end
 end
 
-@inline isbday(calendar, dt) :: Bool = isbday(convert(HolidayCalendar, calendar), dt)
+@inline isbday(calendar, dt::Dates.Date) :: Bool = isbday(convert(HolidayCalendar, calendar), dt)
 
-"""
-    tobday(calendar, dt; [forward=true]) :: Dates.Date
+# Walks day by day in the direction given by `increment` (+1 or -1) until it
+# lands on a Business Day, *starting from the day after `dt`*.
+#
+# Callers must have already established that `dt` is not a Business Day. This
+# lets a `DateRollingConvention` that has to walk in both directions test `dt`
+# once instead of once per walk.
+function _nextbday(hc::HolidayCalendar, dt::Dates.Date, increment::Int) :: Dates.Date
+    next_date = dt + Dates.Day(increment)
 
-Adjusts `dt` to next Business Day if it's not a Business Day.
-If `isbday(dt)`, returns `dt`.
-"""
-function tobday(hc::HolidayCalendar, dt::Dates.Date; forward::Bool = true) :: Dates.Date
-    if isbday(hc, dt)
-        return dt
-    else
-        increment = forward ? 1 : -1
-        next_date = dt + Dates.Day(increment)
-
-        while !isbday(hc, next_date)
-            next_date += Dates.Day(increment)
-        end
+    while !isbday(hc, next_date)
+        next_date += Dates.Day(increment)
     end
 
     return next_date
 end
 
-tobday(calendar, dt; forward::Bool = true) = tobday(convert(HolidayCalendar, calendar), dt; forward=forward)
+# Adjusts `dt` in the direction given by `increment` (+1 or -1).
+# Returns `dt` unchanged if it already is a Business Day.
+#
+# This is the keyword-free core shared by `tobday` and by every
+# `DateRollingConvention` in rollingconventions.jl.
+@inline function _tobday(hc::HolidayCalendar, dt::Dates.Date, increment::Int) :: Dates.Date
+    return isbday(hc, dt) ? dt : _nextbday(hc, dt, increment)
+end
+
+"""
+    tobday(calendar, dt; [forward=true]) :: Dates.Date
+    tobday(calendar, dt, convention) :: Dates.Date
+
+Adjusts `dt` to next Business Day if it's not a Business Day.
+If `isbday(dt)`, returns `dt`.
+
+Passing `forward=false` adjusts to the previous Business Day instead.
+
+The three-argument form applies a [`DateRollingConvention`](@ref), which
+generalizes `forward` to the full set of standard business day conventions.
+`tobday(calendar, dt)` is equivalent to
+`tobday(calendar, dt, BusinessDays.Following())`, and
+`tobday(calendar, dt; forward=false)` to
+`tobday(calendar, dt, BusinessDays.Preceding())`.
+
+# Examples
+
+```jldoctest
+julia> using BusinessDays, Dates
+
+julia> tobday(:USSettlement, Date(2015, 1, 31)) # saturday
+2015-02-02
+
+julia> tobday(:USSettlement, Date(2015, 1, 31); forward=false)
+2015-01-30
+
+julia> tobday(:USSettlement, Date(2015, 1, 31), BusinessDays.ModifiedFollowing()) # stays in january
+2015-01-30
+```
+"""
+function tobday(hc::HolidayCalendar, dt::Dates.Date; forward::Bool = true) :: Dates.Date
+    return _tobday(hc, dt, forward ? 1 : -1)
+end
+
+tobday(calendar, dt::Dates.Date; forward::Bool = true) = tobday(convert(HolidayCalendar, calendar), dt; forward=forward)
 
 """
     advancebdays(calendar, dt, bdays_count) :: Dates.Date

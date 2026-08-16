@@ -21,7 +21,7 @@ function isbday(hc::Vector{HolidayCalendar}, dt::Vector{Dates.Date})
 
     result = Vector{Bool}(undef, length(dt))
 
-    for i in 1:l_hc
+    for i in eachindex(result)
         @inbounds result[i] = isbday(hc[i], dt[i])
     end
 
@@ -49,7 +49,7 @@ function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Dates.Date}; forward::Bo
 
     result = Vector{Dates.Date}(undef, l_hc)
 
-    for i in 1:l_hc
+    for i in eachindex(result)
         @inbounds result[i] = tobday(hc[i], dt[i]; forward=forward)
     end
 
@@ -58,6 +58,34 @@ end
 
 tobday(calendar, dt::Vector{Dates.Date}; forward::Bool = true) = tobday(convert(HolidayCalendar, calendar), dt; forward=forward)
 tobday(calendars::A, dt::Vector{Dates.Date}; forward::Bool = true) where {A<:AbstractArray} = tobday(convert(Vector{HolidayCalendar}, calendars), dt; forward=forward)
+
+function tobday(hc::HolidayCalendar, dt::Vector{Dates.Date}, conv::DateRollingConvention)
+    result = Vector{Dates.Date}(undef, length(dt))
+
+    for i in eachindex(dt)
+        @inbounds result[i] = tobday(hc, dt[i], conv)
+    end
+
+    return result
+end
+
+function tobday(hc::Vector{HolidayCalendar}, dt::Vector{Dates.Date}, conv::DateRollingConvention)
+    l_hc = length(hc)
+    l_dt = length(dt)
+
+    @assert l_hc == l_dt "Input vectors must have the same size. $(l_hc) != $(l_dt)"
+
+    result = Vector{Dates.Date}(undef, l_hc)
+
+    for i in eachindex(result)
+        @inbounds result[i] = tobday(hc[i], dt[i], conv)
+    end
+
+    return result
+end
+
+tobday(calendar, dt::Vector{Dates.Date}, conv::DateRollingConvention) = tobday(convert(HolidayCalendar, calendar), dt, conv)
+tobday(calendars::A, dt::Vector{Dates.Date}, conv::DateRollingConvention) where {A<:AbstractArray} = tobday(convert(Vector{HolidayCalendar}, calendars), dt, conv)
 
 function bdays(hc::HolidayCalendar, base_date::Dates.Date, dt_vec::Vector{Dates.Date})
     len = length(dt_vec)
