@@ -11,6 +11,15 @@ BusinessDays.isweekend
 BusinessDays.isweekday
 BusinessDays.isbday
 BusinessDays.tobday
+BusinessDays.DateRollingConvention
+BusinessDays.Unadjusted
+BusinessDays.Following
+BusinessDays.ModifiedFollowing
+BusinessDays.Preceding
+BusinessDays.ModifiedPreceding
+BusinessDays.HalfMonthModifiedFollowing
+BusinessDays.Nearest
+BusinessDays.BDay
 BusinessDays.advancebdays
 BusinessDays.bdays
 BusinessDays.bdayscount

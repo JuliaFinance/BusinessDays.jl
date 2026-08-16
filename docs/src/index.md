@@ -142,6 +142,11 @@ julia> tobday(:USSettlement, Date(2015, 1, 1))
 julia> tobday(:USSettlement, Date(2015, 1, 1); forward = false)
 2014-12-31
 
+# Apply a date rolling convention: next business day, unless that would
+# leave the month, in which case the previous one
+julia> tobday(:USSettlement, Date(2015, 1, 31), BusinessDays.ModifiedFollowing())
+2015-01-30
+
 # advances 1 business day
 julia> advancebdays(:USSettlement, Date(2015, 1, 2), 1)
 2015-01-05
@@ -178,6 +183,63 @@ julia> bdays(:USSettlement, [Date(2014,12,31),Date(2015,1,2)], [Date(2015,1,5),D
 ```
 
 See *runtests.jl* for more examples.
+
+## Date Rolling
+
+In finance, there are several typical conventions for how to shift an arbitrary date to a business date. [Date rolling](https://en.wikipedia.org/wiki/Date_rolling) answers the question:
+*given a date that is not a business day, which business day should be used instead?*
+Pass a `DateRollingConvention` as the third argument to `tobday`.
+
+Each convention is a singleton type, so passing one is resolved at compile time
+and is allocation-free. The types are not exported, so they take a qualified
+name.
+
+| Convention | Adjusts `dt` to |
+|---|---|
+| `BusinessDays.Unadjusted()` | `dt` itself. The only convention that may return a non-Business Day. |
+| `BusinessDays.Following()` | the next immediate Business Day. |
+| `BusinessDays.ModifiedFollowing()` | the next Business Day, unless that lands in a different calendar month, in which case the previous Business Day. |
+| `BusinessDays.Preceding()` | the previous Business Day. |
+| `BusinessDays.ModifiedPreceding()` | the previous Business Day, unless that lands in a different calendar month, in which case the next Business Day. |
+| `BusinessDays.HalfMonthModifiedFollowing()` | the next Business Day, unless that lands in a different calendar month *or* crosses the mid-month (15th) boundary, in which case the previous Business Day. |
+| `BusinessDays.Nearest()` | the nearest Business Day, searching forwards and backwards at the same time. Ties resolve in favor of the next Business Day. |
+
+Naming follows QuantLib's `BusinessDayConvention`. `ModifiedFollowing` is the
+most widely used convention for interest rate products, because it keeps a
+payment inside its original calendar month.
+
+```julia
+tobday(cal, dt)                  # same as tobday(cal, dt, BusinessDays.Following())
+tobday(cal, dt; forward = false) # same as tobday(cal, dt, BusinessDays.Preceding())
+```
+
+```julia
+julia> using BusinessDays, Dates
+
+# 2015-01-31 is a saturday at the end of the month
+julia> tobday(:USSettlement, Date(2015, 1, 31), BusinessDays.Following())
+2015-02-02
+
+# rolling forward would leave january, so it rolls back instead
+julia> tobday(:USSettlement, Date(2015, 1, 31), BusinessDays.ModifiedFollowing())
+2015-01-30
+
+# 2015-02-01 is a sunday at the start of the month
+julia> tobday(:USSettlement, Date(2015, 2, 1), BusinessDays.ModifiedPreceding())
+2015-02-02
+
+julia> tobday(:USSettlement, Date(2015, 2, 1), BusinessDays.Nearest())
+2015-02-02
+```
+
+Vectors and broadcasting work the same way as the rest of the package:
+
+```julia
+julia> tobday(:USSettlement, [Date(2015, 1, 31), Date(2015, 2, 1)], BusinessDays.ModifiedFollowing())
+2-element Vector{Date}:
+ 2015-01-30
+ 2015-02-02
+```
 
 ## `BDay` Type
 
